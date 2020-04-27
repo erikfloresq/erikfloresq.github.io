@@ -43,7 +43,6 @@
     "url-join": "^4.0.0"
   },
   "devDependencies": {
-    "prettier": "^1.19.1",
     "babel-eslint": "^10.0.1",
     "cli-glob": "^0.1.0",
     "eslint": "^6.0.1",
@@ -52,7 +51,8 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
-    "gh-pages": "^2.1.1",
+    "gh-pages": "^2.2.0",
+    "prettier": "^1.19.1",
     "remark-cli": "^6.0.1",
     "remark-preset-lint-recommended": "^3.0.1",
     "stylefmt": "^6.0.3",
@@ -70,6 +70,7 @@
   "license": "MIT",
   "scripts": {
     "new:post": "hygen blog-post new --name",
+    "deploy": "gatsby build && gh-pages -d public -b master",
     "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
