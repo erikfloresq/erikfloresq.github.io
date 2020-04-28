@@ -1,0 +1,3 @@
+User-agent: *
+
+sitemap: https://erikfloresq.github.io/sitemap.xml

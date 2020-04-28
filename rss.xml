@@ -1,0 +1,1293 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Erik Flores]]></title><description><![CDATA[Erik Flores, developer con gusto por el frontend]]></description><link>https://erikfloresq.github.io</link><image><url>https://erikfloresq.github.io/logos/logo-48.png</url><title>Erik Flores</title><link>https://erikfloresq.github.io</link></image><generator>Erik Flores</generator><lastBuildDate>Tue, 28 Apr 2020 12:46:20 GMT</lastBuildDate><atom:link href="https://erikfloresq.github.io/rss.xml" rel="self" type="application/rss+xml"/><item><title><![CDATA[¿Qué es un UISearchController?]]></title><description><![CDATA[Es un componente que nos ayuda a mostrar de una manera adecuada los resultados de busqueda de un usuario. Implementando un UISearchController Primero vamos a declarar un…]]></description><link>https://erikfloresq.github.io/uisearchcontroller/</link><guid isPermaLink="false">https://erikfloresq.github.io/uisearchcontroller/</guid><category><![CDATA[ios]]></category><pubDate>Mon, 23 Apr 2018 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Es un componente que nos ayuda a mostrar de una manera adecuada los resultados de busqueda de un usuario.&lt;/p&gt;
+&lt;h2 id=&quot;implementando-un-uisearchcontroller&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#implementando-un-uisearchcontroller&quot; aria-label=&quot;implementando un uisearchcontroller permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Implementando un UISearchController&lt;/h2&gt;
+&lt;p&gt;Primero vamos a declarar un ViewController donde mostraremos los resultados de busqueda al cuál llamaremos ResultViewController, para mi ejemplo cree un ViewController en el storyboard y le agrege un indetificador para poder utilizarlo&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;swift&quot;&gt;&lt;pre class=&quot;language-swift&quot;&gt;&lt;code class=&quot;language-swift&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// Usamos lazy para cargarlo en memoria cuando lo necesitemos&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;lazy&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; resultViewController&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;UIViewController&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;// Llamamos al Storyboard donde esta mi ViewController&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; storyboard &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;UIStoryboard&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;name&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Main&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; bundle&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token constant&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;// Instancio al ViewController usando el identificador que le asigne&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; resultView &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; storyboard&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;instantiateViewController&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;withIdentifier&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;ResultsViewController&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;/* Valido si la instancia es de la clase ResultsViewController la cual
+    usaré para mostrar los resultados */&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; resultViewController &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; resultView &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;ResultsViewController&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token function&quot;&gt;fatalError&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Problems with viewController&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; resultViewController
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Luego voy a crear una instancia del UISearchController y realizar la personalizacion que deseamos&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;swift&quot;&gt;&lt;pre class=&quot;language-swift&quot;&gt;&lt;code class=&quot;language-swift&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;lazy&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;var&lt;/span&gt; searchController&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;UISearchController&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;/* Creamos la instancia y le asignamos el ViewController donde vamos a mostrar
+     los resultados (el ResultViewController lo creamos anteriormente) */&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; searchController &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;UISearchController&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;searchResultsController&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; resultViewController&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;// Vamos a mostra una vista oscura con alpha al momento de usar el buscador&lt;/span&gt;
+    searchController&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;dimsBackgroundDuringPresentation &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;// Ocultamos el NavigationBar cuando se muestra el buscador&lt;/span&gt;
+    searchController&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;hidesNavigationBarDuringPresentation &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;// Vamos a aplicar el delegado de la vista que usaremos resultados&lt;/span&gt;
+    searchController&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;searchResultsUpdater &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;self&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; searchController
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Como ya tenemos nuestro SearchViewController lo asignamos a la vista donde lo queremos mostrar, recordemos que desde iOS 11, nos dan la facilidad de colocarlo en el NavigationBar&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;swift&quot;&gt;&lt;pre class=&quot;language-swift&quot;&gt;&lt;code class=&quot;language-swift&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;/* Asignamos el SearchController al ViewController que ya debe de tener un
+    NavigationBar implementando */&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;navigationItem&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;searchController &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; searchController
+
+    &lt;span class=&quot;token comment&quot;&gt;/* Con esta linea decimos que no queremos ocultar el SearchBar
+    cuando se realize scroll */&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;navigationItem&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;hidesSearchBarWhenScrolling &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;/* Definimos que el ResultViewController se muestre debajo de nuestro
+    NavigationBar, si colocamos el definesPresentationContext en false el
+    ResultViewController se mostrara en toda la pantalla. */&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;definesPresentationContext &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&quot;mostrando-los-resultados-de-busqueda&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#mostrando-los-resultados-de-busqueda&quot; aria-label=&quot;mostrando los resultados de busqueda permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Mostrando los resultados de busqueda&lt;/h2&gt;
+&lt;p&gt;Para mostrar lo resultados de busqueda del SearchController debemos implementar el delegado que previamente habiamos implementado&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;swift&quot;&gt;&lt;pre class=&quot;language-swift&quot;&gt;&lt;code class=&quot;language-swift&quot;&gt;searchController&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;searchResultsUpdater &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;self&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;swift&quot;&gt;&lt;pre class=&quot;language-swift&quot;&gt;&lt;code class=&quot;language-swift&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;MainViewController&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;UISearchResultsUpdating&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;/* Este es el metodo delegado para poder obtener cada letra que se ingrese
+    en el SearchBar */&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;updateSearchResults&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; searchController&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;UISearchController&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+        &lt;span class=&quot;token comment&quot;&gt;// Obtenemos el texto del SearchBar&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; searchText &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; searchController&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;searchBar&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;text &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;token comment&quot;&gt;/* Pasamos el texto a nuestro metodo *getResults y obtenemos
+        los datos filtrados */&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; filteredResults &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getResults&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;searchText&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;token comment&quot;&gt;/* usamos el searchController que nos da el metodo delegado del cual
+        obtenemos la vista donde mostramos los resultados mediente el uso de
+        searchResultsController, al cual le hacemos la validacion que sea del
+        tipo de ViewController que usaremos para mostrar los resultados. */&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; resultView &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; searchController&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;searchResultsController &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;ResultsViewController&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+            &lt;span class=&quot;token comment&quot;&gt;/* el resultView.results es por donde le vamos a pasar a nuestra vista de resultado
+            lo resultados que filtramos previamente */&lt;/span&gt;
+            resultView&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;results &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; filteredResults
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;El metodo getResults que usamos para obtener los datos filtrados, deberia ser tú metodo para que hage la comparación entre el texto que se ingresa en el searchBar y tu fuente de datos&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;conclusion&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#conclusion&quot; aria-label=&quot;conclusion permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Conclusión&lt;/h2&gt;
+&lt;p&gt;Debemos aprovechar el ResultViewController ya que es una de las formas convenientes de mostrar los resultados de busqueda. He visto en otras ocaciones en donde se suele usar el SearchController asignandole al ResultViewController como nil y terminando usando los protocolos del SearchBar para obtener los datos ingresado por el textField del SearchBar, cosa que seria inecesaria si se saber usar el ResultViewController.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;El demo final se encuentra en &lt;a href=&quot;https://github.com/erikfloresq/UISearchControllerDemo&quot;&gt;Github&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href=&quot;https://twitter.com/erikfloresq&quot;&gt;@erikfloresq&lt;/a&gt;&lt;/p&gt;</content:encoded><author>erikfloresq@gmail.com</author></item><item><title><![CDATA[Mi primer WWDC]]></title><description><![CDATA[Un día random del 2015, viendo el WWDC 15 Yo: Bueno y quien quita que un día vayamos y estemos viendo a Craig Federighi presentando el futuro de iOS.
+Luis: jajaja bueno si, quien…]]></description><link>https://erikfloresq.github.io/mi-primer-wwdc/</link><guid isPermaLink="false">https://erikfloresq.github.io/mi-primer-wwdc/</guid><category><![CDATA[ios]]></category><pubDate>Sun, 09 Apr 2017 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 850px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/31534a11e7defba10ae3b2f04c6a9704/0047d/wwdc-hero.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAwD/xAAWAQEBAQAAAAAAAAAAAAAAAAACAAH/2gAMAwEAAhADEAAAASUHySSK/8QAFxABAQEBAAAAAAAAAAAAAAAAAAERAv/aAAgBAQABBQJGVqJ2/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFREBAQAAAAAAAAAAAAAAAAAAABH/2gAIAQIBAT8BR//EABQQAQAAAAAAAAAAAAAAAAAAACD/2gAIAQEABj8CX//EABcQAQEBAQAAAAAAAAAAAAAAAAEAIUH/2gAIAQEAAT8hG1HJSI4Av//aAAwDAQACAAMAAAAQq8//xAAXEQADAQAAAAAAAAAAAAAAAAAAARFR/9oACAEDAQE/EE8Kf//EABURAQEAAAAAAAAAAAAAAAAAAAEA/9oACAECAQE/EElX/8QAHBABAAIBBQAAAAAAAAAAAAAAAQARIUFRYXHB/9oACAEBAAE/EM3sEULIdmDZWnEMeoDEn//Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Welcom to WWDC&quot;
+        title=&quot;Welcom to WWDC&quot;
+        src=&quot;/static/31534a11e7defba10ae3b2f04c6a9704/faddd/wwdc-hero.jpg&quot;
+        srcset=&quot;/static/31534a11e7defba10ae3b2f04c6a9704/6a7c0/wwdc-hero.jpg 213w,
+/static/31534a11e7defba10ae3b2f04c6a9704/b9721/wwdc-hero.jpg 425w,
+/static/31534a11e7defba10ae3b2f04c6a9704/faddd/wwdc-hero.jpg 850w,
+/static/31534a11e7defba10ae3b2f04c6a9704/d5412/wwdc-hero.jpg 1275w,
+/static/31534a11e7defba10ae3b2f04c6a9704/0047d/wwdc-hero.jpg 1620w&quot;
+        sizes=&quot;(max-width: 850px) 100vw, 850px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Welcom to WWDC&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;un-dia-random-del-2015-viendo-el-wwdc-15&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#un-dia-random-del-2015-viendo-el-wwdc-15&quot; aria-label=&quot;un dia random del 2015 viendo el wwdc 15 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Un día random del 2015, viendo el WWDC 15&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Yo:&lt;/strong&gt; Bueno y quien quita que un día vayamos y estemos viendo a Craig Federighi presentando el futuro de iOS.
+&lt;strong&gt;Luis:&lt;/strong&gt; jajaja bueno si, quien sabe.&lt;/p&gt;
+&lt;h3 id=&quot;18-de-abril-del-2016&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#18-de-abril-del-2016&quot; aria-label=&quot;18 de abril del 2016 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;18 de Abril del 2016&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Luis:&lt;/strong&gt; Erik, acabo de mandar mis datos para entrar a la lotería del WWDC, no te olvides de mandar tus datos.
+&lt;strong&gt;Yo:&lt;/strong&gt; 😱 , está bien, en un rato lo hago, ¿Porque lo haré, no? 🤔 .&lt;/p&gt;
+&lt;h3 id=&quot;22-de-abril-del-2016-por-la-manana&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#22-de-abril-del-2016-por-la-manana&quot; aria-label=&quot;22 de abril del 2016 por la manana permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;22 de Abril del 2016, por la mañana&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Yo:&lt;/strong&gt; Bueno, hoy es el último día de la inscripción, la verdad no tengo nada que perder, somos miles y miles de programadores en el mundo que mandaremos nuestra solicitud y seriamos muy suertudos que los dos ganemos, pero :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;¿Si solo gana Luis?, la verdad es que me alegraría mucho por él, nos traerá muchas fotos y recuerdos.&lt;/li&gt;
+&lt;li&gt;¿Y, si solo gano yo?, la verdad es que me 💩 de miedo, nunca he ido a Estados Unidos y mucho menos tengo VISA, pero Luis tampoco tiene 🤔 VISA y bueno, ni si quiera hemos calculado los gastos que todo esto implica, pero si tuvo el valor de hacer click, por algo será ¿no?, a aparte, mi suerte anda de mal en peor, así que ¿por qué no? (ese fue el ¿por qué no? más YOLO de mi vida, porque para hacer la inscripción había que poner una tarjeta de crédito y en la caso de que “seas suertudo” te iban a debitar la módica suma de $ 1599 (en serio apple ese dolar que falto para completar los $ 1600 lo tengo guardado en mi billetera)
+Bueno ya, porque la pienso tanto, aparte ir a un WWDC e ir a San Francisco esta en mi lista de cosas por hacer antes de morir, mataría dos pájaros de un tiro.
+En ese instante hice el click más importante de mi 2016.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;22-de-abril-del-2016-por-la-noche&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#22-de-abril-del-2016-por-la-noche&quot; aria-label=&quot;22 de abril del 2016 por la noche permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;22 de abril del 2016, por la noche&lt;/h3&gt;
+&lt;p&gt;— Erik, ¿puedes revisar el saldo de tu tarjeta? — me escribe Luis por iMessage.
+— Esta bien — le respondí por el Apple Watch.
+— Me acaban de debitar $1599 , creo que gane ya tengo mi ticket para el evento— me vuelve a escribir Luis.
+En ese momento vi que a mi cuenta le faltaba $ 1599.
+— Luis, a mi también me falta $ 1599, ¿ chocatela ? ✋🏼 — le escribi temblando (para los que no sepán que es “chocatela” es como un “Dame esos 5”).
+— Werik, ¡nos vamos a San Francisco !— me respondió Luis (Werik es como me dicen mis amigos y aveces hasta gente que ni conozco).
+Y en ese momento me llego el correo que lo reconfirmaba.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d1509b6067828090666339bc0d194f53/29d31/wwdc1.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 55.86854460093896%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAALABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAECBf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIQAxAAAAHlyrMqP//EABQQAQAAAAAAAAAAAAAAAAAAACD/2gAIAQEAAQUCX//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABQQAQAAAAAAAAAAAAAAAAAAACD/2gAIAQEABj8CX//EABkQAQACAwAAAAAAAAAAAAAAAAEAEBEhQf/aAAgBAQABPyHkXNDqK1//2gAMAwEAAgADAAAAEG8//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPxA//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPxA//8QAHBABAAIBBQAAAAAAAAAAAAAAAQAREFFhcZGx/9oACAEBAAE/EDh2SxbV7FYQAeTVY//Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Veia el correo y no lo creia, en serio.&quot;
+        title=&quot;Veia el correo y no lo creia, en serio.&quot;
+        src=&quot;/static/d1509b6067828090666339bc0d194f53/29d31/wwdc1.jpg&quot;
+        srcset=&quot;/static/d1509b6067828090666339bc0d194f53/6a7c0/wwdc1.jpg 213w,
+/static/d1509b6067828090666339bc0d194f53/b9721/wwdc1.jpg 425w,
+/static/d1509b6067828090666339bc0d194f53/29d31/wwdc1.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Veia el correo y no lo creia, en serio.&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;25-de-abril-del-2016-en-el-trabajo&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#25-de-abril-del-2016-en-el-trabajo&quot; aria-label=&quot;25 de abril del 2016 en el trabajo permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;25 de Abril del 2016, en el trabajo&lt;/h3&gt;
+&lt;p&gt;Bueno ya habíamos asimilado la idea que teníamos nuestro ticket comprado, que debíamos armar un presupuesto para el viaje y que no teníamos VISA para viajar a Estados Unidos (esa era la mejor parte).
+&lt;strong&gt;Yo:&lt;/strong&gt; Bueno Luis, voy armando mi solicitud para la VISA.
+&lt;strong&gt;Luis:&lt;/strong&gt; Cierto yo también lo haré en un rato.
+&lt;strong&gt;Yo:&lt;/strong&gt; Si nos niegan la VISA, bueno fue bonito ir al WWDC de sentimiento no más, pero igual acabamos de ganar el privilegio de comprar una entrada de $ 1599 así que estamos de suerte 😀.&lt;/p&gt;
+&lt;h3 id=&quot;sacando-la-visa&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#sacando-la-visa&quot; aria-label=&quot;sacando la visa permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Sacando la VISA&lt;/h3&gt;
+&lt;p&gt;Yo envié primero mi solicitud para la VISA y me citaron para dentro de 10 días, cuando Luis hizo la solicitud no había entrevistas hasta dentro de 30 días (recuerden, no teníamos mucho tiempo, el evento era en junio, nos faltaba comprar pasajes y alquilar un lugar para vivir y como haces todo eso si no sabes si vas a poder viajar por falta de VISA), lo bueno es que Luis volvió a revisar el calendario de citas y logro reservar un cita a los dos días, nos le dije que estábamos con suerte o bendecidos por Steve Jobs, una de dos o los dos también.
+Luis fue a su entrevista, le hicieron unas cuantas preguntas y le dieron la VISA 🎉, mi caso fue todo lo contrario, pero ya me había mentalizado para lo bueno y lo malo.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Persona muy seria de la embajada:&lt;/strong&gt; ¿Para que va a Estados Unidos?
+&lt;strong&gt;Yo muy serio:&lt;/strong&gt; Para una conferencia de Tecnología.
+&lt;strong&gt;Persona seria de la embajada:&lt;/strong&gt; Ok, su visa a sido aprobada.
+&lt;strong&gt;Yo muy extrañado:&lt;/strong&gt; ¿Qué? y donde quedo todas esas preguntas arduas que todos mis amigos me contaron, ¿Acaso soy tan aburrido que la persona de la embajada no quiere enterarse de mi vida?, que más da, ¡Nos vamos a San Francisco! 🎉&lt;/p&gt;
+&lt;h3 id=&quot;planeando-el-viaje&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#planeando-el-viaje&quot; aria-label=&quot;planeando el viaje permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Planeando el viaje&lt;/h3&gt;
+&lt;p&gt;Compramos los pasajes por Expedia (Expedia si estas leyendo esto, si quieres me puedes auspiciar) y fue una muy buena experiencia, el alojamiento lo conseguimos por Airbnb (los mismo va para ti Airbnb, si quiere me puedes dar créditos) y tuvimos mucha suerte de conseguir algo bueno.&lt;/p&gt;
+&lt;h3 id=&quot;esperando-el-keynote&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#esperando-el-keynote&quot; aria-label=&quot;esperando el keynote permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Esperando el Keynote&lt;/h3&gt;
+&lt;p&gt;Se nos aviso que deberíamos ir un día antes al Bill Graham Auditorium( que es donde se daría la Keynote por cierto) para hacer el ChekIn de rigor, ese día nos dieron un casaca del evento y la identificación del evento donde esta tu nombre y en el caso que hayas usado una cuenta de empresa, decía el nombre de la empresa, que fue mi caso.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/25ec9cbd22c1637ad5703962f293bb93/29d31/wwdc2.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 117.84037558685445%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAYABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAMEBgX/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAgH/2gAMAwEAAhADEAAAAbCayZ1Ixa6QrOip/8QAGxAAAwACAwAAAAAAAAAAAAAAAQIDABIEMTP/2gAIAQEAAQUCES6WiolkfPvKLo/FGpZ1UUps/wD/xAAWEQEBAQAAAAAAAAAAAAAAAAAQAQL/2gAIAQMBAT8BNQ//xAAVEQEBAAAAAAAAAAAAAAAAAAAQAf/aAAgBAgEBPwEh/8QAHBABAAICAwEAAAAAAAAAAAAAAQARAhASITFR/9oACAEBAAY/Ahuj5LxPNAvmnGLysylrRFO5/8QAHBAAAgIDAQEAAAAAAAAAAAAAAREAITFBYRBR/9oACAEBAAE/ITCEtrUqCNz0eOqOs+FUbGsQpUANaiEukwOE5c//2gAMAwEAAgADAAAAEFAwAP/EABgRAQADAQAAAAAAAAAAAAAAAAEAEBEh/9oACAEDAQE/EHR7QDMn/8QAGBEAAwEBAAAAAAAAAAAAAAAAAAERECH/2gAIAQIBAT8QUnMZtFP/xAAcEAEAAgMBAQEAAAAAAAAAAAABABEhMUFRcdH/2gAIAQEAAT8QEgoBQD69YuGqy1en7MRvYt7jZMBVmU3pIizDyenGCiaolUZPvYC9WVX8NwWCilBi8bn/2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;La identificación usaba NFC para poder entrar al Moscone Center, que es donde se darían las charlas.&quot;
+        title=&quot;La identificación usaba NFC para poder entrar al Moscone Center, que es donde se darían las charlas.&quot;
+        src=&quot;/static/25ec9cbd22c1637ad5703962f293bb93/29d31/wwdc2.jpg&quot;
+        srcset=&quot;/static/25ec9cbd22c1637ad5703962f293bb93/6a7c0/wwdc2.jpg 213w,
+/static/25ec9cbd22c1637ad5703962f293bb93/b9721/wwdc2.jpg 425w,
+/static/25ec9cbd22c1637ad5703962f293bb93/29d31/wwdc2.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;La identificación usaba NFC para poder entrar al Moscone Center, que es donde se darían las charlas.&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Ese día le preguntamos a una señorita muy amable sobre como era el tema de las colas para entrar al keynote.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Señorita de Apple:&lt;/strong&gt; Oh bueno, por eventos pasados te puede decir que la gente hace cola desde muy temprano.
+&lt;strong&gt;Nosotros:&lt;/strong&gt; ¿Que tan temprano?
+&lt;strong&gt;Señorita de Apple:&lt;/strong&gt; Desde la madrugada.
+&lt;strong&gt;Nosotros:&lt;/strong&gt; ¿ 6am ?
+&lt;strong&gt;Señorita de Apple:&lt;/strong&gt; Hasta mucho antes.
+&lt;strong&gt;Nosotros:&lt;/strong&gt; 😱 (mismo Mi Pobre Angelito).
+Como nos gano la incertidumbre, decidimos ir a las 4am :)&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/652ec47aa8c225213a673cf08338b795/29d31/wwdc3.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 56.33802816901409%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAALABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAgX/xAAVAQEBAAAAAAAAAAAAAAAAAAABAP/aAAwDAQACEAMQAAABzqqSLIqF/8QAGRAAAgMBAAAAAAAAAAAAAAAAAQIAAxEg/9oACAEBAAEFAilQgSvNTj//xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAgBAwEBPwFX/8QAFREBAQAAAAAAAAAAAAAAAAAAABH/2gAIAQIBAT8BR//EABoQAAICAwAAAAAAAAAAAAAAAAAREiAzQYH/2gAIAQEABj8CyPg5m6f/xAAaEAACAwEBAAAAAAAAAAAAAAAAAREhcTFB/9oACAEBAAE/Ia6eCzI6WWKD1ounCWf/2gAMAwEAAgADAAAAEPT/AP/EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8QH//EABURAQEAAAAAAAAAAAAAAAAAAAEQ/9oACAECAQE/EGP/xAAbEAEBAAIDAQAAAAAAAAAAAAABEQAhMWGRof/aAAgBAQABPxA+XCl5vXFt/my+B6yeBLVEfmJwPMCxNlzsc//Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ven al chico que esta con su laptop ¿no?, pues no era el único&quot;
+        title=&quot;Ven al chico que esta con su laptop ¿no?, pues no era el único&quot;
+        src=&quot;/static/652ec47aa8c225213a673cf08338b795/29d31/wwdc3.jpg&quot;
+        srcset=&quot;/static/652ec47aa8c225213a673cf08338b795/6a7c0/wwdc3.jpg 213w,
+/static/652ec47aa8c225213a673cf08338b795/b9721/wwdc3.jpg 425w,
+/static/652ec47aa8c225213a673cf08338b795/29d31/wwdc3.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Ven al chico que esta con su laptop ¿no?, pues no era el único&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Hacia mucho, pero mucho frío y se venia la hora del desayuno, vi que mucha gente venia con vasitos de Starbucks, y fue la primera vez que vi que un Starbucks abría desde la 5am o hasta antes creo, el punto de esto es que muchas empresas (ajenas a apple) no desaprovechaban la oportunidad para invitar café con publicidad sobre meetups que iba a ofrecer, eso me pareció simplemente ¡genial!&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 699px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8389a6154ed9482d6cb5e2e08e4484a3/9149e/wwdc4.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 133.33333333333331%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAbABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMEAgX/xAAVAQEBAAAAAAAAAAAAAAAAAAADAv/aAAwDAQACEAMQAAABtXzpzRYwuKc6yaziyz//xAAcEAABAwUAAAAAAAAAAAAAAAACAQMSABARITH/2gAIAQEAAQUCaiDRllCTaaHNmhlRNxsHXuLX/8QAFxEAAwEAAAAAAAAAAAAAAAAAARARIf/aAAgBAwEBPwEhTF//xAAWEQEBAQAAAAAAAAAAAAAAAAABEEH/2gAIAQIBAT8BGbP/xAAbEAACAgMBAAAAAAAAAAAAAAABEAACESEiMf/aAAgBAQAGPwICnk2Fgs1zudFGBf/EABsQAQACAwEBAAAAAAAAAAAAAAEAIRExgRBB/9oACAEBAAE/IWCFNruGgacZYsZTaylI23MkUADa/szaOeGC6SrP/9oADAMBAAIAAwAAABDYCvL/xAAXEQADAQAAAAAAAAAAAAAAAAAAAREh/9oACAEDAQE/EFQhDoeOH//EABcRAQEBAQAAAAAAAAAAAAAAAAABETH/2gAIAQIBAT8QvrXCP//EAB8QAQACAgICAwAAAAAAAAAAAAEAESExQWFRcZGhwf/aAAgBAQABPxBCkmgj2e4nUiOf0iN2ZhQuviJtodkWQnkzxqN+vqDZuA+W46UcLWfqV3AXTmIANG3cTSeJ/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Sino mal me acuerdo ese era para una reunion de tecnología microsoft&quot;
+        title=&quot;Sino mal me acuerdo ese era para una reunion de tecnología microsoft&quot;
+        src=&quot;/static/8389a6154ed9482d6cb5e2e08e4484a3/9149e/wwdc4.jpg&quot;
+        srcset=&quot;/static/8389a6154ed9482d6cb5e2e08e4484a3/6a7c0/wwdc4.jpg 213w,
+/static/8389a6154ed9482d6cb5e2e08e4484a3/b9721/wwdc4.jpg 425w,
+/static/8389a6154ed9482d6cb5e2e08e4484a3/9149e/wwdc4.jpg 699w&quot;
+        sizes=&quot;(max-width: 699px) 100vw, 699px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Sino mal me acuerdo ese era para una reunion de tecnología microsoft&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Al final Apple ofreció desayuno para todos 🎉&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8d1eaf853d8092e35e2b8d1fafd471ca/29d31/wwdc5.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAAD/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQL/2gAMAwEAAhADEAAAAS6kfKW1h//EABoQAAMAAwEAAAAAAAAAAAAAAAECAwARExL/2gAIAQEAAQUCHTO1AWs2/TSZGm66mc//xAAWEQEBAQAAAAAAAAAAAAAAAAAAARL/2gAIAQMBAT8BZr//xAAVEQEBAAAAAAAAAAAAAAAAAAAAEv/aAAgBAgEBPwFT/8QAHBAAAwACAwEAAAAAAAAAAAAAAAEREjECQVGB/9oACAEBAAY/AiXH6byPUOcE50zUP//EABwQAAIBBQEAAAAAAAAAAAAAAAERACExQVGRwf/aAAgBAQABPyHKKkpB7gbBQrSXwCV4EWOF9AZDXs8lP//aAAwDAQACAAMAAAAQKz//xAAVEQEBAAAAAAAAAAAAAAAAAAABEP/aAAgBAwEBPxACX//EABcRAQADAAAAAAAAAAAAAAAAAAARIVH/2gAIAQIBAT8QtDH/xAAcEAEAAgMAAwAAAAAAAAAAAAABESEAMWFBUfD/2gAIAQEAAT8Q5qCBrRJx0yRTMbsPWQ8EAlrWsEtECDUnPI4lysaDn1xcoI1RrP/Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;El chico que esta por lo vasos es Felix Krause el creador de Fastlane, lastima que en ese momento no conocía su trabajo, lo reconocí ahora, porque este año implemente Fastlane en todos mis proyectos. Soy fan de su trabajo.&quot;
+        title=&quot;El chico que esta por lo vasos es Felix Krause el creador de Fastlane, lastima que en ese momento no conocía su trabajo, lo reconocí ahora, porque este año implemente Fastlane en todos mis proyectos. Soy fan de su trabajo.&quot;
+        src=&quot;/static/8d1eaf853d8092e35e2b8d1fafd471ca/29d31/wwdc5.jpg&quot;
+        srcset=&quot;/static/8d1eaf853d8092e35e2b8d1fafd471ca/6a7c0/wwdc5.jpg 213w,
+/static/8d1eaf853d8092e35e2b8d1fafd471ca/b9721/wwdc5.jpg 425w,
+/static/8d1eaf853d8092e35e2b8d1fafd471ca/29d31/wwdc5.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;El chico que esta por lo vasos es Felix Krause el creador de Fastlane, lastima que en ese momento no conocía su trabajo, lo reconocí ahora, porque este año implemente Fastlane en todos mis proyectos. Soy fan de su trabajo.&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Las horas iban pasando y empece a ver como la gente iba llegando, y es ahí donde me acorde que es un evento oficial de apple y que esto esta lleno de miles de iOS developers de todas partes del mundo, fue así que me encontré con Ricardo quien fue quien me dicto mi curso de iOS en Lima.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6c52d51ee275a0b51cce335c05b1c600/29d31/wwdc6.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 74.64788732394366%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAEFBv/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIQAxAAAAGi880skgP/xAAaEAACAwEBAAAAAAAAAAAAAAAAAQIREgMh/9oACAEBAAEFAodYTekXRpmpUvT/xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAwEBPwGH/8QAFREBAQAAAAAAAAAAAAAAAAAAEBH/2gAIAQIBAT8Bp//EABoQAAICAwAAAAAAAAAAAAAAAAEQESEAMUH/2gAIAQEABj8CgG3Wb7C//8QAGxABAAMBAAMAAAAAAAAAAAAAAQARITFhgcH/2gAIAQEAAT8h9LRIioa+CDFXLtwfYtdodJ2tHez/2gAMAwEAAgADAAAAEE/v/8QAFhEBAQEAAAAAAAAAAAAAAAAAABGB/9oACAEDAQE/EIY//8QAFxEBAAMAAAAAAAAAAAAAAAAAABEhUf/aAAgBAgEBPxCS9f/EABwQAQEAAgIDAAAAAAAAAAAAAAERACExYXGRof/aAAgBAQABPxDThFYvWd2LhfEvLYYwCwDb0L4zWg1Kqpvi4EpkRQi/c//Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Si, miles&quot;
+        title=&quot;Si, miles&quot;
+        src=&quot;/static/6c52d51ee275a0b51cce335c05b1c600/29d31/wwdc6.jpg&quot;
+        srcset=&quot;/static/6c52d51ee275a0b51cce335c05b1c600/6a7c0/wwdc6.jpg 213w,
+/static/6c52d51ee275a0b51cce335c05b1c600/b9721/wwdc6.jpg 425w,
+/static/6c52d51ee275a0b51cce335c05b1c600/29d31/wwdc6.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Si, miles&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Las horas estaban pasando y ya estábamos ¡listos!&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 850px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/800c6a31a70c70a645ccf1eb6e255b19/b768e/wwdc7.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAwAC/8QAFAEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAAB0cYNBL//xAAZEAEBAQEBAQAAAAAAAAAAAAABAgMRABT/2gAIAQEAAQUCdDk1A0lPzW+MF007nf8A/8QAFREBAQAAAAAAAAAAAAAAAAAAABH/2gAIAQMBAT8BiP/EABYRAQEBAAAAAAAAAAAAAAAAAAARIf/aAAgBAgEBPwGtf//EABoQAAICAwAAAAAAAAAAAAAAAAABESESIjH/2gAIAQEABj8Cti2XIOj2RhNqzGD/xAAaEAADAQEBAQAAAAAAAAAAAAAAAREhMUFh/9oACAEBAAE/IXXUaNZZ8F0XG5w+4eQiaQ1B4CuddP/aAAwDAQACAAMAAAAQPM//xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAgBAwEBPxCEP//EABcRAQEBAQAAAAAAAAAAAAAAAAEAEVH/2gAIAQIBAT8Q32FX/8QAGxABAAMBAQEBAAAAAAAAAAAAAQARITFRcdH/2gAIAQEAAT8QH6Sip6S5MyUddd7MACnH1/ZVTSrNPnY9AvnY2qy44ZksWrrP/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Hay emociones que simplemente no se pueden explicar&quot;
+        title=&quot;Hay emociones que simplemente no se pueden explicar&quot;
+        src=&quot;/static/800c6a31a70c70a645ccf1eb6e255b19/faddd/wwdc7.jpg&quot;
+        srcset=&quot;/static/800c6a31a70c70a645ccf1eb6e255b19/6a7c0/wwdc7.jpg 213w,
+/static/800c6a31a70c70a645ccf1eb6e255b19/b9721/wwdc7.jpg 425w,
+/static/800c6a31a70c70a645ccf1eb6e255b19/faddd/wwdc7.jpg 850w,
+/static/800c6a31a70c70a645ccf1eb6e255b19/d5412/wwdc7.jpg 1275w,
+/static/800c6a31a70c70a645ccf1eb6e255b19/b768e/wwdc7.jpg 1350w&quot;
+        sizes=&quot;(max-width: 850px) 100vw, 850px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Hay emociones que simplemente no se pueden explicar&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Para mi, era todo nuevo, ver toda esa organización, ver a mucha gente apasionada por la misma tecnología que tú, que más podía pedir. (Quizás mas café, ¡hey!, estaba desde las 4am ahí).&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/f58e5de67d436f25e93be3efab225350/29d31/wwdc8.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIEBf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIQAxAAAAHGd2SMoD//xAAbEAACAQUAAAAAAAAAAAAAAAABAgADEBESIv/aAAgBAQABBQJAWj02Ww5JyRpP/8QAFREBAQAAAAAAAAAAAAAAAAAAABH/2gAIAQMBAT8BV//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABoQAAICAwAAAAAAAAAAAAAAAAABECIRIVH/2gAIAQEABj8C0WUcLN4j/8QAGRABAQEAAwAAAAAAAAAAAAAAAREAECFB/9oACAEBAAE/IV5odga4DRXPNG73j//aAAwDAQACAAMAAAAQj8//xAAXEQADAQAAAAAAAAAAAAAAAAAAASER/9oACAEDAQE/EHIzB//EABYRAQEBAAAAAAAAAAAAAAAAAAEAEf/aAAgBAgEBPxANsb//xAAbEAACAgMBAAAAAAAAAAAAAAABEQBBIVFhMf/aAAgBAQABPxA1USA8lSi0vfkIPAlZtE2+TIN0fnIoJDCo7G5//9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Minutos antes del Keynote&quot;
+        title=&quot;Minutos antes del Keynote&quot;
+        src=&quot;/static/f58e5de67d436f25e93be3efab225350/29d31/wwdc8.jpg&quot;
+        srcset=&quot;/static/f58e5de67d436f25e93be3efab225350/6a7c0/wwdc8.jpg 213w,
+/static/f58e5de67d436f25e93be3efab225350/b9721/wwdc8.jpg 425w,
+/static/f58e5de67d436f25e93be3efab225350/29d31/wwdc8.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Minutos antes del Keynote&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/92cedd6cef75f959488055a1b5967a5e/29d31/wwdc9.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAMBBAX/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAABxGKYlckr/8QAFxABAQEBAAAAAAAAAAAAAAAAAgEAA//aAAgBAQABBQIBOvixMXTb1am//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFhEBAQEAAAAAAAAAAAAAAAAAABEB/9oACAECAQE/AYmv/8QAGhAAAgMBAQAAAAAAAAAAAAAAAREAAhAhIv/aAAgBAQAGPwJVjI5nkqI2Of/EABsQAAEEAwAAAAAAAAAAAAAAABEAARAhMWGB/9oACAEBAAE/IRova63jBM47FI85o//aAAwDAQACAAMAAAAQ7/8A/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPxA//8QAFhEBAQEAAAAAAAAAAAAAAAAAARAx/9oACAECAQE/EBOS/8QAGRABAAMBAQAAAAAAAAAAAAAAAQARIRBR/9oACAEBAAE/EHYEF6ojoQKsB40aDXiN0PUWVP/Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Esa persona diminuta en el foto, era nada mas y nada menos que Tim Cook&quot;
+        title=&quot;Esa persona diminuta en el foto, era nada mas y nada menos que Tim Cook&quot;
+        src=&quot;/static/92cedd6cef75f959488055a1b5967a5e/29d31/wwdc9.jpg&quot;
+        srcset=&quot;/static/92cedd6cef75f959488055a1b5967a5e/6a7c0/wwdc9.jpg 213w,
+/static/92cedd6cef75f959488055a1b5967a5e/b9721/wwdc9.jpg 425w,
+/static/92cedd6cef75f959488055a1b5967a5e/29d31/wwdc9.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Esa persona diminuta en el foto, era nada mas y nada menos que Tim Cook&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;El Keynote fue una gran experiencia, porque una cosa es verla en tu casa y otra es ver como los developers que están a tu al rededor comentan y hasta se emocionan por nuevas características del sistema operativo.&lt;/p&gt;
+&lt;h3 id=&quot;asistiendo-a-los-talleres&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#asistiendo-a-los-talleres&quot; aria-label=&quot;asistiendo a los talleres permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Asistiendo a los talleres&lt;/h3&gt;
+&lt;p&gt;El keynote había sido genial, aun no lo asimilaba, nosotros no habíamos encontramos hospedaje en San Francisco, así que tuvimos que buscar hospedaje un poco lejos de San Francisco, eso nos obligo a aprender a usar el BART y el Muni.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/caf72050c31375e3f45e915584c61a31/29d31/wwdc10.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAUBAgP/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAABjRTSHYqD/8QAGRAAAwEBAQAAAAAAAAAAAAAAAAECEgMR/9oACAEBAAEFAtylPWM10ljNC9P/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAYEAACAwAAAAAAAAAAAAAAAAAAIQEQEf/aAAgBAQAGPwJyOcFlOv/EABoQAQADAAMAAAAAAAAAAAAAAAEAESFBcdH/2gAIAQEAAT8hArBQvIrTC3B1LOiiEt7mE//aAAwDAQACAAMAAAAQyz//xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAgBAwEBPxBH/8QAFhEBAQEAAAAAAAAAAAAAAAAAABFB/9oACAECAQE/EJqv/8QAGxABAQADAQEBAAAAAAAAAAAAAREAITFBUYH/2gAIAQEAAT8QalIjr9yeoyBRPuAVCOGdUoAnIYAyN8e3PJsfbn//2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Tomame un foto como quien va al WWDC&quot;
+        title=&quot;Tomame un foto como quien va al WWDC&quot;
+        src=&quot;/static/caf72050c31375e3f45e915584c61a31/29d31/wwdc10.jpg&quot;
+        srcset=&quot;/static/caf72050c31375e3f45e915584c61a31/6a7c0/wwdc10.jpg 213w,
+/static/caf72050c31375e3f45e915584c61a31/b9721/wwdc10.jpg 425w,
+/static/caf72050c31375e3f45e915584c61a31/29d31/wwdc10.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Tomame un foto como quien va al WWDC&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Cuando doble la calle y vi el Moscone Center con toda la decoración del WWDC, se me escarapelo el cuerpo (mi fanboy se estaba activando).&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9e79cd71d7647b19e124a758ef3e265f/29d31/wwdc11.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 79.81220657276995%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAQABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQGAQX/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/aAAwDAQACEAMQAAABZW5+3FSTIP8A/8QAGRABAQEBAQEAAAAAAAAAAAAAAgEAAxIT/9oACAEBAAEFAl3Vw6uIOM+1bat9bv/EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABURAQEAAAAAAAAAAAAAAAAAAAAR/9oACAECAQE/AUf/xAAcEAACAQUBAAAAAAAAAAAAAAAAARECEBIhMXH/2gAIAQEABj8Cao0icp9Jvw//xAAbEAADAAMBAQAAAAAAAAAAAAAAAREhMUFhgf/aAAgBAQABPyFhChb6L9K2m2Ii48Y8QohCWYI9fGf/2gAMAwEAAgADAAAAEEvf/8QAFxEBAAMAAAAAAAAAAAAAAAAAARARQf/aAAgBAwEBPxCk2P/EABcRAAMBAAAAAAAAAAAAAAAAAAEQEVH/2gAIAQIBAT8QoxP/xAAdEAEAAgICAwAAAAAAAAAAAAABACERMVHRQYGR/9oACAEBAAE/EH9z7Mse9Tn6CJ0i42pSx4lIUPPcG2FZkr5AFit6yf/Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;El mítico Mosocone Center&quot;
+        title=&quot;El mítico Mosocone Center&quot;
+        src=&quot;/static/9e79cd71d7647b19e124a758ef3e265f/29d31/wwdc11.jpg&quot;
+        srcset=&quot;/static/9e79cd71d7647b19e124a758ef3e265f/6a7c0/wwdc11.jpg 213w,
+/static/9e79cd71d7647b19e124a758ef3e265f/b9721/wwdc11.jpg 425w,
+/static/9e79cd71d7647b19e124a758ef3e265f/29d31/wwdc11.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;El mítico Mosocone Center&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/b4d517a1e00c18d6bd30a93878083c00/29d31/wwdc12.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEAv/EABUBAQEAAAAAAAAAAAAAAAAAAAID/9oADAMBAAIQAxAAAAGRqNI1k5Q//8QAGxABAAICAwAAAAAAAAAAAAAAAQACBBIREyH/2gAIAQEAAQUC976pY1IbAWI5HM//xAAXEQEAAwAAAAAAAAAAAAAAAAAAAQIS/9oACAEDAQE/AZqy/8QAFxEBAQEBAAAAAAAAAAAAAAAAAQACE//aAAgBAgEBPwE2l0v/xAAbEAACAwADAAAAAAAAAAAAAAAAAREhMWFxkf/aAAgBAQAGPwLhsnDS6NU9Frw//8QAHBABAAIBBQAAAAAAAAAAAAAAAQARITFBYYGR/9oACAEBAAE/IVScnTSXUkDaCFtPUEZocozELMbLn//aAAwDAQACAAMAAAAQOM//xAAWEQEBAQAAAAAAAAAAAAAAAAAAAXH/2gAIAQMBAT8QhWn/xAAWEQEBAQAAAAAAAAAAAAAAAAAAIXH/2gAIAQIBAT8QmMP/xAAbEAACAwEBAQAAAAAAAAAAAAABEQAhMbFhcf/aAAgBAQABPxBRjBFeDkdEJkG3aqBGQIvoydvxwe3iI0fyKRpiRCxtXP/Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Eso era al frente del Moscone Center&quot;
+        title=&quot;Eso era al frente del Moscone Center&quot;
+        src=&quot;/static/b4d517a1e00c18d6bd30a93878083c00/29d31/wwdc12.jpg&quot;
+        srcset=&quot;/static/b4d517a1e00c18d6bd30a93878083c00/6a7c0/wwdc12.jpg 213w,
+/static/b4d517a1e00c18d6bd30a93878083c00/b9721/wwdc12.jpg 425w,
+/static/b4d517a1e00c18d6bd30a93878083c00/29d31/wwdc12.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Eso era al frente del Moscone Center&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Entramos al Moscone Center y no me la creía.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 850px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/2a56764b9c0effbc0a01e52e5ef3b6b1/b768e/wwdc13.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAABAD/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAABCoi5Uw4//8QAGhAAAwEAAwAAAAAAAAAAAAAAAAECAxEhMv/aAAgBAQABBQKPM9irgimOrhrbdn//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAcEAABBAMBAAAAAAAAAAAAAAAAAQIRIRMxcUH/2gAIAQEABj8C4VZcGkgXG1jeHh//xAAaEAEBAQADAQAAAAAAAAAAAAABEQAhQVEx/9oACAEBAAE/IX3w+GQSD5dKg6+3KlCFGpoPnsN//9oADAMBAAIAAwAAABArL//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8QP//EABURAQEAAAAAAAAAAAAAAAAAAAAR/9oACAECAQE/EEf/xAAcEAEAAgIDAQAAAAAAAAAAAAABABEhUTFBgbH/2gAIAQEAAT8QwjASXo5nNaHRlg34uwE8YMUQE3ZczocpFvedwkDEWr7P/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Por cierto, el Mosocone es ¡enorme!&quot;
+        title=&quot;Por cierto, el Mosocone es ¡enorme!&quot;
+        src=&quot;/static/2a56764b9c0effbc0a01e52e5ef3b6b1/faddd/wwdc13.jpg&quot;
+        srcset=&quot;/static/2a56764b9c0effbc0a01e52e5ef3b6b1/6a7c0/wwdc13.jpg 213w,
+/static/2a56764b9c0effbc0a01e52e5ef3b6b1/b9721/wwdc13.jpg 425w,
+/static/2a56764b9c0effbc0a01e52e5ef3b6b1/faddd/wwdc13.jpg 850w,
+/static/2a56764b9c0effbc0a01e52e5ef3b6b1/d5412/wwdc13.jpg 1275w,
+/static/2a56764b9c0effbc0a01e52e5ef3b6b1/b768e/wwdc13.jpg 1350w&quot;
+        sizes=&quot;(max-width: 850px) 100vw, 850px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Por cierto, el Mosocone es ¡enorme!&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Llegamos temprano y aprovechamos para tomar el desayuno que te ofrece Apple.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/32085e43f79e45ace2c8b5aaf13ed370/29d31/wwdc14.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUB/8QAFAEBAAAAAAAAAAAAAAAAAAAAAv/aAAwDAQACEAMQAAABn7XBQ2Gf/8QAGxAAAgIDAQAAAAAAAAAAAAAAAQIAAxESEyL/2gAIAQEAAQUC2bCuTGf1bWROQ5sNW//EABURAQEAAAAAAAAAAAAAAAAAABAR/9oACAEDAQE/AYf/xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAgEBPwGn/8QAHhAAAgEDBQAAAAAAAAAAAAAAABEBIiNBMVFhcZH/2gAIAQEABj8C1FMsz6UJbFyV1gTfJ//EABoQAAMBAQEBAAAAAAAAAAAAAAERIQBBMVH/2gAIAQEAAT8h9gOdbWZlAr3XSJEwoKAxMG7TQQuOAX8d3//aAAwDAQACAAMAAAAQrN//xAAWEQEBAQAAAAAAAAAAAAAAAAABIRD/2gAIAQMBAT8Qirn/xAAXEQADAQAAAAAAAAAAAAAAAAAAAREh/9oACAECAQE/ENOQh//EAB0QAQACAgMBAQAAAAAAAAAAAAERIQBhMUGBUXH/2gAIAQEAAT8QaKIiHY40TiSZYzldV7iJ0KCgQoo0YjmgSCY7fuM3CIfpMmsIcBoEPDef/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Extraño el odwalla y ese cupcake estuvo muy bueno, el chico con blur que tiene una bufanda es Luis&quot;
+        title=&quot;Extraño el odwalla y ese cupcake estuvo muy bueno, el chico con blur que tiene una bufanda es Luis&quot;
+        src=&quot;/static/32085e43f79e45ace2c8b5aaf13ed370/29d31/wwdc14.jpg&quot;
+        srcset=&quot;/static/32085e43f79e45ace2c8b5aaf13ed370/6a7c0/wwdc14.jpg 213w,
+/static/32085e43f79e45ace2c8b5aaf13ed370/b9721/wwdc14.jpg 425w,
+/static/32085e43f79e45ace2c8b5aaf13ed370/29d31/wwdc14.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Extraño el odwalla y ese cupcake estuvo muy bueno, el chico con blur que tiene una bufanda es Luis&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Vieron que en la foto anterior, hay un cable de red, ¿Lo vieron no?
+Pues aparte de tomar desayuno era una “zona de descargas” para obtener las versiones beta de lo que se había anunciado ayer en el keynote (iOS, macOS, tvOS, watchOS, xcode, entre otros), el punto es que estos software no es que pesen megas, ¡pesan gigas!, fue ahí donde me acorde cuando estaba en mi casa y como me demoraba horas y horas en descargar los beta, pero hahahaha, me olvide que esta en un WWDC.
+Lo primero que baje fue el xcode que pesa entre sus 3GB o 4GB y bajo en ¡3min!, lo primero que pensé es que quizas habia bajado mal, pero cuando vi que estaban las 3.yTantoGB en mi maquina, me pregunte, ¿Cuanto es la velocidad de descarga?&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/acb80eb98fd1c8ff1b4494bef6358a34/29d31/wwdc15.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAIDBf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIQAxAAAAHmXMUZo//EABkQAAIDAQAAAAAAAAAAAAAAAAECABESQf/aAAgBAQABBQJFDEqoFwXnk//EABURAQEAAAAAAAAAAAAAAAAAABAR/9oACAEDAQE/Aaf/xAAYEQACAwAAAAAAAAAAAAAAAAAAAQIRYf/aAAgBAgEBPwFw0o//xAAaEAABBQEAAAAAAAAAAAAAAAABAAMQERJB/9oACAEBAAY/AjpykacBMZoLkf/EABwQAQACAQUAAAAAAAAAAAAAAAEAEVEhMUFhcf/aAAgBAQABPyGhaueY0IMEy0jVXtFUDs6jc//aAAwDAQACAAMAAAAQWD//xAAWEQEBAQAAAAAAAAAAAAAAAAAAETH/2gAIAQMBAT8QnFf/xAAWEQEBAQAAAAAAAAAAAAAAAAARARD/2gAIAQIBAT8QquH/xAAbEAEAAwADAQAAAAAAAAAAAAABABEhMVFxgf/aAAgBAQABPxBFUAjdZJUnTfGHXsWtmzyIFS1st7d2V2TI8n2bbvyf/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;¡Sorpresa!&quot;
+        title=&quot;¡Sorpresa!&quot;
+        src=&quot;/static/acb80eb98fd1c8ff1b4494bef6358a34/29d31/wwdc15.jpg&quot;
+        srcset=&quot;/static/acb80eb98fd1c8ff1b4494bef6358a34/6a7c0/wwdc15.jpg 213w,
+/static/acb80eb98fd1c8ff1b4494bef6358a34/b9721/wwdc15.jpg 425w,
+/static/acb80eb98fd1c8ff1b4494bef6358a34/29d31/wwdc15.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;¡Sorpresa!&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Bueno una vez que tienes todas la betas es hora de ir a las charlas y aprender sobre el futuro de iOS, pero antes de todo vi este panel que me hizo mucha gracia y que en verdad es buen resumen del WWDC.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 850px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6923c1d35a999fcc903edd0bfa7aeb66/b768e/wwdc16.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAMCBP/EABUBAQEAAAAAAAAAAAAAAAAAAAEA/9oADAMBAAIQAxAAAAGnBeCZDf/EABgQAQEBAQEAAAAAAAAAAAAAAAACARES/9oACAEBAAEFArum44q3p1//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAVEQEBAAAAAAAAAAAAAAAAAAABEP/aAAgBAgEBPwEJ/8QAFRABAQAAAAAAAAAAAAAAAAAAISD/2gAIAQEABj8CCv/EABsQAAIBBQAAAAAAAAAAAAAAAAABIRAxQXGh/9oACAEBAAE/IX4j6Nu6HZQxqf/aAAwDAQACAAMAAAAQRx//xAAWEQEBAQAAAAAAAAAAAAAAAAABEEH/2gAIAQMBAT8QV2f/xAAWEQEBAQAAAAAAAAAAAAAAAAABEDH/2gAIAQIBAT8QAyf/xAAcEAEAAgMAAwAAAAAAAAAAAAABABEhMUGBkcH/2gAIAQEAAT8QuBp6fXPEU5WJHT6inCS11EXpP//Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Making mom proud&quot;
+        title=&quot;Making mom proud&quot;
+        src=&quot;/static/6923c1d35a999fcc903edd0bfa7aeb66/faddd/wwdc16.jpg&quot;
+        srcset=&quot;/static/6923c1d35a999fcc903edd0bfa7aeb66/6a7c0/wwdc16.jpg 213w,
+/static/6923c1d35a999fcc903edd0bfa7aeb66/b9721/wwdc16.jpg 425w,
+/static/6923c1d35a999fcc903edd0bfa7aeb66/faddd/wwdc16.jpg 850w,
+/static/6923c1d35a999fcc903edd0bfa7aeb66/d5412/wwdc16.jpg 1275w,
+/static/6923c1d35a999fcc903edd0bfa7aeb66/b768e/wwdc16.jpg 1350w&quot;
+        sizes=&quot;(max-width: 850px) 100vw, 850px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Making mom proud&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Lo bueno de ir acompañado es que puedes repartirte la asistencia a las charlas, en el caso que no llegues a una, las encontraras luego la web.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d5603765b4ef24c4ea84eb2b4b85d357/29d31/wwdc17.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQAE/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAR2g91a4uP/EABsQAQACAgMAAAAAAAAAAAAAAAIBAwASBBEj/9oACAEBAAEFAt8oHZvj1J2yvkoQrVM//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFxEAAwEAAAAAAAAAAAAAAAAAAAERIf/aAAgBAgEBPwFvCn//xAAbEAACAgMBAAAAAAAAAAAAAAAAAQIhEBJBUf/aAAgBAQAGPwIjJ98HeNeItn//xAAZEAEBAQEBAQAAAAAAAAAAAAABABExQSH/2gAIAQEAAT8hLqt9BPIFmc7HO/jP1dv/2gAMAwEAAgADAAAAEDsP/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAERIf/aAAgBAwEBPxCpY//EABcRAQEBAQAAAAAAAAAAAAAAAAEAEVH/2gAIAQIBAT8QFAFrt//EABsQAQACAwEBAAAAAAAAAAAAAAEAESExQVFh/9oACAEBAAE/EGNgnjBZOrVVPWYpoBvcXY8W1UwbEgtL+Y8cxSpdQn//2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Explicaban los cambios que se estaban haciendo en iOS 10&quot;
+        title=&quot;Explicaban los cambios que se estaban haciendo en iOS 10&quot;
+        src=&quot;/static/d5603765b4ef24c4ea84eb2b4b85d357/29d31/wwdc17.jpg&quot;
+        srcset=&quot;/static/d5603765b4ef24c4ea84eb2b4b85d357/6a7c0/wwdc17.jpg 213w,
+/static/d5603765b4ef24c4ea84eb2b4b85d357/b9721/wwdc17.jpg 425w,
+/static/d5603765b4ef24c4ea84eb2b4b85d357/29d31/wwdc17.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Explicaban los cambios que se estaban haciendo en iOS 10&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;apple-design-awards&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#apple-design-awards&quot; aria-label=&quot;apple design awards permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Apple Design Awards&lt;/h3&gt;
+&lt;p&gt;Los Apple Design Awards es como los Oscars del mundo Apple y es una de las partes que más me gusta de los WWDC, porque aquí se muestran lo mejor de mejor en el desarrollo usando tecnología Apple, la sensación con la que terminas después de ver todos estos premios, es que el limite se lo pone uno mismo.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/f826c19ba601b886bfddf6f2e953e3d8/29d31/wwdc18.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAwACBf/EABYBAQEBAAAAAAAAAAAAAAAAAAEAAv/aAAwDAQACEAMQAAAB4jAkFajX/8QAGxAAAQQDAAAAAAAAAAAAAAAAAQACERMQITL/2gAIAQEAAQUC6NWoCDoVmP/EABURAQEAAAAAAAAAAAAAAAAAAAAh/9oACAEDAQE/AUf/xAAWEQEBAQAAAAAAAAAAAAAAAAAAEQH/2gAIAQIBAT8Bia//xAAZEAACAwEAAAAAAAAAAAAAAAAAARARMTL/2gAIAQEABj8COkbFO4//xAAaEAEAAwADAAAAAAAAAAAAAAABABEhMWHh/9oACAEBAAE/IQcaJm7BLxEVmSzpSOucdz//2gAMAwEAAgADAAAAEN8v/8QAFhEBAQEAAAAAAAAAAAAAAAAAABEh/9oACAEDAQE/EMU//8QAFREBAQAAAAAAAAAAAAAAAAAAEBH/2gAIAQIBAT8QoP/EABsQAQEBAAMBAQAAAAAAAAAAAAERACExsUFR/9oACAEBAAE/EIl9BVkM8TfsFXzMS3EHKfzASv7kXzMRtHBAO//Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Yo había probado casi la mayoría, y en serio que se merecian el premio&quot;
+        title=&quot;Yo había probado casi la mayoría, y en serio que se merecian el premio&quot;
+        src=&quot;/static/f826c19ba601b886bfddf6f2e953e3d8/29d31/wwdc18.jpg&quot;
+        srcset=&quot;/static/f826c19ba601b886bfddf6f2e953e3d8/6a7c0/wwdc18.jpg 213w,
+/static/f826c19ba601b886bfddf6f2e953e3d8/b9721/wwdc18.jpg 425w,
+/static/f826c19ba601b886bfddf6f2e953e3d8/29d31/wwdc18.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Yo había probado casi la mayoría, y en serio que se merecian el premio&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;conociendo-gente&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#conociendo-gente&quot; aria-label=&quot;conociendo gente permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Conociendo Gente&lt;/h3&gt;
+&lt;p&gt;Al estar en estos eventos es inevitable conocer gente, fue a si que conocimos a Raúl, un trabajador de Apple, que era quien se encarga de ver las aplicaciones que se hacen en latinoamérica, de impulsarlas y llevarlas a otro nivel, el nos invito a una reunión, donde nos reuniríamos todos los developers por regiones (Europa, Asia, Norte America, Latinoamérica y así) cada región tenia un representante, Raúl era el representante de mi región y fue así como conocí gente de Argentina, Brasil, Guatemala, México y hasta de Perú, hahahaha si de mi mismo país (¡saludos Laura!), fue simplemente genial.&lt;/p&gt;
+&lt;p&gt;En ese interin de conversar vimos pasar a un señor con una camisa con un logo que para los que consumimos juegos en iOS es sinónimo de genialidad y era Bagrat Dabaghyan, miembro del equipo de Shadowmatic (lider técnico y ganador de un Apple Design Awards para ser exacto y si no sabes que es shadowmatic, pues deberías ir a buscarlo en el Appstore en este momento, ya después puedes terminar de leer mi historia, no te vas a arrepentir). Luis y yo quedamos alucinados con su historia de como desarrollo el juego, fue lo mejor del día, no les miento.&lt;/p&gt;
+&lt;h3 id=&quot;lo-que-sucede-en-el-wwdc-se-queda-en-el-wwdc&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#lo-que-sucede-en-el-wwdc-se-queda-en-el-wwdc&quot; aria-label=&quot;lo que sucede en el wwdc se queda en el wwdc permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Lo que sucede en el WWDC se queda en el WWDC&lt;/h3&gt;
+&lt;p&gt;Eso era lo que decía la pulsera para entrar a la fiesta ofrecida por Apple para los asistentes al WWDC, así que por ese motivo no contare más en esta parte, quizás que llevaron a Good Charlotte, pero no diré más 🙈.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8583892cee5f5d1399f4600c5c197c7a/29d31/wwdc19.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAECBf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBf/aAAwDAQACEAMQAAABxBvQEFgv/8QAGRABAAIDAAAAAAAAAAAAAAAAAQACEBEh/9oACAEBAAEFAsjxsw1P/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAGBEAAgMAAAAAAAAAAAAAAAAAABEBEiH/2gAIAQIBAT8ByrFB/8QAFhAAAwAAAAAAAAAAAAAAAAAAACAh/9oACAEBAAY/Alp//8QAGhAAAwEAAwAAAAAAAAAAAAAAAAERMRBBUf/aAAgBAQABPyGPxkJwnt7LrR//2gAMAwEAAgADAAAAEDQf/8QAFhEBAQEAAAAAAAAAAAAAAAAAACFB/9oACAEDAQE/ENV//8QAFxEBAQEBAAAAAAAAAAAAAAAAAQAhEf/aAAgBAgEBPxA6TMh9C//EABoQAQADAQEBAAAAAAAAAAAAAAEAESExQVH/2gAIAQEAAT8QqbwTGuxTlbMZUSgdDC1nZ2jfMlqoN/Ln/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;No, no voy a contarles nada, no insistan&quot;
+        title=&quot;No, no voy a contarles nada, no insistan&quot;
+        src=&quot;/static/8583892cee5f5d1399f4600c5c197c7a/29d31/wwdc19.jpg&quot;
+        srcset=&quot;/static/8583892cee5f5d1399f4600c5c197c7a/6a7c0/wwdc19.jpg 213w,
+/static/8583892cee5f5d1399f4600c5c197c7a/b9721/wwdc19.jpg 425w,
+/static/8583892cee5f5d1399f4600c5c197c7a/29d31/wwdc19.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;No, no voy a contarles nada, no insistan&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;turismo-geek&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#turismo-geek&quot; aria-label=&quot;turismo geek permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Turismo Geek&lt;/h3&gt;
+&lt;p&gt;Cuando armamos nuestro plan para el viaje habíamos definido que de todas maneras ibamos a hacer el tour geek, cueste lo que nos cueste, fue por ese motivo que alquilamos un carro y recorrimos todo Silicon Valley y entre otras cosas bonitas que ofrece San Francisco.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 850px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6aea078470e6bd5502f496a164db7805/b768e/wwdc20.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAIDBP/EABUBAQEAAAAAAAAAAAAAAAAAAAIB/9oADAMBAAIQAxAAAAGXHBW4N//EABoQAAMAAwEAAAAAAAAAAAAAAAABEQIDEhP/2gAIAQEAAQUC93HguVDvYYVFP//EABcRAQADAAAAAAAAAAAAAAAAAAABESH/2gAIAQMBAT8BjFv/xAAXEQEAAwAAAAAAAAAAAAAAAAAAARIh/9oACAECAQE/AZ1V/8QAGhAAAgIDAAAAAAAAAAAAAAAAABEQIRIxMv/aAAgBAQAGPwJWZNx0bqP/xAAbEAADAAIDAAAAAAAAAAAAAAAAAREhsRAxof/aAAgBAQABPyGUN6PStKYM6Lp13e66I3w4f//aAAwDAQACAAMAAAAQMy//xAAWEQEBAQAAAAAAAAAAAAAAAAAAEXH/2gAIAQMBAT8Qgy//xAAWEQEBAQAAAAAAAAAAAAAAAAAAEVH/2gAIAQIBAT8QorX/xAAfEAACAQQCAwAAAAAAAAAAAAABEQAhMUFRYXGRsfD/2gAIAQEAAT8QJrj0HsEMGBhN+vtQDwl2aJ6LUwluBgJ3PCcH5n//2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ese soy yo, con el carro que alquilamos, antes de empezar el “Gran Turismo Geek”&quot;
+        title=&quot;Ese soy yo, con el carro que alquilamos, antes de empezar el “Gran Turismo Geek”&quot;
+        src=&quot;/static/6aea078470e6bd5502f496a164db7805/faddd/wwdc20.jpg&quot;
+        srcset=&quot;/static/6aea078470e6bd5502f496a164db7805/6a7c0/wwdc20.jpg 213w,
+/static/6aea078470e6bd5502f496a164db7805/b9721/wwdc20.jpg 425w,
+/static/6aea078470e6bd5502f496a164db7805/faddd/wwdc20.jpg 850w,
+/static/6aea078470e6bd5502f496a164db7805/d5412/wwdc20.jpg 1275w,
+/static/6aea078470e6bd5502f496a164db7805/b768e/wwdc20.jpg 1350w&quot;
+        sizes=&quot;(max-width: 850px) 100vw, 850px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Ese soy yo, con el carro que alquilamos, antes de empezar el “Gran Turismo Geek”&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/4ee02b52674fb785526db327a2153ef0/29d31/wwdc21.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAAD/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAL/2gAMAwEAAhADEAAAAdzizSyBU//EABoQAAIDAQEAAAAAAAAAAAAAAAABAgMSERP/2gAIAQEAAQUC1Xx2I9YjkaZtn//EABYRAAMAAAAAAAAAAAAAAAAAAAABEv/aAAgBAwEBPwGUSj//xAAWEQADAAAAAAAAAAAAAAAAAAAAARL/2gAIAQIBAT8BtlM//8QAGRAAAgMBAAAAAAAAAAAAAAAAAAEQMTIh/9oACAEBAAY/ArMmXHGWf//EAB0QAAIBBAMAAAAAAAAAAAAAAAARASExUWFBcYH/2gAIAQEAAT8hY7PCqMTENyLuzUEc2p0LyW8Ng//aAAwDAQACAAMAAAAQS8//xAAXEQEAAwAAAAAAAAAAAAAAAAAAAVFh/9oACAEDAQE/EIpYv//EABcRAAMBAAAAAAAAAAAAAAAAAAABQWH/2gAIAQIBAT8QT6bn/8QAGhABAAMBAQEAAAAAAAAAAAAAAQARIUFRgf/aAAgBAQABPxBpOyr7RKZBi+euRoD+tiO2FwaUEKa1XIi0h9n/2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Fuimos a Stanford a respirar innovación, esa visita fue muy emotiva porque justo llegamos en plena graduación. (Esa foto nos la tomamos de pura suerte, porque una señora se ofreció a tomarnos la foto, si, así de cheveres son aya)&quot;
+        title=&quot;Fuimos a Stanford a respirar innovación, esa visita fue muy emotiva porque justo llegamos en plena graduación. (Esa foto nos la tomamos de pura suerte, porque una señora se ofreció a tomarnos la foto, si, así de cheveres son aya)&quot;
+        src=&quot;/static/4ee02b52674fb785526db327a2153ef0/29d31/wwdc21.jpg&quot;
+        srcset=&quot;/static/4ee02b52674fb785526db327a2153ef0/6a7c0/wwdc21.jpg 213w,
+/static/4ee02b52674fb785526db327a2153ef0/b9721/wwdc21.jpg 425w,
+/static/4ee02b52674fb785526db327a2153ef0/29d31/wwdc21.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Fuimos a Stanford a respirar innovación, esa visita fue muy emotiva porque justo llegamos en plena graduación. (Esa foto nos la tomamos de pura suerte, porque una señora se ofreció a tomarnos la foto, si, así de cheveres son aya)&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/fddf306f347a8e9157b50a0fe8f3aa05/29d31/wwdc22.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFBv/EABYBAQEBAAAAAAAAAAAAAAAAAAEAAv/aAAwDAQACEAMQAAABmaBdzNnioD//xAAYEAADAQEAAAAAAAAAAAAAAAABAgMRIv/aAAgBAQABBQJUOqNWwUUMBkuZmOn/xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAgBAwEBPwGI/8QAFhEBAQEAAAAAAAAAAAAAAAAAAAER/9oACAECAQE/AZWv/8QAHBAAAgICAwAAAAAAAAAAAAAAAAERMQIhEiKR/9oACAEBAAY/ArXopxmbHxo0xLJ7H2P/xAAaEAEAAwEBAQAAAAAAAAAAAAABABEhMUFR/9oACAEBAAE/IWA3g9+yoBqg8rkAr78yDSB2Gp6fk//aAAwDAQACAAMAAAAQd+//xAAXEQADAQAAAAAAAAAAAAAAAAAAARFB/9oACAEDAQE/EG2FH//EABYRAQEBAAAAAAAAAAAAAAAAAABRcf/aAAgBAgEBPxCzL//EABsQAQEAAwEBAQAAAAAAAAAAAAERACExcUFh/9oACAEBAAE/EBcaSQdzvMjNCa3lXghThSfuQJz8DeMwVUbrbjFhRnv3P//Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Por obvias razones, teníamos que ir a los HQ de Apple&quot;
+        title=&quot;Por obvias razones, teníamos que ir a los HQ de Apple&quot;
+        src=&quot;/static/fddf306f347a8e9157b50a0fe8f3aa05/29d31/wwdc22.jpg&quot;
+        srcset=&quot;/static/fddf306f347a8e9157b50a0fe8f3aa05/6a7c0/wwdc22.jpg 213w,
+/static/fddf306f347a8e9157b50a0fe8f3aa05/b9721/wwdc22.jpg 425w,
+/static/fddf306f347a8e9157b50a0fe8f3aa05/29d31/wwdc22.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Por obvias razones, teníamos que ir a los HQ de Apple&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/c1dce03f0a69d052f58b8401cf263ae0/wwdc23.gif&quot; alt=&quot;Aprovechamos para comprar muchos souvenir de Apple&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/be165d43eb8a48098fb9ecf7b35bd307/29d31/wwdc24.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAQBA//EABQBAQAAAAAAAAAAAAAAAAAAAAP/2gAMAwEAAhADEAAAAeWXQKEAJf/EABoQAQADAAMAAAAAAAAAAAAAAAEAAhEEISL/2gAIAQEAAQUCazMiq+JyHtqb/8QAFREBAQAAAAAAAAAAAAAAAAAAARD/2gAIAQMBAT8BBn//xAAWEQADAAAAAAAAAAAAAAAAAAABAhD/2gAIAQIBAT8BLz//xAAZEAACAwEAAAAAAAAAAAAAAAAAEQECIRD/2gAIAQEABj8CNHxRqJdkf//EABoQAAMAAwEAAAAAAAAAAAAAAAARIQExYVH/2gAIAQEAAT8hR0SxnWRh3dcNDSiCa8P/2gAMAwEAAgADAAAAEBzf/8QAFhEBAQEAAAAAAAAAAAAAAAAAAQAR/9oACAEDAQE/EFOMX//EABcRAQEBAQAAAAAAAAAAAAAAAAEAESH/2gAIAQIBAT8QIOTrf//EABsQAQEAAgMBAAAAAAAAAAAAAAERACExQVFx/9oACAEBAAE/EKIdpTjEAEFhC7zQQrsxCRrXELMSjxhkb7cTQui2ju6+5//Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;¿Si adivinan a donde estamos llegando?&quot;
+        title=&quot;¿Si adivinan a donde estamos llegando?&quot;
+        src=&quot;/static/be165d43eb8a48098fb9ecf7b35bd307/29d31/wwdc24.jpg&quot;
+        srcset=&quot;/static/be165d43eb8a48098fb9ecf7b35bd307/6a7c0/wwdc24.jpg 213w,
+/static/be165d43eb8a48098fb9ecf7b35bd307/b9721/wwdc24.jpg 425w,
+/static/be165d43eb8a48098fb9ecf7b35bd307/29d31/wwdc24.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;¿Si adivinan a donde estamos llegando?&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/ff2c8249a24c1ee3336e13b7d12e8918/29d31/wwdc25.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAEEBf/EABUBAQEAAAAAAAAAAAAAAAAAAAIB/9oADAMBAAIQAxAAAAGN6LNnNMC//8QAGhAAAQUBAAAAAAAAAAAAAAAAAwABAhESIf/aAAgBAQABBQKYHG97kwrRqxAHMr//xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAwEBPwGH/8QAFREBAQAAAAAAAAAAAAAAAAAAARD/2gAIAQIBAT8BZ//EABoQAAICAwAAAAAAAAAAAAAAAAABESEDMoH/2gAIAQEABj8CVyWbEYxN9LP/xAAcEAEAAgMAAwAAAAAAAAAAAAABABEhMUFRYXH/2gAIAQEAAT8hZChdxzRWdeI5sAeyXjgq38lqpaXQhhop2p//2gAMAwEAAgADAAAAEKPf/8QAGBEAAgMAAAAAAAAAAAAAAAAAAAERIVH/2gAIAQMBAT8QsQsP/8QAFxEAAwEAAAAAAAAAAAAAAAAAAAERUf/aAAgBAgEBPxBivT//xAAdEAEAAgMBAAMAAAAAAAAAAAABABEhMUFRYXGR/9oACAEBAAE/ENY2xgxTuZRUp4HxONKDj7uCr7oZwGW/oiF3tBefkKgMJYFk/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Google a comparación de Apple tiene un campus mas grande y mas abierto, es casi una ciudad&quot;
+        title=&quot;Google a comparación de Apple tiene un campus mas grande y mas abierto, es casi una ciudad&quot;
+        src=&quot;/static/ff2c8249a24c1ee3336e13b7d12e8918/29d31/wwdc25.jpg&quot;
+        srcset=&quot;/static/ff2c8249a24c1ee3336e13b7d12e8918/6a7c0/wwdc25.jpg 213w,
+/static/ff2c8249a24c1ee3336e13b7d12e8918/b9721/wwdc25.jpg 425w,
+/static/ff2c8249a24c1ee3336e13b7d12e8918/29d31/wwdc25.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Google a comparación de Apple tiene un campus mas grande y mas abierto, es casi una ciudad&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/1807a3bd01eee9defef58612a1555966/29d31/wwdc26.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEFAgT/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/aAAwDAQACEAMQAAABzy2nNThA/wD/xAAZEAEBAAMBAAAAAAAAAAAAAAABAgMREkH/2gAIAQEAAQUCHRWTdE0nIPuXu7//xAAWEQEBAQAAAAAAAAAAAAAAAAAAESH/2gAIAQMBAT8BrX//xAAVEQEBAAAAAAAAAAAAAAAAAAAAIf/aAAgBAgEBPwFH/8QAGxAAAgIDAQAAAAAAAAAAAAAAAAERISIxUUH/2gAIAQEABj8CmoKTLlCfNLhPpg6P/8QAGhABAAMBAQEAAAAAAAAAAAAAAQARMUEhUf/aAAgBAQABPyFVpW6uQ9dxgpw92VLxVHkUNBX1A1QPm1P/2gAMAwEAAgADAAAAECsf/8QAFxEBAQEBAAAAAAAAAAAAAAAAAQAxUf/aAAgBAwEBPxATkPF//8QAFhEBAQEAAAAAAAAAAAAAAAAAAQBh/9oACAECAQE/EECdX//EAB4QAQACAwACAwAAAAAAAAAAAAEAESExYUFRcZGh/9oACAEBAAE/EGmABvGGsbeGY/XMKML8FNRrEoUMuvd/kKt+IAuHvsaEJsALChiGsybftn//2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Y claro, también fuimos a alucinar que nos comprábamos un Tesla ¿Por qué no? Es un tour geek&quot;
+        title=&quot;Y claro, también fuimos a alucinar que nos comprábamos un Tesla ¿Por qué no? Es un tour geek&quot;
+        src=&quot;/static/1807a3bd01eee9defef58612a1555966/29d31/wwdc26.jpg&quot;
+        srcset=&quot;/static/1807a3bd01eee9defef58612a1555966/6a7c0/wwdc26.jpg 213w,
+/static/1807a3bd01eee9defef58612a1555966/b9721/wwdc26.jpg 425w,
+/static/1807a3bd01eee9defef58612a1555966/29d31/wwdc26.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Y claro, también fuimos a alucinar que nos comprábamos un Tesla ¿Por qué no? Es un tour geek&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/e3ce33a15e89c7dbee110f66a6523921/29d31/wwdc27.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 66.19718309859155%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAIDAQT/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAABfYMkznK//8QAGhAAAwEAAwAAAAAAAAAAAAAAAAECAxETIf/aAAgBAQABBQJb2zvpD0q3OfFXnMniP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABsQAAEEAwAAAAAAAAAAAAAAAAABESExAhAS/9oACAEBAAY/ArLcd1MZOp1//8QAHBAAAgICAwAAAAAAAAAAAAAAAREAITFBUXGB/9oACAEBAAE/IUVYvQWdyubowYDLJgfItOcAPpn/2gAMAwEAAgADAAAAEEwf/8QAFhEBAQEAAAAAAAAAAAAAAAAAAQAR/9oACAEDAQE/EALL/8QAFhEBAQEAAAAAAAAAAAAAAAAAAQAR/9oACAECAQE/EFbb/8QAHBABAQACAgMAAAAAAAAAAAAAAREAIVFxMUGx/9oACAEBAAE/EH26JqEXLvoiLTjrGGw1IhgAZKCeZiMEOtJt6ysk95X5n//Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;San Francisco y sus “Subi y bajas”&quot;
+        title=&quot;San Francisco y sus “Subi y bajas”&quot;
+        src=&quot;/static/e3ce33a15e89c7dbee110f66a6523921/29d31/wwdc27.jpg&quot;
+        srcset=&quot;/static/e3ce33a15e89c7dbee110f66a6523921/6a7c0/wwdc27.jpg 213w,
+/static/e3ce33a15e89c7dbee110f66a6523921/b9721/wwdc27.jpg 425w,
+/static/e3ce33a15e89c7dbee110f66a6523921/29d31/wwdc27.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;San Francisco y sus “Subi y bajas”&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 850px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/edfe7c3bbea9e459c77e28401ce49781/b768e/wwdc28.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 66.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEBf/EABUBAQEAAAAAAAAAAAAAAAAAAAID/9oADAMBAAIQAxAAAAFS5ludhngX/8QAGRABAQEAAwAAAAAAAAAAAAAAAQIDABAS/9oACAEBAAEFAvPSsN6JTpSc/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAEREv/aAAgBAwEBPwHCof/EABYRAQEBAAAAAAAAAAAAAAAAAAASAf/aAAgBAgEBPwG1a//EABgQAAMBAQAAAAAAAAAAAAAAAAABERAx/9oACAEBAAY/AsalGdmf/8QAHRABAAEDBQAAAAAAAAAAAAAAAQARITFBUWFxof/aAAgBAQABPyFhNivUoFchmr1iziLvCXcs/9oADAMBAAIAAwAAABDX/wD/xAAWEQADAAAAAAAAAAAAAAAAAAABEFH/2gAIAQMBAT8QFK//xAAWEQEBAQAAAAAAAAAAAAAAAAABEEH/2gAIAQIBAT8QXkf/xAAaEAEBAAMBAQAAAAAAAAAAAAABEQAhMWFR/9oACAEBAAE/EPHB3SUH4rLclhDTpIYdKnoOyDzHyPBl3cVKivW5/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Me gusta mucha esta foto, la tengo de wallpaper en todas mis maquinas, lo bonito es que estuve ahi para tomarla :D&quot;
+        title=&quot;Me gusta mucha esta foto, la tengo de wallpaper en todas mis maquinas, lo bonito es que estuve ahi para tomarla :D&quot;
+        src=&quot;/static/edfe7c3bbea9e459c77e28401ce49781/faddd/wwdc28.jpg&quot;
+        srcset=&quot;/static/edfe7c3bbea9e459c77e28401ce49781/6a7c0/wwdc28.jpg 213w,
+/static/edfe7c3bbea9e459c77e28401ce49781/b9721/wwdc28.jpg 425w,
+/static/edfe7c3bbea9e459c77e28401ce49781/faddd/wwdc28.jpg 850w,
+/static/edfe7c3bbea9e459c77e28401ce49781/d5412/wwdc28.jpg 1275w,
+/static/edfe7c3bbea9e459c77e28401ce49781/b768e/wwdc28.jpg 1350w&quot;
+        sizes=&quot;(max-width: 850px) 100vw, 850px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Me gusta mucha esta foto, la tengo de wallpaper en todas mis maquinas, lo bonito es que estuve ahi para tomarla :D&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/b6d1063eec9172ad09ca9e79921de37b/29d31/wwdc29.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.11737089201877%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMFAv/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIQAxAAAAHLYTUukQX/xAAaEAABBQEAAAAAAAAAAAAAAAABAAIEEhQQ/9oACAEBAAEFAtFTpaQJDOBWX//EABURAQEAAAAAAAAAAAAAAAAAAAAR/9oACAEDAQE/AVf/xAAWEQEBAQAAAAAAAAAAAAAAAAAAERL/2gAIAQIBAT8BjL//xAAYEAACAwAAAAAAAAAAAAAAAAAAMQERIP/aAAgBAQAGPwK4Qs//xAAbEAACAwADAAAAAAAAAAAAAAAAAREhMUGBof/aAAgBAQABPyFrSNuIg6jkiCz0TsaEVP/aAAwDAQACAAMAAAAQ/wAP/8QAFREBAQAAAAAAAAAAAAAAAAAAARD/2gAIAQMBAT8QWP/EABgRAAIDAAAAAAAAAAAAAAAAAAABEUFR/9oACAECAQE/EEishp//xAAbEAEBAAMBAQEAAAAAAAAAAAABEQAhMVFBof/aAAgBAQABPxDfYd2XJbicKbDo+R/cjixieNc5jJ3z3B2rRpiFAuf/2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Creanme, ver las Painting Ladies comiendo Cheetos Puffs fue genial.&quot;
+        title=&quot;Creanme, ver las Painting Ladies comiendo Cheetos Puffs fue genial.&quot;
+        src=&quot;/static/b6d1063eec9172ad09ca9e79921de37b/29d31/wwdc29.jpg&quot;
+        srcset=&quot;/static/b6d1063eec9172ad09ca9e79921de37b/6a7c0/wwdc29.jpg 213w,
+/static/b6d1063eec9172ad09ca9e79921de37b/b9721/wwdc29.jpg 425w,
+/static/b6d1063eec9172ad09ca9e79921de37b/29d31/wwdc29.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Creanme, ver las Painting Ladies comiendo Cheetos Puffs fue genial.&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 699px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/75edcf03d33d96689e973a53b1c1820f/9149e/wwdc30.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 133.33333333333331%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAbABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAIEBQP/xAAWAQEBAQAAAAAAAAAAAAAAAAABAAL/2gAMAwEAAhADEAAAAYW1WHFNQLpLCs9CQ1n/xAAbEAACAgMBAAAAAAAAAAAAAAABAgADBBEhEv/aAAgBAQABBQKKrNDwrjL55W9ioWryQZc5tbZl3HYnxuf/xAAXEQADAQAAAAAAAAAAAAAAAAAAAREQ/9oACAEDAQE/AYQef//EABcRAQEBAQAAAAAAAAAAAAAAAAABERL/2gAIAQIBAT8B10kY/8QAHxAAAQIGAwAAAAAAAAAAAAAAABEhAQIQEiIxMkFh/9oACAEBAAY/AhoDj7LU2OhbPjEw4ydmxPK//8QAHRABAAMBAAIDAAAAAAAAAAAAAQARITFBUXGBof/aAAgBAQABPyFcnlaBQwkDjcAbgMZYkGctH9n3KWqe23yXOQFBZgXhwljjP//aAAwDAQACAAMAAAAQgz2y/8QAFxEBAQEBAAAAAAAAAAAAAAAAABEBcf/aAAgBAwEBPxA7amxX/8QAGBEBAAMBAAAAAAAAAAAAAAAAAAERQXH/2gAIAQIBAT8Ql4aKv//EABwQAQADAQADAQAAAAAAAAAAAAEAESExYYGhcf/aAAgBAQABPxAeHsYRq+a9QIlFIwptm6gSpUwwobVX9juqK2NPA7XI7W2OIr5Zs0K+h9SteFCjGGqRRRw9QxIH7P/Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Clam Chowder, porque San Francisco&quot;
+        title=&quot;Clam Chowder, porque San Francisco&quot;
+        src=&quot;/static/75edcf03d33d96689e973a53b1c1820f/9149e/wwdc30.jpg&quot;
+        srcset=&quot;/static/75edcf03d33d96689e973a53b1c1820f/6a7c0/wwdc30.jpg 213w,
+/static/75edcf03d33d96689e973a53b1c1820f/b9721/wwdc30.jpg 425w,
+/static/75edcf03d33d96689e973a53b1c1820f/9149e/wwdc30.jpg 699w&quot;
+        sizes=&quot;(max-width: 699px) 100vw, 699px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Clam Chowder, porque San Francisco&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/7d8cb324f21546875828e15682b2f46f/29d31/wwdc31.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 66.19718309859155%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAgAD/8QAFgEBAQEAAAAAAAAAAAAAAAAAAgAB/9oADAMBAAIQAxAAAAFPHNFyrP/EABsQAAICAwEAAAAAAAAAAAAAAAABAgMREhMU/9oACAEBAAEFAvQjvEdt2eeoouNh/8QAFREBAQAAAAAAAAAAAAAAAAAAEBL/2gAIAQMBAT8Bk//EABYRAAMAAAAAAAAAAAAAAAAAAAECEP/aAAgBAgEBPwENP//EABwQAAICAgMAAAAAAAAAAAAAAAARAQISIjEyYf/aAAgBAQAGPwLqa1k1pCG5Hk/Dg//EABkQAQADAQEAAAAAAAAAAAAAAAEAETEhYf/aAAgBAQABPyEptXvYrofYhRqPsd3kvChHEUvE/9oADAMBAAIAAwAAABCQ/wD/xAAXEQEBAQEAAAAAAAAAAAAAAAABABEx/9oACAEDAQE/EEBGZy//xAAXEQADAQAAAAAAAAAAAAAAAAAAAREx/9oACAECAQE/EGPR26f/xAAbEAEBAAMBAQEAAAAAAAAAAAABEQAhMXFRsf/aAAgBAQABPxDUsDwGHmCp13ATGR40KV/ciF8JY65PmsZulVAYKAfCZ//Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Pier 39 estuvo genial, me gusto todo&quot;
+        title=&quot;Pier 39 estuvo genial, me gusto todo&quot;
+        src=&quot;/static/7d8cb324f21546875828e15682b2f46f/29d31/wwdc31.jpg&quot;
+        srcset=&quot;/static/7d8cb324f21546875828e15682b2f46f/6a7c0/wwdc31.jpg 213w,
+/static/7d8cb324f21546875828e15682b2f46f/b9721/wwdc31.jpg 425w,
+/static/7d8cb324f21546875828e15682b2f46f/29d31/wwdc31.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Pier 39 estuvo genial, me gusto todo&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/7067450f3248104e4bd2b95a52c2a97f/29d31/wwdc32.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 66.19718309859155%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIDBP/EABYBAQEBAAAAAAAAAAAAAAAAAAIAAf/aAAwDAQACEAMQAAABypOCNRTL/8QAHBAAAgICAwAAAAAAAAAAAAAAAQIAEQMSBCEy/9oACAEBAAEFAuOUtW1hfsIBj8nS5//EABURAQEAAAAAAAAAAAAAAAAAABAR/9oACAEDAQE/AYf/xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAgBAgEBPwGq/8QAHBAAAQMFAAAAAAAAAAAAAAAAEAABERIhIkFh/9oACAEBAAY/As7dTwKtn//EABkQAAMBAQEAAAAAAAAAAAAAAAABETEhcf/aAAgBAQABPyHWWKaaNoSqrK+Gk6oR0m0f/9oADAMBAAIAAwAAABAo3//EABYRAQEBAAAAAAAAAAAAAAAAAAABEf/aAAgBAwEBPxCGP//EABYRAQEBAAAAAAAAAAAAAAAAAAARMf/aAAgBAgEBPxDCn//EABoQAQEAAwEBAAAAAAAAAAAAAAERACExQVH/2gAIAQEAAT8QOWAPWknplAcQa6nmPRbv7igUBebTmI3qGjkoUSzuf//Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ame el Aquarium of the Bay, estaba incluido en un cityPass que compramos&quot;
+        title=&quot;Ame el Aquarium of the Bay, estaba incluido en un cityPass que compramos&quot;
+        src=&quot;/static/7067450f3248104e4bd2b95a52c2a97f/29d31/wwdc32.jpg&quot;
+        srcset=&quot;/static/7067450f3248104e4bd2b95a52c2a97f/6a7c0/wwdc32.jpg 213w,
+/static/7067450f3248104e4bd2b95a52c2a97f/b9721/wwdc32.jpg 425w,
+/static/7067450f3248104e4bd2b95a52c2a97f/29d31/wwdc32.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Ame el Aquarium of the Bay, estaba incluido en un cityPass que compramos&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 850px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/f2d8966583638738ca0378b0789ca67e/b768e/wwdc33.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 66.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAEDBP/EABYBAQEBAAAAAAAAAAAAAAAAAAMAAf/aAAwDAQACEAMQAAABi9ckNGcs/8QAGRABAAMBAQAAAAAAAAAAAAAAAQACAwQR/9oACAEBAAEFAnnawYHo6x1WVtYP/8QAFREBAQAAAAAAAAAAAAAAAAAAABL/2gAIAQMBAT8BS//EABURAQEAAAAAAAAAAAAAAAAAAAAS/9oACAECAQE/AVv/xAAaEAADAAMBAAAAAAAAAAAAAAAAARECEDEh/9oACAEBAAY/Arg4TNR64cR4z//EABsQAQACAwEBAAAAAAAAAAAAAAEAESFRcTFB/9oACAEBAAE/Ia7kMQei+MzkWvNdhCY9JcpFBqf/2gAMAwEAAgADAAAAEKc//8QAFxEAAwEAAAAAAAAAAAAAAAAAAAEhEf/aAAgBAwEBPxDdjHUZ/8QAFxEBAQEBAAAAAAAAAAAAAAAAAQAhEf/aAAgBAgEBPxAeaRi//8QAGxABAAIDAQEAAAAAAAAAAAAAAQARITGhUXH/2gAIAQEAAT8QGtzprGGntgXJjHTMES7wqNVXtAezanNUsPlz/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;El Golden Gate es muy imponente y no por nada aparece en todas las imagenes de San Francisco&quot;
+        title=&quot;El Golden Gate es muy imponente y no por nada aparece en todas las imagenes de San Francisco&quot;
+        src=&quot;/static/f2d8966583638738ca0378b0789ca67e/faddd/wwdc33.jpg&quot;
+        srcset=&quot;/static/f2d8966583638738ca0378b0789ca67e/6a7c0/wwdc33.jpg 213w,
+/static/f2d8966583638738ca0378b0789ca67e/b9721/wwdc33.jpg 425w,
+/static/f2d8966583638738ca0378b0789ca67e/faddd/wwdc33.jpg 850w,
+/static/f2d8966583638738ca0378b0789ca67e/d5412/wwdc33.jpg 1275w,
+/static/f2d8966583638738ca0378b0789ca67e/b768e/wwdc33.jpg 1350w&quot;
+        sizes=&quot;(max-width: 850px) 100vw, 850px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;El Golden Gate es muy imponente y no por nada aparece en todas las imagenes de San Francisco&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 850px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/93a10b44ae772200784916f1bc74494c/b768e/wwdc34.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 54.929577464788736%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAALABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMFAf/EABQBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAdbHelgkif/EABwQAAEDBQAAAAAAAAAAAAAAAAEAAgMREhMhMv/aAAgBAQABBQLIy4OhVY0OyNr/xAAVEQEBAAAAAAAAAAAAAAAAAAAAEv/aAAgBAwEBPwGUv//EABURAQEAAAAAAAAAAAAAAAAAAAAS/9oACAECAQE/AbW//8QAFxAAAwEAAAAAAAAAAAAAAAAAACAxYf/aAAgBAQAGPwLClT//xAAbEAADAQADAQAAAAAAAAAAAAAAAREhMUGB0f/aAAgBAQABPyFMTcrVLSjJ8FL5ONdCFKEf/9oADAMBAAIAAwAAABAYP//EABYRAQEBAAAAAAAAAAAAAAAAAAARAf/aAAgBAwEBPxCNQ//EABYRAQEBAAAAAAAAAAAAAAAAAAARAf/aAAgBAgEBPxCsU//EABoQAQACAwEAAAAAAAAAAAAAAAEAESExUXH/2gAIAQEAAT8QIhiO115URkPioXA1Cc5EUg7JQSimJBBdz//Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Twin peaks, fuimos muy temprano y hacia un frío matador, tuvimos que esperar un rato para que se despeje la neblina, pero valió la pena.&quot;
+        title=&quot;Twin peaks, fuimos muy temprano y hacia un frío matador, tuvimos que esperar un rato para que se despeje la neblina, pero valió la pena.&quot;
+        src=&quot;/static/93a10b44ae772200784916f1bc74494c/faddd/wwdc34.jpg&quot;
+        srcset=&quot;/static/93a10b44ae772200784916f1bc74494c/6a7c0/wwdc34.jpg 213w,
+/static/93a10b44ae772200784916f1bc74494c/b9721/wwdc34.jpg 425w,
+/static/93a10b44ae772200784916f1bc74494c/faddd/wwdc34.jpg 850w,
+/static/93a10b44ae772200784916f1bc74494c/d5412/wwdc34.jpg 1275w,
+/static/93a10b44ae772200784916f1bc74494c/b768e/wwdc34.jpg 1350w&quot;
+        sizes=&quot;(max-width: 850px) 100vw, 850px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Twin peaks, fuimos muy temprano y hacia un frío matador, tuvimos que esperar un rato para que se despeje la neblina, pero valió la pena.&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/1a4ad239c11996890a103936c00ddaf9/29d31/wwdc35.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 177.93427230046947%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAkABQDASIAAhEBAxEB/8QAGQABAAMBAQAAAAAAAAAAAAAAAAMEBQIG/8QAFwEAAwEAAAAAAAAAAAAAAAAAAAECA//aAAwDAQACEAMQAAABp1dKMecnVPo2dZyuZXBl8BXQT//EABwQAAMBAAIDAAAAAAAAAAAAAAABAhEDEBITMv/aAAgBAQABBQK/nTD0XSfByjmkMWjQr6xspjb3yZ//xAAZEQABBQAAAAAAAAAAAAAAAAABAhARICH/2gAIAQMBAT8BVpaKf//EABkRAAIDAQAAAAAAAAAAAAAAAAABAhEgIf/aAAgBAgEBPwGNHBPH/8QAGxAAAgIDAQAAAAAAAAAAAAAAAAECESAyMxD/2gAIAQEABj8CKflqjVM1eHSR1kdJYf/EABwQAQADAQEAAwAAAAAAAAAAAAEAESExQWFxof/aAAgBAQABPyFbrrOKYu80lKxPBlL8jFKRfqBeNTwZpNAfki0Q7JJdzEuBnZ//2gAMAwEAAgADAAAAEO8jzYPP/8QAGREAAwADAAAAAAAAAAAAAAAAAAERECEx/9oACAEDAQE/EL4FY2N5/8QAGREAAgMBAAAAAAAAAAAAAAAAAAEQESFR/9oACAECAQE/EHRVeldCEZP/xAAeEAEAAgEEAwAAAAAAAAAAAAABABFBITFRYXGBkf/aAAgBAQABPxBAlWhANlWHiH9Ikv4Bdm4ZKE47+Mdj2LwkGoYlQtbhSXzRaD00hGmp2TYqvJAAbs3ZoxKAOf/Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Ese fue el sello que nos pusieron para entrar al Coit Tower, San Francisco y sus detalles&quot;
+        title=&quot;Ese fue el sello que nos pusieron para entrar al Coit Tower, San Francisco y sus detalles&quot;
+        src=&quot;/static/1a4ad239c11996890a103936c00ddaf9/29d31/wwdc35.jpg&quot;
+        srcset=&quot;/static/1a4ad239c11996890a103936c00ddaf9/6a7c0/wwdc35.jpg 213w,
+/static/1a4ad239c11996890a103936c00ddaf9/b9721/wwdc35.jpg 425w,
+/static/1a4ad239c11996890a103936c00ddaf9/29d31/wwdc35.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Ese fue el sello que nos pusieron para entrar al Coit Tower, San Francisco y sus detalles&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/f39aed3396226491855541cfdc4d86af/29d31/wwdc36.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAUABQDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAMEAQL/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAHFpnwskL+wiD//xAAZEAEBAAMBAAAAAAAAAAAAAAABAgADERL/2gAIAQEAAQUC1oVu3t0bHlQ9Y4epMsJeCeDP/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAwEBPwEf/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAgEBPwEf/8QAGxAAAgIDAQAAAAAAAAAAAAAAABEBEBIhMWH/2gAIAQEABj8CjLhrleQMSEh1/8QAGhABAAMBAQEAAAAAAAAAAAAAAQARITFBYf/aAAgBAQABPyFXtram/oOR55DDbyGXP1UDda9jEihammN5G2f/2gAMAwEAAgADAAAAEMPIPP/EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQMBAT8QH//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQIBAT8QH//EABsQAQEAAwEBAQAAAAAAAAAAAAERACExQWGB/9oACAEBAAE/EEqiE+jEAxc6Z5jZ2Eb7gimBJKd5kIRNyCa8/MJq2jtvOt9xaX7cJbnotk5jkxL9z//Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Que más les puedo decir sobre mis paseos por la calles esa foto la tome cuando estábamos de camino a Union Square&quot;
+        title=&quot;Que más les puedo decir sobre mis paseos por la calles esa foto la tome cuando estábamos de camino a Union Square&quot;
+        src=&quot;/static/f39aed3396226491855541cfdc4d86af/29d31/wwdc36.jpg&quot;
+        srcset=&quot;/static/f39aed3396226491855541cfdc4d86af/6a7c0/wwdc36.jpg 213w,
+/static/f39aed3396226491855541cfdc4d86af/b9721/wwdc36.jpg 425w,
+/static/f39aed3396226491855541cfdc4d86af/29d31/wwdc36.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Que más les puedo decir sobre mis paseos por la calles esa foto la tome cuando estábamos de camino a Union Square&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;en-resumen&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#en-resumen&quot; aria-label=&quot;en resumen permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;En Resumen&lt;/h3&gt;
+&lt;p&gt;Si no hubiese hecho ese click para mandar mi solicitud para obtener un ticket al WWDC, nada de lo que les mostré anteriormente hubiese pasado. Aveces creemos que hay cosas que tenemos que hacer en un futuro muy lejano porque simplemente no estamos listos, pero al final, saben que, yo creo que siempre estamos listos para hacerlo todo.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 700px;&quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/057f20ca819c9a9c39fe24f2eb445713/29d31/wwdc37.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAUABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAQDBv/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAAca48C1SOcoCcH//xAAcEAEAAgIDAQAAAAAAAAAAAAACAQMEEQAUI0H/2gAIAQEAAQUC7Hor6IJydRZlSmbmJGQEPt07XP/EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQMBAT8BH//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQIBAT8BH//EAB4QAAEDBAMAAAAAAAAAAAAAAAEAAiEQImFxAxES/9oACAEBAAY/ApA6UAeleJRDGjCuaHbQJ5GswaaNP//EAB4QAQACAgEFAAAAAAAAAAAAAAEAESExEEFRYXGR/9oACAEBAAE/IXO+MqPbSNBDoGna4vGLSS2YVD0BGgHyhp7jqNZA4//aAAwDAQACAAMAAAAQwwA8/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAwEBPxAf/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAgEBPxAf/8QAHBABAAIDAAMAAAAAAAAAAAAAAQARITFBUWGB/9oACAEBAAE/EBuNgWpT3e8sT+Mai+/UQ3VWA4eTcTJp4nhzj5LRYAbYc0hGQ0pIWmN9I0cUaZIClHQU1hqfCf/Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Gracias por todo WWDC&quot;
+        title=&quot;Gracias por todo WWDC&quot;
+        src=&quot;/static/057f20ca819c9a9c39fe24f2eb445713/29d31/wwdc37.jpg&quot;
+        srcset=&quot;/static/057f20ca819c9a9c39fe24f2eb445713/6a7c0/wwdc37.jpg 213w,
+/static/057f20ca819c9a9c39fe24f2eb445713/b9721/wwdc37.jpg 425w,
+/static/057f20ca819c9a9c39fe24f2eb445713/29d31/wwdc37.jpg 700w&quot;
+        sizes=&quot;(max-width: 700px) 100vw, 700px&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Gracias por todo WWDC&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://twitter.com/erikfloresq&quot;&gt;@erikfloreq&lt;/a&gt;&lt;/p&gt;</content:encoded><author>erikfloresq@gmail.com</author></item></channel></rss>
