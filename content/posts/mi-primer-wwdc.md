@@ -2,7 +2,7 @@
 title: Mi primer WWDC
 date: 2017-04-09
 slug: mi-primer-wwdc
-thumbnail: '../thumbnails/wwdc_thumb.png'
+thumbnail: '../thumbnails/apple_thumb.png'
 categories:
   - historias
 tags:
@@ -10,7 +10,7 @@ tags:
 template: post
 ---
 
-!['Hero'](../images/wwdc-hero.jpeg)
+![Welcom to WWDC](../images/miPrimerWWDC/wwdc-hero.jpeg)
 
 ### Un día random del 2015, viendo el WWDC 15
 
@@ -40,7 +40,9 @@ En ese momento vi que a mi cuenta le faltaba $ 1599.
 — Werik, ¡nos vamos a San Francisco !— me respondió Luis (Werik es como me dicen mis amigos y aveces hasta gente que ni conozco).
 Y en ese momento me llego el correo que lo reconfirmaba.
 
-### 25 de Abril del 2016, en el trabajo 
+![Veia el correo y no lo creia, en serio.](../images/miPrimerWWDC/wwdc1.jpeg)
+
+### 25 de Abril del 2016, en el trabajo
 
 Bueno ya habíamos asimilado la idea que teníamos nuestro ticket comprado, que debíamos armar un presupuesto para el viaje y que no teníamos VISA para viajar a Estados Unidos (esa era la mejor parte).
 **Yo:** Bueno Luis, voy armando mi solicitud para la VISA.
@@ -65,6 +67,8 @@ Compramos los pasajes por Expedia (Expedia si estas leyendo esto, si quieres me 
 
 Se nos aviso que deberíamos ir un día antes al Bill Graham Auditorium( que es donde se daría la Keynote por cierto) para hacer el ChekIn de rigor, ese día nos dieron un casaca del evento y la identificación del evento donde esta tu nombre y en el caso que hayas usado una cuenta de empresa, decía el nombre de la empresa, que fue mi caso.
 
+![La identificación usaba NFC para poder entrar al Moscone Center, que es donde se darían las charlas.](../images/miPrimerWWDC/wwdc2.jpeg)
+
 Ese día le preguntamos a una señorita muy amable sobre como era el tema de las colas para entrar al keynote.
 
 **Señorita de Apple:** Oh bueno, por eventos pasados te puede decir que la gente hace cola desde muy temprano.
@@ -75,15 +79,29 @@ Ese día le preguntamos a una señorita muy amable sobre como era el tema de las
 **Nosotros:** 😱 (mismo Mi Pobre Angelito).
 Como nos gano la incertidumbre, decidimos ir a las 4am :)
 
+![Ven al chico que esta con su laptop ¿no?, pues no era el único](../images/miPrimerWWDC/wwdc3.jpeg)
+
 Hacia mucho, pero mucho frío y se venia la hora del desayuno, vi que mucha gente venia con vasitos de Starbucks, y fue la primera vez que vi que un Starbucks abría desde la 5am o hasta antes creo, el punto de esto es que muchas empresas (ajenas a apple) no desaprovechaban la oportunidad para invitar café con publicidad sobre meetups que iba a ofrecer, eso me pareció simplemente ¡genial!
+
+![Sino mal me acuerdo ese era para una reunion de tecnología microsoft](../images/miPrimerWWDC/wwdc4.jpeg)
 
 Al final Apple ofreció desayuno para todos 🎉
 
+![El chico que esta por lo vasos es Felix Krause el creador de Fastlane, lastima que en ese momento no conocía su trabajo, lo reconocí ahora, porque este año implemente Fastlane en todos mis proyectos. Soy fan de su trabajo.](../images/miPrimerWWDC/wwdc5.jpeg)
+
 Las horas iban pasando y empece a ver como la gente iba llegando, y es ahí donde me acorde que es un evento oficial de apple y que esto esta lleno de miles de iOS developers de todas partes del mundo, fue así que me encontré con Ricardo quien fue quien me dicto mi curso de iOS en Lima.
+
+![Si, miles](../images/miPrimerWWDC/wwdc6.jpeg)
 
 Las horas estaban pasando y ya estábamos ¡listos!
 
+![Hay emociones que simplemente no se pueden explicar](../images/miPrimerWWDC/wwdc7.jpeg)
+
 Para mi, era todo nuevo, ver toda esa organización, ver a mucha gente apasionada por la misma tecnología que tú, que más podía pedir. (Quizás mas café, ¡hey!, estaba desde las 4am ahí).
+
+![Minutos antes del Keynote](../images/miPrimerWWDC/wwdc8.jpeg)
+
+![Esa persona diminuta en el foto, era nada mas y nada menos que Tim Cook](../images/miPrimerWWDC/wwdc9.jpeg)
 
 El Keynote fue una gran experiencia, porque una cosa es verla en tu casa y otra es ver como los developers que están a tu al rededor comentan y hasta se emocionan por nuevas características del sistema operativo.
 
@@ -91,21 +109,41 @@ El Keynote fue una gran experiencia, porque una cosa es verla en tu casa y otra 
 
 El keynote había sido genial, aun no lo asimilaba, nosotros no habíamos encontramos hospedaje en San Francisco, así que tuvimos que buscar hospedaje un poco lejos de San Francisco, eso nos obligo a aprender a usar el BART y el Muni.
 
+![Tomame un foto como quien va al WWDC](../images/miPrimerWWDC/wwdc10.jpeg)
+
 Cuando doble la calle y vi el Moscone Center con toda la decoración del WWDC, se me escarapelo el cuerpo (mi fanboy se estaba activando).
+
+![El mítico Mosocone Center](../images/miPrimerWWDC/wwdc11.jpeg)
+
+![Eso era al frente del Moscone Center](../images/miPrimerWWDC/wwdc12.jpeg)
+
+Entramos al Moscone Center y no me la creía.
+
+![Por cierto, el Mosocone es ¡enorme!](../images/miPrimerWWDC/wwdc13.jpeg)
 
 Llegamos temprano y aprovechamos para tomar el desayuno que te ofrece Apple.
 
+![Extraño el odwalla y ese cupcake estuvo muy bueno, el chico con blur que tiene una bufanda es Luis](../images/miPrimerWWDC/wwdc14.jpeg)
+
 Vieron que en la foto anterior, hay un cable de red, ¿Lo vieron no?
-Pues aparte de tomar desayuno era una “zona de descargas” para obtener las versiones beta de lo que se había anunciado ayer en el keynote (iOS, macOS, tvOS, watchOS, xcode, entre otros), el punto es que estos software no es que pesen megas, ¡pesan gigas!, fue ahí donde me acorde cuando estaba en mi casa y como me demoraba horas y horas en descargar los beta, pero hahahaha, me olvide que esta en un WWDC. 
+Pues aparte de tomar desayuno era una “zona de descargas” para obtener las versiones beta de lo que se había anunciado ayer en el keynote (iOS, macOS, tvOS, watchOS, xcode, entre otros), el punto es que estos software no es que pesen megas, ¡pesan gigas!, fue ahí donde me acorde cuando estaba en mi casa y como me demoraba horas y horas en descargar los beta, pero hahahaha, me olvide que esta en un WWDC.
 Lo primero que baje fue el xcode que pesa entre sus 3GB o 4GB y bajo en ¡3min!, lo primero que pensé es que quizas habia bajado mal, pero cuando vi que estaban las 3.yTantoGB en mi maquina, me pregunte, ¿Cuanto es la velocidad de descarga?
+
+![¡Sorpresa!](../images/miPrimerWWDC/wwdc15.jpeg)
 
 Bueno una vez que tienes todas la betas es hora de ir a las charlas y aprender sobre el futuro de iOS, pero antes de todo vi este panel que me hizo mucha gracia y que en verdad es buen resumen del WWDC.
 
+![Making mom proud](../images/miPrimerWWDC/wwdc16.jpeg)
+
 Lo bueno de ir acompañado es que puedes repartirte la asistencia a las charlas, en el caso que no llegues a una, las encontraras luego la web.
+
+![Explicaban los cambios que se estaban haciendo en iOS 10](../images/miPrimerWWDC/wwdc17.jpeg)
 
 ### Apple Design Awards
 
 Los Apple Design Awards es como los Oscars del mundo Apple y es una de las partes que más me gusta de los WWDC, porque aquí se muestran lo mejor de mejor en el desarrollo usando tecnología Apple, la sensación con la que terminas después de ver todos estos premios, es que el limite se lo pone uno mismo.
+
+![Yo había probado casi la mayoría, y en serio que se merecian el premio](../images/miPrimerWWDC/wwdc18.jpeg)
 
 ### Conociendo Gente
 
@@ -117,10 +155,50 @@ En ese interin de conversar vimos pasar a un señor con una camisa con un logo q
 
 Eso era lo que decía la pulsera para entrar a la fiesta ofrecida por Apple para los asistentes al WWDC, así que por ese motivo no contare más en esta parte, quizás que llevaron a Good Charlotte, pero no diré más 🙈.
 
+![No, no voy a contarles nada, no insistan](../images/miPrimerWWDC/wwdc19.jpeg)
+
 ### Turismo Geek
 
 Cuando armamos nuestro plan para el viaje habíamos definido que de todas maneras ibamos a hacer el tour geek, cueste lo que nos cueste, fue por ese motivo que alquilamos un carro y recorrimos todo Silicon Valley y entre otras cosas bonitas que ofrece San Francisco.
 
+![Ese soy yo, con el carro que alquilamos, antes de empezar el “Gran Turismo Geek”](../images/miPrimerWWDC/wwdc20.jpeg)
+
+![Fuimos a Stanford a respirar innovación, esa visita fue muy emotiva porque justo llegamos en plena graduación. (Esa foto nos la tomamos de pura suerte, porque una señora se ofreció a tomarnos la foto, si, así de cheveres son aya)](../images/miPrimerWWDC/wwdc21.jpeg)
+
+![Por obvias razones, teníamos que ir a los HQ de Apple](../images/miPrimerWWDC/wwdc22.jpeg)
+
+![Aprovechamos para comprar muchos souvenir de Apple](../images/miPrimerWWDC/wwdc23.gif)
+
+![¿Si adivinan a donde estamos llegando?](../images/miPrimerWWDC/wwdc24.jpeg)
+
+![Google a comparación de Apple tiene un campus mas grande y mas abierto, es casi una ciudad](../images/miPrimerWWDC/wwdc25.jpeg)
+
+![Y claro, también fuimos a alucinar que nos comprábamos un Tesla ¿Por qué no? Es un tour geek](../images/miPrimerWWDC/wwdc26.jpeg)
+
+![San Francisco y sus “Subi y bajas”](../images/miPrimerWWDC/wwdc27.jpeg)
+
+![Me gusta mucha esta foto, la tengo de wallpaper en todas mis maquinas, lo bonito es que estuve ahi para tomarla :D](../images/miPrimerWWDC/wwdc28.jpeg)
+
+![Creanme, ver las Painting Ladies comiendo Cheetos Puffs fue genial.](../images/miPrimerWWDC/wwdc29.jpeg)
+
+![Clam Chowder, porque San Francisco](../images/miPrimerWWDC/wwdc30.jpeg)
+
+![Pier 39 estuvo genial, me gusto todo](../images/miPrimerWWDC/wwdc31.jpeg)
+
+![Ame el Aquarium of the Bay, estaba incluido en un cityPass que compramos](../images/miPrimerWWDC/wwdc32.jpeg)
+
+![El Golden Gate es muy imponente y no por nada aparece en todas las imagenes de San Francisco](../images/miPrimerWWDC/wwdc33.jpeg)
+
+![Twin peaks, fuimos muy temprano y hacia un frío matador, tuvimos que esperar un rato para que se despeje la neblina, pero valió la pena.](../images/miPrimerWWDC/wwdc34.jpeg)
+
+![Ese fue el sello que nos pusieron para entrar al Coit Tower, San Francisco y sus detalles](../images/miPrimerWWDC/wwdc35.jpeg)
+
+![Que más les puedo decir sobre mis paseos por la calles esa foto la tome cuando estábamos de camino a Union Square](../images/miPrimerWWDC/wwdc36.jpeg)
+
 ### En Resumen
 
 Si no hubiese hecho ese click para mandar mi solicitud para obtener un ticket al WWDC, nada de lo que les mostré anteriormente hubiese pasado. Aveces creemos que hay cosas que tenemos que hacer en un futuro muy lejano porque simplemente no estamos listos, pero al final, saben que, yo creo que siempre estamos listos para hacerlo todo.
+
+![Gracias por todo WWDC](../images/miPrimerWWDC/wwdc37.jpeg)
+
+[@erikfloreq](http://twitter.com/erikfloresq)

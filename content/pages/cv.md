@@ -85,9 +85,19 @@ template: page
 
 **LimaJS** - _2019 | Lima_
 
+![LimaJS](../images/cv/sketchAPI.jpeg)
+
+### Flutter para Web
+
+**Flutter Perú** - _2019 | Lima_
+
+![Flutter Perú](../images/cv/flutterWeb.jpeg)
+
 ### [Flutter para iOS](https://speakerdeck.com/erikfloresq/flutter-para-ios-developers)
 
 **Flutter Perú** - _2019 | Lima_
+
+![Flutter Perú](../images/cv/flutteriOS.png)
 
 ### [Fastlane para iOS](https://speakerdeck.com/erikfloresq/fastlane-para-ios)
 

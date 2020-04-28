@@ -1044,3 +1044,9 @@ button[disabled] {
   background: rgba(255, 245, 20, 0.8);
   color: #111;
 }
+
+figure {
+  figcaption {
+    text-align: center;
+  }
+}

@@ -2,7 +2,7 @@
 title: ¿Qué es un UISearchController?
 date: 2018-04-23
 slug: uisearchcontroller
-thumbnail: '../thumbnails/uisearchcontroller_thumb.png'
+thumbnail: '../thumbnails/appleDeveloper_thumb.png'
 categories:
   - code
 tags:

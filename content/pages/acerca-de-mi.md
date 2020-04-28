@@ -8,7 +8,7 @@ Hola! ya quedo claro que me llamo Erik Flores, soy desarrollador de software rad
 como iOS Developer para [PedidosYa](http://pedidosya.com) por el día y por las noches me gusta practicar diferentes tecnologías que
 tengan que ver con el desarrollo frontend.
 
-![Me](../images/erik-wwdc.jpg)
+![Me](../images/miPrimerWWDC/wwdc7.jpeg)
 
 ### Redes Sociales
 

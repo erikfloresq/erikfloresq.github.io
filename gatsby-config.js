@@ -55,7 +55,9 @@ module.exports = {
           {
             resolve: "gatsby-remark-images",
             options: {
-              maxWidth: 850
+              maxWidth: 850,
+              showCaptions: ['alt', 'title'],
+              markdownCaptions: true
             }
           },
           "gatsby-remark-prismjs",
