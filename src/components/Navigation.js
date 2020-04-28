@@ -5,8 +5,6 @@ import moon from '../images/moon.svg'
 import ThemeContext from '../context/ThemeContext'
 
 export default class Navigation extends Component {
-  static contextType = ThemeContext
-
   state = {
     scrolled: false,
   }
@@ -26,6 +24,8 @@ export default class Navigation extends Component {
       this.setState({ scrolled: false })
     }
   }
+
+  static contextType = ThemeContext
 
   render() {
     const { scrolled } = this.state

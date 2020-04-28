@@ -2,12 +2,10 @@ import React, { Component } from 'react'
 import Helmet from 'react-helmet'
 import ThemeContext from '../context/ThemeContext'
 import Layout from '../layout'
-import SEO from '../components/SEO'
+import SEO from '../components/seo'
 import config from '../../data/SiteConfig'
 
 export default class NotFoundPage extends Component {
-  static contextType = ThemeContext
-
   componentDidMount() {
     const { setNotFound } = this.context
 
@@ -19,6 +17,8 @@ export default class NotFoundPage extends Component {
 
     setFound()
   }
+
+  static contextType = ThemeContext
 
   render() {
     return (

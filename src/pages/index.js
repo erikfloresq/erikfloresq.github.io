@@ -3,7 +3,7 @@ import Helmet from "react-helmet";
 import { graphql } from "gatsby";
 import Layout from "../layout";
 import PostListing from "../components/PostListing";
-import SEO from "../components/SEO";
+import SEO from "../components/seo";
 import config from "../../data/SiteConfig";
 
 export default class Index extends Component {
@@ -108,7 +108,7 @@ export default class Index extends Component {
               type="text"
               name="searchTerm"
               value={searchTerm}
-              placeholder="Tipea aqui para filtrar los posts..."
+              placeholder="Escribe aquí para filtrar los posts ..."
               onChange={this.handleChange}
             />
             <div className="filter-count">{filterCount}</div>

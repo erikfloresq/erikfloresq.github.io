@@ -43,7 +43,7 @@
     }
 
     .text {
-      display: none;
+      display: block;
     }
   }
 
@@ -128,7 +128,7 @@ button.dark-switcher {
 
       .brand {
         a {
-          font-size: 1.3rem;
+          font-size: 2rem;
         }
 
         .text {

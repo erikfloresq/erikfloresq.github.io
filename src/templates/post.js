@@ -5,7 +5,7 @@ import Img from "gatsby-image";
 import Layout from "../layout";
 import UserInfo from "../components/UserInfo";
 import PostTags from "../components/PostTags";
-import SEO from "../components/SEO";
+import SEO from "../components/seo";
 import config from "../../data/SiteConfig";
 import { formatDate, editOnGithub } from "../utils/global";
 
