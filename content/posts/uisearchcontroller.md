@@ -12,6 +12,8 @@ template: post
 
 Es un componente que nos ayuda a mostrar de una manera adecuada los resultados de busqueda de un usuario.
 
+![UISearchController](../images/uiSearchController/uiSearchController.gif)
+
 ## Implementando un UISearchController
 
 Primero vamos a declarar un ViewController donde mostraremos los resultados de busqueda al cuál llamaremos ResultViewController, para mi ejemplo cree un ViewController en el storyboard y le agrege un indetificador para poder utilizarlo
