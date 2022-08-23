@@ -1,7 +1,18 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import { useStyleRegistry } from 'styled-jsx';
+import { getSortedPostsData } from '../libs/posts'
 
-export default function Home() {
+export async function getStaticProps() {
+  const allPostsData = getSortedPostsData();
+  return {
+    props: {
+      allPostsData,
+    },
+  }; 
+}
+
+export default function Home({ allPostsData }) {
   return (
     <div className="container">
       <Head>
@@ -16,15 +27,12 @@ export default function Home() {
 
         <div className="grid">
         <ul>
-          <li>
-            <Link href="/posts/first-post">First Post</Link>
-          </li>
-          <li>
-            <Link href="/posts/second-post">Second Post</Link>
-          </li>
-          <li>
-            <Link href="/posts/third-post">Third Post</Link>
-          </li>
+          {allPostsData.map(({ id, date, title}) => (
+            <li key={id}>
+                <h3>{title}</h3>
+                <p>{date}</p>
+            </li>
+          ))}
         </ul>
         </div>
       </main>
