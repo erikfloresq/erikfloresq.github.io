@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "pwa-chrome",
+            "name": "http://localhost:3000/usar-json-unittest-spm",
+            "request": "launch",
+            "url": "http://localhost:3000/usar-json-unittest-spm"
+        }
+    ]
+}
