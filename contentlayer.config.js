@@ -1,5 +1,10 @@
 import { defineDocumentType, makeSource } from "contentlayer/source-files";
 import readingTime from "reading-time";
+import remarkGfm from 'remark-gfm';
+import rehypeSlug from 'rehype-slug';
+import rehypeCodeTitles from 'rehype-code-titles';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypePrism from 'rehype-prism-plus';
 
 const computedFields = {
   slug: {
@@ -16,6 +21,7 @@ const computedFields = {
 const Article = defineDocumentType(() => ({
   name: "Article",
   filePathPattern: `**/*.mdx`,
+  contentType: 'mdx',
   fields: {
     title: { type: "string", required: true },
     date: { type: "string", required: true },
@@ -28,4 +34,20 @@ const Article = defineDocumentType(() => ({
 export default makeSource({
   contentDirPath: "articles",
   documentTypes: [Article],
+  mdx: {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [
+      rehypeSlug,
+      rehypeCodeTitles,
+      rehypePrism,
+      [
+        rehypeAutolinkHeadings,
+        {
+          properties: {
+            className: ["anchor"],
+          },
+        },
+       ],
+    ],
+  },
 });
