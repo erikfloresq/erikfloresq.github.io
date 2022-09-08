@@ -23,18 +23,18 @@ export default function Article({ article }) {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full mt-2">
           <div className="flex items-center">
             <Image
-              alt="Claudia Valdivieso"
+              alt="Erik Flores"
               height={24}
               width={24}
-              src="/lavaldi.jpg"
+              src="/erikfloresq.png"
               className="rounded-full"
             />
             <p className="text-sm ml-2 text-gray-500">
-              {"Claudia Valdivieso / "}
+              {"Erik Flores / "}
               {format(parseISO(article.date), "MMMM dd, yyyy")}
             </p>
           </div>
-          <p className="text-sm text-gray-500 min-w-32 mt-2 md:mt-0">
+          <p className="text-sm text-yellow-300 min-w-32 mt-2 md:mt-0">
             {article.readingTime.text}
           </p>
         </div>

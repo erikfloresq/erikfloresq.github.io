@@ -5,7 +5,7 @@ export default function Article({ article }) {
     const { slug, date, title, readingTime } = article
     return (
         <div
-      className="pt-5 p-8 rounded-3xl border-2 shadow-lg border-purple-300 bg-purple-50 flex flex-col justify-between"
+      className="pt-5 p-8 rounded-3xl border-2 shadow-lg border-gray-300 bg-gray-400 flex flex-col justify-between"
     >
       <Link href={`/blog/${slug}`}>
         <a className="text-2xl">{title}</a>

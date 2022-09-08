@@ -27,7 +27,7 @@ a {
   }
   body {
     color: white;
-    background: black;
+    background: rgb(39, 38, 38);
   }
 }
 
@@ -39,13 +39,22 @@ a {
   max-width: 700px;
   cursor: pointer;
 }
+
+.prose h2 {
+  @apply text-stone-300
+}
 .anchor:hover {
   @apply visible no-underline;
 }
 .prose .anchor:after {
-  @apply text-gray-300 dark:text-gray-700;
+  @apply text-gray-300 dark:text-yellow-300;
   content: "#";
 }
+
+.prose p {
+  @apply text-stone-300
+}
+
 .prose *:hover > .anchor {
   @apply visible no-underline;
 }
