@@ -1,19 +1,21 @@
 import Link from 'next/Link';
+import Image from 'next/image';
 import { parseISO, format } from "date-fns";
 
 export default function Article({ article }) {
-    const { slug, date, title, readingTime } = article
+    const { slug, date, title, readingTime, thumbnail } = article
     return (
-        <div
-      className="pt-5 p-8 rounded-3xl border-2 shadow-lg border-gray-300 bg-gray-400 flex flex-col justify-between"
-    >
-      <Link href={`/blog/${slug}`}>
-        <a className="text-2xl">{title}</a>
-      </Link>
-      <div className="mt-5 flex justify-between align-center">
-        <small>{readingTime.text}</small>
-        <small>{format(parseISO(date), "MMM dd, yyyy")}</small>
-      </div>
-    </div>
+        <Link href={`/blog/${slug}`}>
+          <a className="p-5 flex flex-row gap-10 hover:bg-opacity-20 hover:bg-gray-300 border-b-2 border-neutral-600">
+            <Image src={thumbnail} width={60} height={60} alt={title} />
+            <div className="flex flex-col">
+              <div className="text-2xl">{title}</div>
+              <div className="mt-2 flex flex-row justify-between align-center">
+                <small className="text-slate-400">{readingTime.text}</small>
+                <small className="text-slate-400">{format(parseISO(date), "MMM dd, yyyy")}</small>
+              </div>
+            </div>
+          </a>
+        </Link>
     );
 }

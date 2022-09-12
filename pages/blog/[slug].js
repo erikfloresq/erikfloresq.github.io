@@ -12,11 +12,6 @@ export default function Article({ article }) {
   return (
     <main className="flex flex-col justify-center pt-32 pb-40">
       <article className="flex flex-col justify-center items-start max-w-2xl mx-auto mb-16 w-full">
-        <small>
-          <Link href="/">
-            <a>👈 Back to home</a>
-          </Link>
-        </small>
         <h1 className="font-bold text-3xl md:text-5xl tracking-tight mb-4">
           {article.title}
         </h1>
@@ -41,6 +36,11 @@ export default function Article({ article }) {
         <div className="prose dark:prose-dark max-w-none w-full mt-5 mb-8">
           <MDXContent components={mdxComponents} />
         </div>
+        <small>
+          <Link href="/">
+            <a>👈 Back to home</a>
+          </Link>
+        </small>
       </article>
     </main>
   );

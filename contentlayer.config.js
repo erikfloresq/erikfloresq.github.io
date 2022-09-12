@@ -25,8 +25,8 @@ const Article = defineDocumentType(() => ({
   fields: {
     title: { type: "string", required: true },
     date: { type: "string", required: true },
-    summary: { type: "string" },
-    banner: { type: "string" },
+    slug: { type: "string"},
+    thumbnail: { type: "string" },
   },
   computedFields,
 }));

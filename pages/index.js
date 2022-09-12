@@ -5,12 +5,11 @@ import Article from "components/article";
 
 export default function Home({ articles }) {
   return (
-    <div className="px-8">
-      <main className="max-w-7xl mx-auto pt-32 pb-40">
-        <h1 className="mb-0 text-4xl">Erik Flores</h1>
-        <section className="pt-16">
-          <h2 className="text-4xl mb-4">Artículos</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 w-full">
+    <div>
+      <main className="font-mono max-w-3xl mx-auto pt-10 pb-40">
+        <h1 className="text-3xl px-5">Erik Flores</h1>
+        <section className="pt-12">
+          <div className="w-full">
             {articles.map((article) => (
               <Article key={article.slug} article={article} />
             ))}
@@ -21,6 +20,6 @@ export default function Home({ articles }) {
   );
 }
 export async function getStaticProps() {
-  const articles = allArticles.map((article) => pick(article, ["title", "date", "readingTime", "slug"]));
+  const articles = allArticles.map((article) => pick(article, ["title", "date", "readingTime", "slug", "thumbnail"]));
   return { props: { articles } };
 }
