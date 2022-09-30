@@ -6,5 +6,5 @@ const nextConfig = {
 module.exports = withContentlayer(nextConfig)
 
 module.exports = {
-  basePath: '/gh-pages',
+  basePath: '/erikfloresq.github.io',
 }
