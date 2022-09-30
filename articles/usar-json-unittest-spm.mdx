@@ -9,18 +9,18 @@ Hace poco estuve desarrollando un wrapper para un api de RickAndMorty y al momen
 ¿Cómo agrego mis json para hacer mis stubs?, bueno relativamente es muy fácil y consiste en hacer lo siguiente:
 
 ```swift
-    targets: [
-        .target(
-            name: "RickAndMortyAPI",
-            dependencies: []),
-        .testTarget(
-            name: "RickAndMortyAPITests",
-            dependencies: ["RickAndMortyAPI"],
-            resources: [
-                // aquí espeficicamos donde irian nuestros jsons
-                .process("Resources")
-            ]),
-    ]
+targets: [
+    .target(
+        name: "RickAndMortyAPI",
+        dependencies: []),
+    .testTarget(
+        name: "RickAndMortyAPITests",
+        dependencies: ["RickAndMortyAPI"],
+        resources: [
+            // aquí espeficicamos donde irian nuestros jsons
+            .process("Resources")
+        ]),
+]
 ```
 
 Como vemos, en nuestra sección de targets, en mi caso, la de test, se agrega el atributo `resources`, en donde vamos a pasar la ruta donde se encontrarán nuestros jsona mediante la función statica `process`, en esta función vemos que especificamos el nombre del directorio `Resources`, el cuál nosotros tenemos que crear y nos quedaria asi

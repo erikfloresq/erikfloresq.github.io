@@ -21,6 +21,10 @@ a {
   box-sizing: border-box;
 }
 
+ul {
+  @apply text-stone-300
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -39,10 +43,6 @@ a {
   max-width: 700px;
   cursor: pointer;
 }
-
-.prose h2 {
-  @apply text-stone-300
-}
 .anchor:hover {
   @apply visible no-underline;
 }
@@ -51,10 +51,14 @@ a {
   content: "#";
 }
 
-.prose p {
+.prose p, .prose a, .prose h2, .prose h3, .prose strong {
   @apply text-stone-300
 }
 
 .prose *:hover > .anchor {
   @apply visible no-underline;
+}
+
+.prose :not(pre)>code {
+  @apply text-neutral-300
 }
