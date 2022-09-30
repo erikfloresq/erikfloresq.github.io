@@ -4,3 +4,7 @@ const nextConfig = {
   reactStrictMode: true,
 }
 module.exports = withContentlayer(nextConfig)
+
+module.exports = {
+  basePath: '/gh-pages',
+}
