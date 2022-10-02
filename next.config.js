@@ -4,7 +4,3 @@ const nextConfig = {
   reactStrictMode: true,
 }
 module.exports = withContentlayer(nextConfig)
-
-module.exports = {
-  basePath: '/erikfloresq.github.io',
-}
