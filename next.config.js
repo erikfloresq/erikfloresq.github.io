@@ -2,10 +2,6 @@
 const { withContentlayer } = require("next-contentlayer");
 const nextConfig = {
   reactStrictMode: true,
-}
-module.exports = withContentlayer(nextConfig)
-
-module.exports = {
   exportPathMap: async function (
     defaultPathMap,
     { dev, dir, outDir, distDir, buildId }
@@ -18,3 +14,5 @@ module.exports = {
     }
   },
 }
+
+module.exports = withContentlayer(nextConfig)
