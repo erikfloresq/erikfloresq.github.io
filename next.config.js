@@ -3,7 +3,8 @@ const { withContentlayer } = require("next-contentlayer");
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    unoptimized: true
+    loader: 'akamai',
+    path: '',
   },
   exportPathMap: async function (
     defaultPathMap,
@@ -11,9 +12,9 @@ const nextConfig = {
   ) {
     return {
       '/': { page: '/' },
-      '/a/mi-primer-wwdc': { page: '/article', query: { title: 'mi-primer-wwdc' } },
-      '/a/ui-search-viewcontroller': { page: '/article', query: { title: 'ui-search-viewcontroller' } },
-      '/a/usar-json-unittest-spm': { page: '/article', query: { title: 'usar-json-unittest-spm' } },
+      '/blog/mi-primer-wwdc': { page: '/blog/[slug]' },
+      '/blog/uisearchcontroller': { page: '/blog/[slug]' },
+      '/blog/usar-json-unittest-spm': { page: '/blog/[slug]' },
     }
   },
 }
