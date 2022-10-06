@@ -10,7 +10,7 @@ const mdxComponents = {
 export default function Article({ article }) {
   const MDXContent = useMDXComponent(article.body.code);
   return (
-    <main className="font-mono flex flex-col justify-center pt-32 pb-40">
+    <main className="font-mono flex flex-col justify-center pt-32 pb-40 p-10">
       <article className="flex flex-col justify-center items-start max-w-3xl mx-auto mb-16 w-full">
         <h1 className="font-bold text-3xl md:text-5xl tracking-tight mb-4">
           {article.title}
@@ -21,7 +21,7 @@ export default function Article({ article }) {
               alt="Erik Flores"
               height={24}
               width={24}
-              src="/erikfloresq.png"
+              src="../erikfloresq.png"
               className="rounded-full"
             />
             <p className="text-sm ml-2 text-gray-500">
@@ -47,13 +47,16 @@ export default function Article({ article }) {
 }
 
 export async function getStaticPaths() {
+  let slugs = allArticles.map((a) => ({ params: { slug: a.slug } }))
   return {
-    paths: allArticles.map((a) => ({ params: { slug: a.slug } })),
+    paths: slugs,
     fallback: false,
   }
 }
 
 export async function getStaticProps({ params }) {
-  const article = allArticles.find((article) => article.slug === params?.slug)
+  console.log(`>>> params.slug - ${params.slug}`)
+  console.log(`>>> params - ${ JSON.stringify(params)}`)
+  const article = allArticles.find((article) => article.slug ===  params?.slug)
   return { props: { article } }
 }

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { parseISO, format } from "date-fns";
 
 export default function Article({ article }) {
-    const { slug, date, title, readingTime, thumbnail } = article
+    const { slug, date, title, thumbnail } = article
     return (
         <Link href={`/blog/${slug}`}>
           <a className="p-5 flex flex-row gap-10 hover:bg-opacity-20 hover:bg-gray-300 border-b-2 border-neutral-600">
