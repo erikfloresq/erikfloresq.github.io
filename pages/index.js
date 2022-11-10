@@ -19,6 +19,7 @@ export default function Home({ articles }) {
   );
 }
 export async function getStaticProps() {
-  const articles = allArticles.map((article) => pick(article, ["title", "date", "readingTime", "slug", "thumbnail"]));
+  const sortArticles = allArticles.sort((a, b) => new Date(b.date) - new Date(a.date))
+  const articles = sortArticles.map((article) => pick(article, ["title", "date", "readingTime", "slug", "thumbnail"]));
   return { props: { articles } };
 }

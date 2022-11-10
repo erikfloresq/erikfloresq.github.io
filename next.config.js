@@ -2,7 +2,7 @@
 
 const { withContentlayer } = require("next-contentlayer");
 
-const nextConfig = {
+const nextConfigProd = {
   reactStrictMode: true,
   images: {
     loader: 'akamai',
@@ -21,4 +21,12 @@ const nextConfig = {
   },
 }
 
-module.exports = withContentlayer(nextConfig)
+const nextConfigDev = {
+  reactStrictMode: true,
+  images: {
+    loader: 'akamai',
+    path: '',
+  },
+}
+
+module.exports = withContentlayer(nextConfigProd)
