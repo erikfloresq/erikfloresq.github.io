@@ -29,4 +29,4 @@ const nextConfigDev = {
   },
 }
 
-module.exports = withContentlayer(nextConfigDev)
+module.exports = withContentlayer(nextConfigProd)
