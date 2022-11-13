@@ -25,6 +25,10 @@ ul {
   @apply text-stone-300
 }
 
+h1, h2, h3 {
+  @apply font-mono
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -51,7 +55,7 @@ ul {
   content: "#";
 }
 
-.prose p, .prose a, .prose h2, .prose h3, .prose strong {
+.prose p , .prose a, .prose h2, .prose h3, .prose strong {
   @apply text-stone-300
 }
 
@@ -60,5 +64,5 @@ ul {
 }
 
 .prose :not(pre)>code {
-  @apply text-neutral-300
+  @apply text-yellow-500
 }

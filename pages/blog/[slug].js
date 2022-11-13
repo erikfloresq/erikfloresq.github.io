@@ -10,7 +10,7 @@ const mdxComponents = {
 export default function Article({ article }) {
   const MDXContent = useMDXComponent(article.body.code);
   return (
-    <main className="font-mono flex flex-col justify-center pt-32 pb-40 p-10">
+    <main className="font-roboto flex flex-col justify-center pt-32 pb-40 p-10">
       <article className="flex flex-col justify-center items-start max-w-3xl mx-auto mb-16 w-full">
         <h1 className="font-bold text-3xl md:text-5xl tracking-tight mb-4">
           {article.title}
@@ -33,7 +33,7 @@ export default function Article({ article }) {
             {article.readingTime.text}
           </p>
         </div>
-        <div className="prose dark:prose-dark max-w-none w-full mt-5 mb-8">
+        <div className="prose dark:prose-dark max-w-none w-full mt-5 mb-8 font-extralight">
           <MDXContent components={mdxComponents} />
         </div>
         <small>
