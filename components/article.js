@@ -7,7 +7,7 @@ export default function Article({ article }) {
     return (
         <Link href={`/blog/${slug}`}>
           <a className="p-5 flex flex-row gap-10 hover:bg-opacity-20 hover:bg-gray-300 border-b-2 border-neutral-600">
-            <Image src={thumbnail} width={60} height={60} alt={title} />
+            <Image src={thumbnail} width={60} height={60} layout="fixed" alt={title}  />
             <div className="flex flex-col">
               <div className="text-1xl">{title}</div>
               <div className="text-sm mt-2 flex flex-row justify-between align-center">
