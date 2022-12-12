@@ -1,8 +1,10 @@
 import { allArticles } from '.contentlayer/generated'
 import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import { parseISO, format } from "date-fns";
+import { NextSeo } from 'next-seo';
 const mdxComponents = {
   Image,
 };
@@ -10,6 +12,16 @@ const mdxComponents = {
 export default function Article({ article }) {
   const MDXContent = useMDXComponent(article.body.code);
   return (
+    <>
+    <NextSeo
+        title={article.title + " - Erik Flores"}
+        description={article.description}
+        twitter={{
+            handle: '@erikfloresq',
+            site: '@erikfloresq',
+            cardType: 'summary_large_image',
+          }}
+    />
     <main className="font-roboto flex flex-col justify-center pt-32 pb-40 p-10">
       <article className="flex flex-col justify-center items-start max-w-3xl mx-auto mb-16 w-full">
         <h1 className="font-bold text-3xl md:text-5xl tracking-tight mb-4">
@@ -43,6 +55,7 @@ export default function Article({ article }) {
         </small>
       </article>
     </main>
+    </>
   );
 }
 
@@ -55,8 +68,6 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  console.log(`>>> params.slug - ${params.slug}`)
-  console.log(`>>> params - ${ JSON.stringify(params)}`)
   const article = allArticles.find((article) => article.slug ===  params?.slug)
   return { props: { article } }
 }
