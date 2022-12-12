@@ -27,6 +27,7 @@ const Article = defineDocumentType(() => ({
     date: { type: "string", required: true },
     slug: { type: "string"},
     thumbnail: { type: "string" },
+    description: { type: "string" },
   },
   computedFields,
 }));
