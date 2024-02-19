@@ -17,6 +17,7 @@ const nextConfigProd = {
       '/blog/mi-primer-wwdc': { page: '/blog/[slug]' },
       '/blog/uisearchcontroller': { page: '/blog/[slug]' },
       '/blog/usar-json-unittest-spm': { page: '/blog/[slug]' },
+      '/verbs/verbsPrivacyPolice': { page: '/verbs/verbsPrivacyPolice' }
     }
   },
 }
