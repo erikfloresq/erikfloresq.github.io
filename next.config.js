@@ -30,4 +30,4 @@ const nextConfigDev = {
   },
 }
 
-module.exports = withContentlayer(nextConfigProd)
+module.exports = withContentlayer(nextConfigDev)

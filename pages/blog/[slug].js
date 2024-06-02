@@ -68,6 +68,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+  console.log(`>>> params ${params}`)
   const article = allArticles.find((article) => article.slug ===  params?.slug)
   return { props: { article } }
 }
