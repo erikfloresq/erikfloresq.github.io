@@ -1,35 +1,20 @@
 {
-  "name": "blog-with-next-js",
-  "version": "0.1.0",
-  "private": true,
+  "name": "",
+  "type": "module",
+  "version": "0.0.1",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build && next export",
-    "start": "next start",
-    "deploy": "next build && touch out/.nojekyll && git add out/ && git commit -m \"Deploy\" && git subtree push --prefix out origin gh-pages",
-    "lint": "next lint"
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
   "dependencies": {
-    "contentlayer": "^0.2.9",
-    "next": "^14.2.5",
-    "next-contentlayer": "^0.2.9",
-    "next-seo": "^5.15.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
-  },
-  "devDependencies": {
-    "@tailwindcss/typography": "^0.5.13",
-    "autoprefixer": "^10.4.19",
-    "date-fns": "^2.30.0",
-    "eslint": "8.23.0",
-    "eslint-config-next": "12.2.5",
-    "postcss": "^8.4.38",
-    "reading-time": "^1.5.0",
-    "rehype-autolink-headings": "^6.1.1",
-    "rehype-code-titles": "^1.2.0",
-    "rehype-prism-plus": "^1.6.3",
-    "rehype-slug": "^5.1.0",
-    "remark-gfm": "^3.0.1",
-    "tailwindcss": "^3.4.3"
+    "@astrojs/check": "^0.7.0",
+    "@astrojs/mdx": "^3.0.1",
+    "@astrojs/rss": "^4.0.6",
+    "@astrojs/sitemap": "^3.1.5",
+    "astro": "^4.13.3",
+    "typescript": "^5.4.5"
   }
 }
