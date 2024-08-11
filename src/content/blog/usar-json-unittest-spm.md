@@ -40,6 +40,6 @@ Al tener todo correctamente nombrado, hacemos un build y se nos generara la vari
 
 Al momento de desarrollar un paquete debemos respetar el nombre que declaramos en nuestra `package.swift` en nuestra estructura de carpetas y que para llamar a nuestro json debemos usar la variable estatica `module` que es autogenerada (otra opcion quizás es ya tener esta variable `module` como un extensión, como parte de nuestros snippets, pero si no se autogenera quizas es porqué algo no se esta haciendo bien en tu `package.swift`).
 
-* Puedes revisar el paquete completo en [Github](https://github.com/erikfloresq/RickAndMortyAPI)
+* Puedes revisar el paquete completo en <a href="https://github.com/erikfloresq/RickAndMortyAPI" target="_blank">Github</a>
 
 [@erikfloresq](https://twitter.com/erikfloresq)

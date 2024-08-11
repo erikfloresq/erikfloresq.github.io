@@ -119,6 +119,6 @@ extension MainViewController: UISearchResultsUpdating {
 
 Debemos aprovechar el ResultViewController ya que es una de las formas convenientes de mostrar los resultados de busqueda. He visto en otras ocaciones en donde se suele usar el SearchController asignandole al ResultViewController como nil y terminando usando los protocolos del SearchBar para obtener los datos ingresado por el textField del SearchBar, cosa que seria inecesaria si se saber usar el ResultViewController.
 
-* El demo final se encuentra en [Github](https://github.com/erikfloresq/UISearchControllerDemo)
+* El demo final se encuentra en <a href="https://github.com/erikfloresq/UISearchControllerDemo" target="_blank">Github</a>
 
 [@erikfloresq](https://twitter.com/erikfloresq)

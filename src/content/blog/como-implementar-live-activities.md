@@ -191,12 +191,12 @@ Ahi vemos que hace match con lo que estamos enviando en nuestro payload
 👀 : Otro detalle a considerar es que cuando probemos el envío de las push tenemos que actualizar el `timestamp` con la hora que se esta enviando la push,
 de lo contrario no se actualizara nuestro LiveActivity.
 
-Aquí dejo un [script](https://gist.github.com/erikfloresq/e84ff8bd688db1590bbe8d67704c6735) para probar el envío de las push notification.
+Aquí dejo un <a href="https://gist.github.com/erikfloresq/e84ff8bd688db1590bbe8d67704c6735" target="_blank">script</a> para probar el envío de las push notification.
 
 Y con eso estaríamos cubriendo una implementación básica de LiveActivity.
 
-Si gusta puedes revisar el [repo](https://github.com/erikfloresq/LiveOrder) donde se tiene el ejemplo completo.
+Si gusta puedes revisar el <a href="https://github.com/erikfloresq/LiveOrder" target="_blank">repo</a> donde se tiene el ejemplo completo.
 
 Gracias por leer 😄
 
-[@erikfloresq](https://twitter.com/erikfloresq)
+<a href="https://twitter.com/erikfloresq" target="_blank">@erikfloresq</a>
