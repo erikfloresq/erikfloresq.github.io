@@ -15,19 +15,19 @@ Para esta implementación vamos a necesitar:
 - AcivityKit
 - SwiftUI
 
-## Primero creamos un widget para el proyecto
+### Primero creamos un widget para el proyecto
 
 Vamos a crear un nuevo target en el cuál irá nuestro LiveActivity y cualquier otro widget que vayamos a implementar.
 
 ![Creación de widget](/images/liveActivities/img1.png)
 
-## Habilitamos live activies en nuestro info.plist
+### Habilitamos live activies en nuestro info.plist
 
 Agregamos `NSSupportsLiveActivities` con valor YES en el info.plist del target de la aplicación.
 
 ![Habilitamos live activities en nuestro info.plist](/images/liveActivities/img2.png)
 
-## Definimos el ActivityAttributes
+### Definimos el ActivityAttributes
 
 El ActivityAttributes es un protocolo el cuál refleja la data que usaremos en el widget que se muestra en el lock screen,
 implementamos este protocolo con la data que trabajaremos
@@ -46,7 +46,7 @@ struct LiveOrderWidgetAttributes: ActivityAttributes {
 }
 ```
 
-## Implementamos nuestra UI tanto para el Lock Screen o el Dynamic Island
+### Implementamos nuestra UI tanto para el Lock Screen o el Dynamic Island
 
 ```swift
 import WidgetKit
@@ -86,7 +86,7 @@ Ahora mostramos el detalle de lo que representaría cada función del struct Dyn
 
 ![Detalle de DynamicIsland](/images/liveActivities/img3.png)
 
-## Actualizando nuesto LiveActivies
+### Actualizando nuesto LiveActivies
 
 Podemos actualizar nuestro LiveActivity usando el api con los siguientes metodos
 
@@ -125,7 +125,7 @@ Task {
 }
 ```
 
-## Actualizar nuestro LiveActivity usando push notification
+### Actualizar nuestro LiveActivity usando push notification
 
 En ese caso tendríamos que realizar el request de una manera un poco diferente, en ese caso tendríamos que pedir un token, el cual enviaremos a nuestro backend para que ese lo use y envíe la push
 
