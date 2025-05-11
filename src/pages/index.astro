@@ -37,6 +37,8 @@ const posts = (await getCollection('blog')).sort(
 			ul li img {
 				margin-bottom: 0.5rem;
 				border-radius: 12px;
+				width: 4rem;
+				height: 4rem;
 			}
 			ul li a {
 				display: flex;
@@ -56,12 +58,20 @@ const posts = (await getCollection('blog')).sort(
 				color: rgb(var(--accent));
 			}
 			@media (max-width: 720px) {
+				.title {
+					font-size: 1.1rem;
+					line-height: 1.2;
+					margin-bottom: 0.2rem;
+				}
 				ul {
 					gap: 0.5em;
 				}
 				ul li {
 					width: 100%;
-					text-align: center;
+				}
+				ul li img {
+					width: 3rem;
+					height: 3rem;
 				}
 			}
 		</style>
@@ -75,7 +85,7 @@ const posts = (await getCollection('blog')).sort(
 						posts.map((post) => (
 							<li>
 								<a href={`/blog/${post.slug}/`}>
-									<img width={60} height={60} src={post.data.thumbnail} alt="" />
+									<img src={post.data.thumbnail} alt={`${post.data.title}`} />
 									<div>
 										<h2 class="title">{post.data.title}</h2>
 										<p class="date">
