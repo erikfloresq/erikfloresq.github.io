@@ -1,444 +1,455 @@
-<!DOCTYPE html>
+---
+import BaseHead from '../../components/BaseHead.astro';
+---
+
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - Verbs3</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #0B0A0F;
-            --card-bg: rgba(20, 18, 28, 0.7);
-            --card-border: rgba(255, 255, 255, 0.05);
-            --primary: #8B5CF6;
-            --primary-light: #A78BFA;
-            --text-primary: #FFFFFF;
-            --text-secondary: #9CA3AF;
-            --accent: #EC4899;
-        }
+	<head>
+		<BaseHead title="Privacy Policy - Verbs3" description="Privacy Policy for Verbs3 Android mobile application" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+		<style is:global>
+			:root {
+				--bg-color: #0B0A0F;
+				--card-bg: rgba(20, 18, 28, 0.7);
+				--card-border: rgba(255, 255, 255, 0.05);
+				--primary: #8B5CF6;
+				--primary-light: #A78BFA;
+				--text-primary: #FFFFFF;
+				--text-secondary: #9CA3AF;
+				--accent: #EC4899;
+			}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-            position: relative;
-        }
+			body {
+				font-family: 'Inter', sans-serif;
+				background-color: var(--bg-color);
+				color: var(--text-primary);
+				line-height: 1.6;
+				overflow-x: hidden;
+				position: relative;
+			}
 
-        /* Ambient glows background */
-        .glow-orb-1 {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
-            top: -100px;
-            left: -100px;
-            z-index: -1;
-        }
+			/* Ambient glows background */
+			.glow-orb-1 {
+				position: absolute;
+				width: 400px;
+				height: 400px;
+				border-radius: 50%;
+				background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+				top: -100px;
+				left: -100px;
+				z-index: -1;
+			}
 
-        .glow-orb-2 {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(236, 72, 153, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
-            bottom: 200px;
-            right: -100px;
-            z-index: -1;
-        }
+			.glow-orb-2 {
+				position: absolute;
+				width: 500px;
+				height: 500px;
+				border-radius: 50%;
+				background: radial-gradient(circle, rgba(236, 72, 153, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+				bottom: 200px;
+				right: -100px;
+				z-index: -1;
+			}
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+			.container {
+				max-width: 900px;
+				margin: 0 auto;
+				padding: 40px 20px;
+			}
 
-        /* Header UI */
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-bottom: 30px;
-            border-bottom: 1px solid var(--card-border);
-            margin-bottom: 40px;
-        }
+			/* Header UI */
+			header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding-bottom: 30px;
+				border-bottom: 1px solid var(--card-border);
+				margin-bottom: 40px;
+			}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+			.logo {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+			}
 
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
-            font-weight: 800;
-            font-size: 20px;
-            color: #fff;
-        }
+			.logo-icon {
+				width: 40px;
+				height: 40px;
+				border-radius: 10px;
+				background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
+				font-weight: 800;
+				font-size: 20px;
+				color: #fff;
+			}
 
-        .logo-text {
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #FFFFFF 0%, #D1D5DB 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+			.logo-text {
+				font-size: 22px;
+				font-weight: 800;
+				letter-spacing: -0.5px;
+				background: linear-gradient(135deg, #FFFFFF 0%, #D1D5DB 100%);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
 
-        .language-badge {
-            background-color: rgba(139, 92, 246, 0.1);
-            border: 1px solid rgba(139, 92, 246, 0.2);
-            color: var(--primary-light);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
+			.language-badge {
+				background-color: rgba(139, 92, 246, 0.1);
+				border: 1px solid rgba(139, 92, 246, 0.2);
+				color: var(--primary-light);
+				padding: 6px 14px;
+				border-radius: 20px;
+				font-size: 12px;
+				font-weight: 600;
+				letter-spacing: 0.5px;
+				text-transform: uppercase;
+			}
 
-        /* Hero Banner */
-        .hero {
-            text-align: center;
-            margin-bottom: 50px;
-        }
+			/* Hero Banner */
+			.hero {
+				text-align: center;
+				margin-bottom: 50px;
+			}
 
-        .hero h1 {
-            font-size: 42px;
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 12px;
-            background: linear-gradient(135deg, #FFFFFF 0%, #A78BFA 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+			.hero h1 {
+				font-size: 42px;
+				font-weight: 800;
+				letter-spacing: -1px;
+				margin-bottom: 12px;
+				background: linear-gradient(135deg, #FFFFFF 0%, #A78BFA 100%);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
 
-        .hero p {
-            color: var(--text-secondary);
-            font-size: 16px;
-            font-weight: 500;
-        }
+			.hero p {
+				color: var(--text-secondary);
+				font-size: 16px;
+				font-weight: 500;
+			}
 
-        /* Glassmorphic Policy Content Card */
-        .policy-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            margin-bottom: 40px;
-        }
+			/* Glassmorphic Policy Content Card */
+			.policy-card {
+				background: var(--card-bg);
+				backdrop-filter: blur(16px);
+				-webkit-backdrop-filter: blur(16px);
+				border: 1px solid var(--card-border);
+				border-radius: 24px;
+				padding: 40px;
+				box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+				margin-bottom: 40px;
+			}
 
-        /* Language Toggle Tabs */
-        .tabs {
-            display: flex;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 4px;
-            border-radius: 12px;
-            border: 1px solid var(--card-border);
-            margin-bottom: 30px;
-            width: fit-content;
-        }
+			/* Language Toggle Tabs */
+			.tabs {
+				display: flex;
+				gap: 8px;
+				background: rgba(255, 255, 255, 0.03);
+				padding: 4px;
+				border-radius: 12px;
+				border: 1px solid var(--card-border);
+				margin-bottom: 30px;
+				width: fit-content;
+			}
 
-        .tab-btn {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            padding: 8px 20px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+			.tab-btn {
+				background: none;
+				border: none;
+				color: var(--text-secondary);
+				padding: 8px 20px;
+				font-size: 14px;
+				font-weight: 600;
+				border-radius: 8px;
+				cursor: pointer;
+				transition: all 0.3s ease;
+			}
 
-        .tab-btn.active {
-            background-color: var(--primary);
-            color: var(--text-primary);
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-        }
+			.tab-btn.active {
+				background-color: var(--primary);
+				color: var(--text-primary);
+				box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+			}
 
-        /* Content Sections Styling */
-        .content-section {
-            display: none;
-        }
+			/* Content Sections Styling */
+			.content-section {
+				display: none;
+			}
 
-        .content-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
+			.content-section.active {
+				display: block;
+				animation: fadeIn 0.5s ease;
+			}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+			@keyframes fadeIn {
+				from { opacity: 0; transform: translateY(10px); }
+				to { opacity: 1; transform: translateY(0); }
+			}
 
-        h2 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-top: 30px;
-            margin-bottom: 12px;
-            border-left: 3px solid var(--primary);
-            padding-left: 12px;
-            letter-spacing: -0.3px;
-        }
+			h2 {
+				font-size: 20px;
+				font-weight: 700;
+				color: var(--text-primary);
+				margin-top: 30px;
+				margin-bottom: 12px;
+				border-left: 3px solid var(--primary);
+				padding-left: 12px;
+				letter-spacing: -0.3px;
+			}
 
-        h2:first-of-type {
-            margin-top: 0;
-        }
+			h2:first-of-type {
+				margin-top: 0;
+			}
 
-        p {
-            color: var(--text-secondary);
-            font-size: 15px;
-            margin-bottom: 18px;
-            font-weight: 400;
-        }
+			p {
+				color: var(--text-secondary);
+				font-size: 15px;
+				margin-bottom: 18px;
+				font-weight: 400;
+			}
 
-        ul {
-            list-style: none;
-            margin-bottom: 20px;
-            padding-left: 4px;
-        }
+			ul {
+				list-style: none;
+				margin-bottom: 20px;
+				padding-left: 4px;
+			}
 
-        li {
-            color: var(--text-secondary);
-            font-size: 15px;
-            margin-bottom: 10px;
-            position: relative;
-            padding-left: 20px;
-        }
+			li {
+				color: var(--text-secondary);
+				font-size: 15px;
+				margin-bottom: 10px;
+				position: relative;
+				padding-left: 20px;
+			}
 
-        li::before {
-            content: "•";
-            color: var(--primary);
-            font-weight: bold;
-            font-size: 18px;
-            position: absolute;
-            left: 0;
-            top: -2px;
-        }
+			li::before {
+				content: "•";
+				color: var(--primary);
+				font-weight: bold;
+				font-size: 18px;
+				position: absolute;
+				left: 0;
+				top: -2px;
+			}
 
-        strong {
-            color: var(--text-primary);
-            font-weight: 600;
-        }
+			strong {
+				color: var(--text-primary);
+				font-weight: 600;
+			}
 
-        /* Alert Callout */
-        .offline-callout {
-            background: rgba(139, 92, 246, 0.05);
-            border: 1px dashed rgba(139, 92, 246, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 30px;
-            display: flex;
-            gap: 16px;
-            align-items: flex-start;
-        }
+			/* Alert Callout */
+			.offline-callout {
+				background: rgba(139, 92, 246, 0.05);
+				border: 1px dashed rgba(139, 92, 246, 0.3);
+				border-radius: 12px;
+				padding: 20px;
+				margin-bottom: 30px;
+				display: flex;
+				gap: 16px;
+				align-items: flex-start;
+			}
 
-        .offline-callout-icon {
-            font-size: 24px;
-            line-height: 1;
-        }
+			.offline-callout-icon {
+				font-size: 24px;
+				line-height: 1;
+			}
 
-        .offline-callout-text h3 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: var(--primary-light);
-        }
+			.offline-callout-text h3 {
+				font-size: 16px;
+				font-weight: 700;
+				margin-bottom: 4px;
+				color: var(--primary-light);
+			}
 
-        .offline-callout-text p {
-            margin-bottom: 0;
-            font-size: 14px;
-        }
+			.offline-callout-text p {
+				margin-bottom: 0;
+				font-size: 14px;
+			}
 
-        /* Footer */
-        footer {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 13px;
-            border-top: 1px solid var(--card-border);
-            padding-top: 30px;
-            margin-top: 50px;
-        }
+			/* Footer */
+			footer {
+				text-align: center;
+				color: var(--text-secondary);
+				font-size: 13px;
+				border-top: 1px solid var(--card-border);
+				padding-top: 30px;
+				margin-top: 50px;
+			}
 
-        footer a {
-            color: var(--primary-light);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
+			footer a {
+				color: var(--primary-light);
+				text-decoration: none;
+				font-weight: 500;
+				transition: color 0.2s ease;
+			}
 
-        footer a:hover {
-            color: var(--text-primary);
-        }
+			footer a:hover {
+				color: var(--text-primary);
+			}
 
-        @media (max-width: 600px) {
-            .policy-card {
-                padding: 24px;
-            }
-            .hero h1 {
-                font-size: 32px;
-            }
-        }
-    </style>
-</head>
-<body>
+			@media (max-width: 600px) {
+				.policy-card {
+					padding: 24px;
+				}
+				.hero h1 {
+					font-size: 32px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="glow-orb-1"></div>
+		<div class="glow-orb-2"></div>
 
-    <div class="glow-orb-1"></div>
-    <div class="glow-orb-2"></div>
+		<div class="container">
+			<!-- Top Bar -->
+			<header>
+				<div class="logo">
+					<div class="logo-icon">V</div>
+					<div class="logo-text">Verbs3</div>
+				</div>
+				<div class="language-badge">Bilingual Policy</div>
+			</header>
 
-    <div class="container">
-        <!-- Top Bar -->
-        <header>
-            <div class="logo">
-                <div class="logo-icon">V</div>
-                <div class="logo-text">Verbs3</div>
-            </div>
-            <div class="language-badge">Bilingual Policy</div>
-        </header>
+			<!-- Main Hero -->
+			<div class="hero">
+				<h1>Privacy Policy</h1>
+				<p>Last updated: May 24, 2026</p>
+			</div>
 
-        <!-- Main Hero -->
-        <div class="hero">
-            <h1>Privacy Policy</h1>
-            <p>Last updated: May 24, 2026</p>
-        </div>
+			<!-- Glassmorphic Policy Content -->
+			<div class="policy-card">
+				<!-- Language toggle tabs -->
+				<div class="tabs">
+					<button class="tab-btn active" data-lang="es">Español</button>
+					<button class="tab-btn" data-lang="en">English</button>
+				</div>
 
-        <!-- Glassmorphic Policy Content -->
-        <div class="policy-card">
-            <!-- Language toggle tabs -->
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchLanguage('es')">Español</button>
-                <button class="tab-btn" onclick="switchLanguage('en')">English</button>
-            </div>
+				<!-- SPANISH SECTION -->
+				<div id="policy-es" class="content-section active">
+					<div class="offline-callout">
+						<div class="offline-callout-icon">🛡️</div>
+						<div class="offline-callout-text">
+							<h3>Privacidad 100% Fuera de Línea</h3>
+							<p>Verbs3 es una aplicación diseñada para funcionar localmente en tu dispositivo. Tu progreso, datos de configuración y verbos creados jamás salen de tu teléfono.</p>
+						</div>
+					</div>
 
-            <!-- SPANISH SECTION -->
-            <div id="policy-es" class="content-section active">
-                <div class="offline-callout">
-                    <div class="offline-callout-icon">🛡️</div>
-                    <div class="offline-callout-text">
-                        <h3>Privacidad 100% Fuera de Línea</h3>
-                        <p>Verbs3 es una aplicación diseñada para funcionar localmente en tu dispositivo. Tu progreso, datos de configuración y verbos creados jamás salen de tu teléfono.</p>
-                    </div>
-                </div>
+					<h2>1. Descripción general</h2>
+					<p>Verbs3 ("nosotros", "nuestro" o "la aplicación") se compromete a proteger tu privacidad. Esta política de privacidad explica el procesamiento de datos realizado por la aplicación móvil Android Verbs3. Al utilizar la aplicación, aceptas las prácticas descritas en esta política.</p>
 
-                <h2>1. Descripción general</h2>
-                <p>Verbs3 ("nosotros", "nuestro" o "la aplicación") se compromete a proteger tu privacidad. Esta política de privacidad explica el procesamiento de datos realizado por la aplicación móvil Android Verbs3. Al utilizar la aplicación, aceptas las prácticas descritas en esta política.</p>
+					<h2>2. Recopilación y uso de información</h2>
+					<p>Verbs3 está diseñada con un enfoque absoluto en la privacidad offline:</p>
+					<ul>
+						<li><strong>Datos Personales:</strong> No recopilamos, solicitamos, almacenamos ni transmitimos ninguna información de identificación personal (como tu nombre, dirección de correo electrónico, número de teléfono o ubicación).</li>
+						<li><strong>Base de Datos Local (SQLite):</strong> La aplicación almacena la lista de verbos, tu estado de favoritos y los verbos personalizados que agregas de forma puramente local en una base de datos SQLite integrada en tu dispositivo. Esta base de datos no está sincronizada con ningún servidor externo.</li>
+					</ul>
 
-                <h2>2. Recopilación y uso de información</h2>
-                <p>Verbs3 está diseñada con un enfoque absoluto en la privacidad offline:</p>
-                <ul>
-                    <li><strong>Datos Personales:</strong> No recopilamos, solicitamos, almacenamos ni transmitimos ninguna información de identificación personal (como tu nombre, dirección de correo electrónico, número de teléfono o ubicación).</li>
-                    <li><strong>Base de Datos Local (SQLite):</strong> La aplicación almacena la lista de verbos, tu estado de favoritos y los verbos personalizados que agregas de forma puramente local en una base de datos SQLite integrada en tu dispositivo. Esta base de datos no está sincronizada con ningún servidor externo.</li>
-                </ul>
+					<h2>3. Permisos de la aplicación</h2>
+					<p>Para brindarte herramientas eficaces de práctica, la aplicación requiere de los siguientes permisos en Android, los cuales se ejecutan exclusivamente a nivel del dispositivo:</p>
+					<ul>
+						<li><strong>POST_NOTIFICATIONS (Android 13+):</strong> Se utiliza única y exclusivamente para enviarte recordatorios locales de práctica programados (como verbos favoritos o listas de verbos diarias). Puedes activar o desactivar estas notificaciones cuando lo desees desde la pantalla de Ajustes de la app.</li>
+						<li><strong>TTS (Text-to-Speech):</strong> La función de pronunciación de audio utiliza el motor de síntesis de voz nativo de Android. Esta interacción se procesa directamente en tu teléfono utilizando la configuración local del sistema.</li>
+					</ul>
 
-                <h2>3. Permisos de la aplicación</h2>
-                <p>Para brindarte herramientas eficaces de práctica, la aplicación requiere de los siguientes permisos en Android, los cuales se ejecutan exclusivamente a nivel del dispositivo:</p>
-                <ul>
-                    <li><strong>POST_NOTIFICATIONS (Android 13+):</strong> Se utiliza única y exclusivamente para enviarte recordatorios locales de práctica programados (como verbos favoritos o listas de verbos diarias). Puedes activar o desactivar estas notificaciones cuando lo desees desde la pantalla de Ajustes de la app.</li>
-                    <li><strong>TTS (Text-to-Speech):</strong> La función de pronunciación de audio utiliza el motor de síntesis de voz nativo de Android. Esta interacción se procesa directamente en tu teléfono utilizando la configuración local del sistema.</li>
-                </ul>
+					<h2>4. Seguridad de los datos</h2>
+					<p>Dado que todos tus datos se almacenan de manera local en el almacenamiento seguro de la propia aplicación en tu dispositivo, la seguridad física y digital de tus progresos depende del control que mantengas sobre tu teléfono. Tus datos se eliminarán de forma permanente e irrecuperable si decides desinstalar la aplicación.</p>
 
-                <h2>4. Seguridad de los datos</h2>
-                <p>Dado que todos tus datos se almacenan de manera local en el almacenamiento seguro de la propia aplicación en tu dispositivo, la seguridad física y digital de tus progresos depende del control que mantengas sobre tu teléfono. Tus datos se eliminarán de forma permanente e irrecuperable si decides desinstalar la aplicación.</p>
+					<h2>5. Proveedores de servicios terceros</h2>
+					<p>La aplicación no contiene integraciones con servicios de terceros (como análisis, publicidad o SDK de seguimiento). No compartimos información con ninguna corporación externa.</p>
 
-                <h2>5. Proveedores de servicios terceros</h2>
-                <p>La aplicación no contiene integraciones con servicios de terceros (como análisis, publicidad o SDK de seguimiento). No compartimos información con ninguna corporación externa.</p>
+					<h2>6. Cambios en esta política</h2>
+					<p>Es posible que actualicemos nuestra Política de Privacidad de vez en cuando (por ejemplo, si agregamos nuevas herramientas locales de estudio). Se te aconseja revisar esta página periódicamente para informarte de cualquier cambio. La fecha de última actualización en la parte superior reflejará dichos ajustes.</p>
 
-                <h2>6. Cambios en esta política</h2>
-                <p>Es posible que actualicemos nuestra Política de Privacidad de vez en cuando (por ejemplo, si agregamos nuevas herramientas locales de estudio). Se te aconseja revisar esta página periódicamente para informarte de cualquier cambio. La fecha de última actualización en la parte superior reflejará dichos ajustes.</p>
+					<h2>7. Contacto</h2>
+					<p>Si tienes alguna pregunta o sugerencia sobre nuestra política de privacidad, no dudes en ponerte en contacto con nosotros escribiendo al correo electrónico del desarrollador provisto en la ficha de descarga de la tienda de aplicaciones.</p>
+				</div>
 
-                <h2>7. Contacto</h2>
-                <p>Si tienes alguna pregunta o sugerencia sobre nuestra política de privacidad, no dudes en ponerte en contacto con nosotros escribiendo al correo electrónico del desarrollador provisto en la ficha de descarga de la tienda de aplicaciones.</p>
-            </div>
+				<!-- ENGLISH SECTION -->
+				<div id="policy-en" class="content-section">
+					<div class="offline-callout">
+						<div class="offline-callout-icon">🛡️</div>
+						<div class="offline-callout-text">
+							<h3>100% Offline Privacy</h3>
+							<p>Verbs3 is built to run entirely locally on your device. Your progress, custom verbs, and settings never leave your phone.</p>
+						</div>
+					</div>
 
-            <!-- ENGLISH SECTION -->
-            <div id="policy-en" class="content-section">
-                <div class="offline-callout">
-                    <div class="offline-callout-icon">🛡️</div>
-                    <div class="offline-callout-text">
-                        <h3>100% Offline Privacy</h3>
-                        <p>Verbs3 is built to run entirely locally on your device. Your progress, custom verbs, and settings never leave your phone.</p>
-                    </div>
-                </div>
+					<h2>1. Overview</h2>
+					<p>Verbs3 ("we", "us", "our", or "the app") is committed to protecting your privacy. This Privacy Policy explains the data processing practices of the Verbs3 Android mobile application. By using the app, you agree to the practices outlined in this policy.</p>
 
-                <h2>1. Overview</h2>
-                <p>Verbs3 ("we", "us", "our", or "the app") is committed to protecting your privacy. This Privacy Policy explains the data processing practices of the Verbs3 Android mobile application. By using the app, you agree to the practices outlined in this policy.</p>
+					<h2>2. Information Collection and Use</h2>
+					<p>Verbs3 is designed with a strict offline-first approach:</p>
+					<ul>
+						<li><strong>Personal Data:</strong> We do not collect, request, store, or transmit any personally identifiable information (such as your name, email address, phone number, or location).</li>
+						<li><strong>Local Database (SQLite):</strong> The app stores the verb catalog, your favorite status, and any custom verbs you manually add purely locally in an SQLite database on your device. This database is not synchronized with any external server.</li>
+					</ul>
 
-                <h2>2. Information Collection and Use</h2>
-                <p>Verbs3 is designed with a strict offline-first approach:</p>
-                <ul>
-                    <li><strong>Personal Data:</strong> We do not collect, request, store, or transmit any personally identifiable information (such as your name, email address, phone number, or location).</li>
-                    <li><strong>Local Database (SQLite):</strong> The app stores the verb catalog, your favorite status, and any custom verbs you manually add purely locally in an SQLite database on your device. This database is not synchronized with any external server.</li>
-                </ul>
+					<h2>3. App Permissions</h2>
+					<p>To provide you with effective study tools, the app requests the following Android permissions, which are processed entirely on-device:</p>
+					<ul>
+						<li><strong>POST_NOTIFICATIONS (Android 13+):</strong> Used solely to send you local practice reminders (such as favorited verbs or daily vocabulary lists). You can toggle these reminders on or off at any time from the app's Settings screen.</li>
+						<li><strong>TTS (Text-to-Speech):</strong> The audio pronunciation feature utilizes your device's native Android Text-to-Speech synthesis engine. This interaction is processed locally on your phone.</li>
+					</ul>
 
-                <h2>3. App Permissions</h2>
-                <p>To provide you with effective study tools, the app requests the following Android permissions, which are processed entirely on-device:</p>
-                <ul>
-                    <li><strong>POST_NOTIFICATIONS (Android 13+):</strong> Used solely to send you local practice reminders (such as favorited verbs or daily vocabulary lists). You can toggle these reminders on or off at any time from the app's Settings screen.</li>
-                    <li><strong>TTS (Text-to-Speech):</strong> The audio pronunciation feature utilizes your device's native Android Text-to-Speech synthesis engine. This interaction is processed locally on your phone.</li>
-                </ul>
+					<h2>4. Data Security</h2>
+					<p>Because all of your progress data is stored locally in the secure sandbox of the application on your own device, the physical and digital security of your data depends on your control over your device. Your data will be permanently and irretrievably deleted if you choose to uninstall the application.</p>
 
-                <h2>4. Data Security</h2>
-                <p>Because all of your progress data is stored locally in the secure sandbox of the application on your own device, the physical and digital security of your data depends on your control over your device. Your data will be permanently and irretrievably deleted if you choose to uninstall the application.</p>
+					<h2>5. Third-Party Services</h2>
+					<p>The app does not integrate with any third-party services (such as analytics, advertising, or tracking SDKs). We do not share data with any external corporations.</p>
 
-                <h2>5. Third-Party Services</h2>
-                <p>The app does not integrate with any third-party services (such as analytics, advertising, or tracking SDKs). We do not share data with any external corporations.</p>
+					<h2>6. Changes to This Policy</h2>
+					<p>We may update our Privacy Policy from time to time (for example, if we introduce new local learning features). You are advised to review this page periodically for any changes. The last updated date at the top will reflect these changes.</p>
 
-                <h2>6. Changes to This Policy</h2>
-                <p>We may update our Privacy Policy from time to time (for example, if we introduce new local learning features). You are advised to review this page periodically for any changes. The last updated date at the top will reflect these changes.</p>
+					<h2>7. Contact Us</h2>
+					<p>If you have any questions or suggestions about our Privacy Policy, please feel free to contact us via the developer email address provided in the application store listing.</p>
+				</div>
+			</div>
 
-                <h2>7. Contact Us</h2>
-                <p>If you have any questions or suggestions about our Privacy Policy, please feel free to contact us via the developer email address provided in the application store listing.</p>
-            </div>
-        </div>
+			<!-- Footer -->
+			<footer>
+				<p>&copy; 2026 Verbs3. All rights reserved. Built with privacy in mind.</p>
+				<p style="margin-top: 10px; font-size: 11px; color: rgba(255,255,255,0.2);">Hosted locally on your domain. Under developer control.</p>
+			</footer>
+		</div>
 
-        <!-- Footer -->
-        <footer>
-            <p>&copy; 2026 Verbs3. All rights reserved. Built with privacy in mind.</p>
-            <p style="margin-top: 10px; font-size: 11px; color: rgba(255,255,255,0.2);">Hosted locally on your domain. Under developer control.</p>
-        </footer>
-    </div>
+		<script>
+			// Language switching logic using event listeners to follow modern standards
+			const tabButtons = document.querySelectorAll<HTMLButtonElement>('.tab-btn');
+			
+			tabButtons.forEach(button => {
+				button.addEventListener('click', (event) => {
+					const lang = button.getAttribute('data-lang');
+					const currentTarget = event.currentTarget as HTMLButtonElement | null;
+					if (lang && currentTarget) {
+						switchLanguage(lang, currentTarget);
+					}
+				});
+			});
 
-    <script>
-        function switchLanguage(lang) {
-            // Manage active buttons
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
+			function switchLanguage(lang: string, targetButton: HTMLButtonElement) {
+				// Manage active buttons
+				tabButtons.forEach(btn => btn.classList.remove('active'));
+				targetButton.classList.add('active');
 
-            // Manage active content sections
-            const sections = document.querySelectorAll('.content-section');
-            sections.forEach(sec => sec.classList.remove('active'));
+				// Manage active content sections
+				const sections = document.querySelectorAll('.content-section');
+				sections.forEach(sec => sec.classList.remove('active'));
 
-            if (lang === 'es') {
-                document.getElementById('policy-es').classList.add('active');
-                event.target.classList.add('active');
-            } else {
-                document.getElementById('policy-en').classList.add('active');
-                event.target.classList.add('active');
-            }
-        }
-    </script>
-</body>
+				const targetSection = document.getElementById(`policy-${lang}`);
+				if (targetSection) {
+					targetSection.classList.add('active');
+				}
+			}
+		</script>
+	</body>
 </html>
