@@ -84,7 +84,7 @@ const posts = (await getCollection('blog')).sort(
 					{
 						posts.map((post) => (
 							<li>
-								<a href={`/blog/${post.slug}/`}>
+								<a href={`/blog/${post.id}/`}>
 									<img src={post.data.thumbnail} alt={`${post.data.title}`} />
 									<div>
 										<h2 class="title">{post.data.title}</h2>
