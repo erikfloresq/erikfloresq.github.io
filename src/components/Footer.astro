@@ -1,9 +1,13 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const currentLang = getLangFromUrl(Astro.url);
+const t = useTranslations(currentLang);
 const today = new Date();
 ---
 
 <footer>
-	&copy; {today.getFullYear()} Erik Flores. All rights reserved.
+	&copy; {today.getFullYear()} Erik Flores. {t('footer.rights')}
 	<div class="social-links">
 		<a href="https://twitter.com/erikfloresq" target="_blank">
 			<span class="sr-only">Follow me on Twitter</span>
