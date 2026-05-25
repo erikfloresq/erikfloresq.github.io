@@ -1,10 +1,10 @@
 ---
-import SearchComponent from "../components/AstroSearch.astro";
-import BaseHead from "../components/BaseHead.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import { getLangFromUrl } from "../i18n/utils";
+import SearchComponent from "../../components/AstroSearch.astro";
+import BaseHead from "../../components/BaseHead.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getLangFromUrl } from "../../i18n/utils";
 
 const currentLang = getLangFromUrl(Astro.url);
 ---
