@@ -25,39 +25,17 @@
     --gray-dark: 200, 200, 200;
 }
 
-/* Estilos del buscador para modo oscuro */
-[data-theme="dark"] .pagefind-ui {
-    --pagefind-ui-primary: var(--accent);
-    --pagefind-ui-text: var(--accent);
-    --pagefind-ui-background: var(--background);
-    --pagefind-ui-border: #2c2c2c;
-    --pagefind-ui-tag: #152747;
-}
-
-[data-theme="dark"] .pagefind-ui .pagefind-ui__search-input {
-    background-color: var(--background);
-    border-color: var(--pagefind-ui-border);
-    color: var(--accent);
-}
-
-[data-theme="dark"] .pagefind-ui .pagefind-ui__search-clear {
-    color: var(--accent);
-}
-
-[data-theme="dark"] .pagefind-ui .pagefind-ui__result {
-    border-color: var(--pagefind-ui-border);
-}
-
-[data-theme="dark"] .pagefind-ui .pagefind-ui__result-title {
-    color: var(--accent);
-}
-
-[data-theme="dark"] .pagefind-ui .pagefind-ui__result-excerpt {
-    color: rgb(var(--gray-dark));
-}
-
-[data-theme="dark"] .pagefind-ui .pagefind-ui__result-link {
-    color: #4a9eff;
+/* Estilos del buscador para modo oscuro (Pagefind Component UI) */
+:root[data-theme="dark"] {
+    --pf-text: var(--accent);
+    --pf-text-secondary: rgb(var(--gray-dark));
+    --pf-text-muted: rgb(var(--gray-dark));
+    --pf-background: var(--background);
+    --pf-border: #2c2c2c;
+    --pf-border-focus: var(--accent);
+    --pf-hover: rgba(var(--gray-dark), 0.08);
+    --pf-mark: var(--accent);
+    --pf-outline-focus: var(--accent);
 }
 @font-face {
 	font-family: 'Atkinson';
