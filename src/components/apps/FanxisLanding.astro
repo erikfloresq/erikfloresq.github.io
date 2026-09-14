@@ -1,0 +1,135 @@
+---
+import BaseHead from '../BaseHead.astro';
+import Header from '../Header.astro';
+import Footer from '../Footer.astro';
+import { apps } from '../../data/apps';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const currentLang = getLangFromUrl(Astro.url);
+const appsUrl = currentLang === 'en' ? '/en/apps' : '/apps';
+
+const app = apps.find((entry) => entry.slug === 'fanxis')!;
+
+const copy = {
+	es: {
+		description:
+			'Una persona habla hacia el micrófono y la otra lee desde el lado opuesto del dispositivo. Con un gesto de dos dedos el texto gira 180° para que se lea al derecho, sin mover el teléfono.',
+		features: [
+			'Transcripción en vivo mientras hablas.',
+			'Gira el texto con dos dedos para quien está al otro lado.',
+			'30 idiomas de transcripción.',
+			'Empieza a grabar desde Siri, Atajos o el botón de Acción.',
+			'Tamaño de texto ajustable, en español e inglés.',
+			'Sin cuentas, sin analíticas y sin guardar tus transcripciones.',
+		],
+		featuresTitle: 'Características',
+		privacyTitle: 'Privacidad',
+		privacyLink: 'Política de privacidad',
+	},
+	en: {
+		description:
+			'One person speaks toward the microphone; the other reads from the opposite side of the device. A two-finger swipe turns the transcript upside down so it reads the right way up for them, without moving the phone.',
+		features: [
+			'Live transcription while you speak.',
+			'Flip the text with two fingers for the person across from you.',
+			'30 transcription languages.',
+			'Start recording from Siri, Shortcuts or the Action button.',
+			'Adjustable text size, in English and Spanish.',
+			'No accounts, no analytics, and your transcripts are never saved.',
+		],
+		featuresTitle: 'Features',
+		privacyTitle: 'Privacy',
+		privacyLink: 'Privacy Policy',
+	},
+}[currentLang];
+---
+
+<!doctype html>
+<html lang={currentLang}>
+	<head>
+		<BaseHead title={`${app.name} | App`} description={app.tagline[currentLang]} />
+		<style>
+			.hero {
+				display: flex;
+				align-items: center;
+				gap: 1.5rem;
+				margin-bottom: 2rem;
+			}
+			.hero .icon {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 88px;
+				height: 88px;
+				border-radius: 20px;
+				font-size: 2.5rem;
+				font-weight: 700;
+				color: var(--background);
+				background: linear-gradient(135deg, rgba(var(--gray), 85%), var(--accent));
+				flex-shrink: 0;
+			}
+			.hero h1 {
+				margin: 0 0 0.25rem;
+			}
+			.hero p {
+				margin: 0;
+				color: rgb(var(--gray));
+			}
+			.support h2,
+			.features h2 {
+				font-size: 1.1rem;
+				margin-bottom: 0.5rem;
+			}
+			.support ul,
+			.features ul {
+				margin: 0;
+				padding-left: 1.2rem;
+			}
+			.back {
+				display: inline-block;
+				margin-bottom: 1.5rem;
+				color: rgb(var(--gray));
+			}
+			@media (max-width: 520px) {
+				.hero {
+					flex-direction: column;
+					align-items: flex-start;
+					gap: 1rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<a class="back" href={appsUrl}>&larr; Apps</a>
+
+			<section class="hero">
+				<span class="icon" aria-hidden="true">{app.name.charAt(0)}</span>
+				<div>
+					<h1>{app.name}</h1>
+					<p>{app.tagline[currentLang]}</p>
+				</div>
+			</section>
+
+			<section>
+				<p>{copy.description}</p>
+			</section>
+
+			<section class="features">
+				<h2>{copy.featuresTitle}</h2>
+				<ul>
+					{copy.features.map((feature) => <li>{feature}</li>)}
+				</ul>
+			</section>
+
+			<section class="support">
+				<h2>{copy.privacyTitle}</h2>
+				<ul>
+					<li><a href="/fanxis/fanxisPrivacyPolicy">{copy.privacyLink}</a></li>
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
