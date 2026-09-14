@@ -1,0 +1,46 @@
+---
+import BaseHead from '../../../components/BaseHead.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import AppsGrid from '../../../components/AppsGrid.astro';
+import { SITE_TITLE } from '../../../consts';
+import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
+
+const currentLang = getLangFromUrl(Astro.url);
+const t = useTranslations(currentLang);
+---
+
+<!doctype html>
+<html lang={currentLang}>
+	<head>
+		<BaseHead title={`${t('apps.title')} | ${SITE_TITLE}`} description={t('apps.description')} />
+		<style>
+			main {
+				width: 960px;
+			}
+			.intro {
+				margin: 0 0 2rem;
+			}
+			.intro h1 {
+				margin: 0 0 0.5rem;
+			}
+			.intro p {
+				margin: 0;
+				color: rgb(var(--gray));
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="intro">
+				<h1>{t('apps.title')}</h1>
+				<p>{t('apps.description')}</p>
+			</section>
+			<section>
+				<AppsGrid />
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

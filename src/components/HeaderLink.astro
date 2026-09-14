@@ -6,8 +6,13 @@ type Props = HTMLAttributes<'a'>;
 const { href, class: className, ...props } = Astro.props;
 
 const { pathname } = Astro.url;
-const subpath = pathname.match(/[^\/]+/g);
-const isActive = href === pathname || href === '/' + subpath?.[0];
+
+// Normaliza las rutas para que /apps, /apps/ y /apps/verbs/ marquen el mismo enlace.
+const normalize = (path: string) => path.replace(/\/+$/, '') || '/';
+
+const current = normalize(pathname);
+const target = normalize(String(href ?? '/'));
+const isActive = current === target || (target !== '/' && current.startsWith(`${target}/`));
 ---
 
 <a href={href} class:list={[className, { active: isActive }]} {...props}>

@@ -4,6 +4,9 @@ import { SITE_TITLE } from '../consts';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 const currentLang = getLangFromUrl(Astro.url);
+const t = useTranslations(currentLang);
+
+const appsUrl = currentLang === 'en' ? '/en/apps' : '/apps';
 
 // Calculate URLs for switching language
 const pathname = Astro.url.pathname;
@@ -19,7 +22,12 @@ const currentFlag = currentLang === 'es' ? '🇪🇸' : '🇬🇧';
 
 <header>
 	<nav>
-		<h2><a href={currentLang === 'en' ? '/en/' : '/'}>{SITE_TITLE}</a></h2>
+		<div class="nav-start">
+			<h2><a href={currentLang === 'en' ? '/en/' : '/'}>{SITE_TITLE}</a></h2>
+			<div class="internal-links">
+				<HeaderLink href={appsUrl}>{t('nav.apps')}</HeaderLink>
+			</div>
+		</div>
 		<div class="social-links">
 			<button class="theme-toggle" id="theme-toggle" role="switch" aria-label="Toggle Theme" aria-checked="false" onclick="toggleTheme()">
 				<span class="theme-toggle-track">
@@ -69,6 +77,30 @@ const currentFlag = currentLang === 'es' ? '🇪🇸' : '🇬🇧';
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		gap: 0.5em;
+	}
+	.nav-start {
+		display: flex;
+		align-items: center;
+		gap: 0.75em;
+		min-width: 0;
+	}
+	.internal-links {
+		display: flex;
+		align-items: center;
+	}
+	/* HeaderLink renderiza su propio <a>, por eso el selector global. */
+	.internal-links :global(a) {
+		padding: 1em 0.5em;
+		color: rgb(var(--gray-dark));
+		border-bottom: 4px solid transparent;
+		text-decoration: none;
+	}
+	.internal-links :global(a.active) {
+		border-bottom-color: var(--accent);
+	}
+	.internal-links :global(a:hover) {
+		color: var(--accent);
 	}
 	nav a {
 		padding: 1em 0.5em;
@@ -250,6 +282,18 @@ const currentFlag = currentLang === 'es' ? '🇪🇸' : '🇬🇧';
 	.social-links,
 	.social-links a {
 		display: flex;
+	}
+
+	@media (max-width: 520px) {
+		header {
+			padding: 0 0.5em;
+		}
+		.nav-start {
+			gap: 0.25em;
+		}
+		.internal-links :global(a) {
+			padding: 1em 0.35em;
+		}
 	}
 </style>
 
