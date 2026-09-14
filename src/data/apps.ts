@@ -37,4 +37,15 @@ export const apps: AppEntry[] = [
 			appStore: 'https://apps.apple.com/pe/app/verbs/id1323891770',
 		},
 	},
+	{
+		slug: 'fanxis',
+		name: 'Fanxis',
+		tagline: {
+			es: 'Voz a texto en vivo para conversar en una sola pantalla.',
+			en: 'Live speech-to-text for a conversation on one screen.',
+		},
+		icon: null,
+		path: '/fanxis/',
+		platforms: ['iOS', 'iPadOS'],
+	},
 ];

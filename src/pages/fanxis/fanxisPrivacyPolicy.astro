@@ -1,0 +1,488 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+
+const APPLE_PRIVACY_URL = 'https://www.apple.com/legal/privacy/';
+// Set to a public contact address; when empty, the page points users to the App Store listing.
+const CONTACT_EMAIL = '';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Privacy Policy - Fanxis" description="Privacy Policy for Fanxis iOS application" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+		<style is:global>
+			:root {
+				--bg-color: #0B0A0F;
+				--card-bg: rgba(20, 18, 28, 0.7);
+				--card-border: rgba(255, 255, 255, 0.05);
+				--primary: #5856D6;
+				--primary-light: #8E8CF0;
+				--text-primary: #FFFFFF;
+				--text-secondary: #9CA3AF;
+				--accent: #0A84FF;
+			}
+
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			body {
+				font-family: 'Inter', sans-serif;
+				background-color: var(--bg-color);
+				color: var(--text-primary);
+				line-height: 1.6;
+				overflow-x: hidden;
+				position: relative;
+			}
+
+			/* Ambient glows background */
+			.glow-orb-1 {
+				position: absolute;
+				width: 400px;
+				height: 400px;
+				border-radius: 50%;
+				background: radial-gradient(circle, rgba(88, 86, 214, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+				top: -100px;
+				left: -100px;
+				z-index: -1;
+			}
+
+			.glow-orb-2 {
+				position: absolute;
+				width: 500px;
+				height: 500px;
+				border-radius: 50%;
+				background: radial-gradient(circle, rgba(10, 132, 255, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+				bottom: 200px;
+				right: -100px;
+				z-index: -1;
+			}
+
+			.container {
+				max-width: 900px;
+				margin: 0 auto;
+				padding: 40px 20px;
+			}
+
+			/* Header UI */
+			header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding-bottom: 30px;
+				border-bottom: 1px solid var(--card-border);
+				margin-bottom: 40px;
+			}
+
+			.logo {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+			}
+
+			.logo-icon {
+				width: 40px;
+				height: 40px;
+				border-radius: 10px;
+				background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				box-shadow: 0 4px 14px rgba(88, 86, 214, 0.4);
+				font-weight: 800;
+				font-size: 20px;
+				color: #fff;
+			}
+
+			.logo-text {
+				font-size: 22px;
+				font-weight: 800;
+				letter-spacing: -0.5px;
+				background: linear-gradient(135deg, #FFFFFF 0%, #D1D5DB 100%);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
+
+			.language-badge {
+				background-color: rgba(88, 86, 214, 0.1);
+				border: 1px solid rgba(88, 86, 214, 0.2);
+				color: var(--primary-light);
+				padding: 6px 14px;
+				border-radius: 20px;
+				font-size: 12px;
+				font-weight: 600;
+				letter-spacing: 0.5px;
+				text-transform: uppercase;
+			}
+
+			/* Hero Banner */
+			.hero {
+				text-align: center;
+				margin-bottom: 50px;
+			}
+
+			.hero h1 {
+				font-size: 42px;
+				font-weight: 800;
+				letter-spacing: -1px;
+				margin-bottom: 12px;
+				background: linear-gradient(135deg, #FFFFFF 0%, #8E8CF0 100%);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
+
+			.hero p {
+				color: var(--text-secondary);
+				font-size: 16px;
+				font-weight: 500;
+			}
+
+			/* Glassmorphic Policy Content Card */
+			.policy-card {
+				background: var(--card-bg);
+				backdrop-filter: blur(16px);
+				-webkit-backdrop-filter: blur(16px);
+				border: 1px solid var(--card-border);
+				border-radius: 24px;
+				padding: 40px;
+				box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+				margin-bottom: 40px;
+			}
+
+			/* Language Toggle Tabs */
+			.tabs {
+				display: flex;
+				gap: 8px;
+				background: rgba(255, 255, 255, 0.03);
+				padding: 4px;
+				border-radius: 12px;
+				border: 1px solid var(--card-border);
+				margin-bottom: 30px;
+				width: fit-content;
+			}
+
+			.tab-btn {
+				background: none;
+				border: none;
+				color: var(--text-secondary);
+				padding: 8px 20px;
+				font-size: 14px;
+				font-weight: 600;
+				border-radius: 8px;
+				cursor: pointer;
+				transition: all 0.3s ease;
+			}
+
+			.tab-btn.active {
+				background-color: var(--primary);
+				color: var(--text-primary);
+				box-shadow: 0 4px 12px rgba(88, 86, 214, 0.3);
+			}
+
+			/* Content Sections Styling */
+			.content-section {
+				display: none;
+			}
+
+			.content-section.active {
+				display: block;
+				animation: fadeIn 0.5s ease;
+			}
+
+			@keyframes fadeIn {
+				from { opacity: 0; transform: translateY(10px); }
+				to { opacity: 1; transform: translateY(0); }
+			}
+
+			h2 {
+				font-size: 20px;
+				font-weight: 700;
+				color: var(--text-primary);
+				margin-top: 30px;
+				margin-bottom: 12px;
+				border-left: 3px solid var(--primary);
+				padding-left: 12px;
+				letter-spacing: -0.3px;
+			}
+
+			h2:first-of-type {
+				margin-top: 0;
+			}
+
+			p {
+				color: var(--text-secondary);
+				font-size: 15px;
+				margin-bottom: 18px;
+				font-weight: 400;
+			}
+
+			ul {
+				list-style: none;
+				margin-bottom: 20px;
+				padding-left: 4px;
+			}
+
+			li {
+				color: var(--text-secondary);
+				font-size: 15px;
+				margin-bottom: 10px;
+				position: relative;
+				padding-left: 20px;
+			}
+
+			li::before {
+				content: "•";
+				color: var(--primary);
+				font-weight: bold;
+				font-size: 18px;
+				position: absolute;
+				left: 0;
+				top: -2px;
+			}
+
+			a {
+				color: var(--primary-light);
+				text-decoration: underline;
+				text-underline-offset: 2px;
+			}
+
+			a:hover {
+				color: var(--text-primary);
+			}
+
+			strong {
+				color: var(--text-primary);
+				font-weight: 600;
+			}
+
+			/* Alert Callout */
+			.offline-callout {
+				background: rgba(88, 86, 214, 0.05);
+				border: 1px dashed rgba(88, 86, 214, 0.3);
+				border-radius: 12px;
+				padding: 20px;
+				margin-bottom: 30px;
+				display: flex;
+				gap: 16px;
+				align-items: flex-start;
+			}
+
+			.offline-callout-icon {
+				font-size: 24px;
+				line-height: 1;
+			}
+
+			.offline-callout-text h3 {
+				font-size: 16px;
+				font-weight: 700;
+				margin-bottom: 4px;
+				color: var(--primary-light);
+			}
+
+			.offline-callout-text p {
+				margin-bottom: 0;
+				font-size: 14px;
+			}
+
+			/* Footer */
+			footer {
+				text-align: center;
+				color: var(--text-secondary);
+				font-size: 13px;
+				border-top: 1px solid var(--card-border);
+				padding-top: 30px;
+				margin-top: 50px;
+			}
+
+			footer a {
+				color: var(--primary-light);
+				text-decoration: none;
+				font-weight: 500;
+				transition: color 0.2s ease;
+			}
+
+			footer a:hover {
+				color: var(--text-primary);
+			}
+
+			@media (max-width: 600px) {
+				.policy-card {
+					padding: 24px;
+				}
+				.hero h1 {
+					font-size: 32px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="glow-orb-1"></div>
+		<div class="glow-orb-2"></div>
+
+		<div class="container">
+			<!-- Top Bar -->
+			<header>
+				<div class="logo">
+					<div class="logo-icon">F</div>
+					<div class="logo-text">Fanxis</div>
+				</div>
+				<div class="language-badge">Bilingual Policy</div>
+			</header>
+
+			<!-- Main Hero -->
+			<div class="hero">
+				<h1>Privacy Policy</h1>
+				<p>Effective date: September 13, 2026</p>
+			</div>
+
+			<!-- Glassmorphic Policy Content -->
+			<div class="policy-card">
+				<!-- Language toggle tabs -->
+				<div class="tabs">
+					<button class="tab-btn active" data-lang="en">English</button>
+					<button class="tab-btn" data-lang="es">Español</button>
+				</div>
+
+				<!-- ENGLISH SECTION -->
+				<div id="policy-en" class="content-section active">
+					<div class="offline-callout">
+						<div class="offline-callout-icon">🛡️</div>
+						<div class="offline-callout-text">
+							<h3>Your conversations stay with you</h3>
+							<p>Fanxis does not collect your personal data, does not save your transcripts, and does not send anything to the developer.</p>
+						</div>
+					</div>
+
+					<p>Fanxis turns speech into text so that two people can share a conversation on one screen. This policy explains what the app does with your information.</p>
+
+					<h2>1. Information Fanxis does not collect</h2>
+					<p>Fanxis has no accounts and no sign-in. It contains no advertising, no analytics, no tracking and no third-party SDKs. The developer does not receive your voice, your transcripts or any information about how you use the app.</p>
+
+					<h2>2. Microphone</h2>
+					<p>Fanxis asks for access to your microphone so it can hear what you say and turn it into text. The microphone is used only while you are recording — from the moment you start until you stop. Fanxis does not record in the background.</p>
+
+					<h2>3. Speech recognition</h2>
+					<p>Fanxis asks for permission to use speech recognition. Transcription is performed by Apple's Speech framework, which is part of iOS, and the language models it uses are downloaded from Apple when you choose a language. Apple's handling of that data is governed by <a href={APPLE_PRIVACY_URL} target="_blank" rel="noopener noreferrer">Apple's Privacy Policy</a>.</p>
+					<p>You can turn off Microphone or Speech Recognition access at any time in the iOS Settings app, under Fanxis.</p>
+
+					<h2>4. Your transcripts</h2>
+					<p>Transcripts exist only on your screen while you are using them. Fanxis does not save them to your device and does not send them anywhere. The text is discarded when you clear it, when you start a new recording, or when the app is closed.</p>
+					<p>If you choose <strong>Copy</strong>, the transcript is placed on the system clipboard, where it is handled by iOS like anything else you copy.</p>
+
+					<h2>5. Siri and Shortcuts</h2>
+					<p>Fanxis offers a shortcut that opens the app already recording. If you start it with Siri, your request is handled by Apple under <a href={APPLE_PRIVACY_URL} target="_blank" rel="noopener noreferrer">Apple's Privacy Policy</a>. Fanxis does not receive the audio of your Siri request.</p>
+
+					<h2>6. Information stored on your device</h2>
+					<p>Fanxis keeps a few settings on your device so it remembers your choices between launches:</p>
+					<ul>
+						<li>the text size you picked;</li>
+						<li>the transcription language you picked;</li>
+						<li>whether you have already seen the welcome screen and onboarding tips.</li>
+					</ul>
+					<p>These settings stay on your device and are not sent to the developer. Deleting the app removes them.</p>
+
+					<h2>7. Children</h2>
+					<p>Fanxis does not collect personal information from anyone, including children.</p>
+
+					<h2>8. Changes to this policy</h2>
+					<p>If this policy changes, the updated version will be published at this same address with a new effective date.</p>
+
+					<h2>9. Contact</h2>
+					{CONTACT_EMAIL
+						? <p>If you have questions about this policy, contact: <a href={`mailto:${CONTACT_EMAIL}`}><strong>{CONTACT_EMAIL}</strong></a></p>
+						: <p>If you have questions about this policy, contact the developer through the email address provided in the App Store listing.</p>}
+				</div>
+
+				<!-- SPANISH SECTION -->
+				<div id="policy-es" class="content-section">
+					<div class="offline-callout">
+						<div class="offline-callout-icon">🛡️</div>
+						<div class="offline-callout-text">
+							<h3>Tus conversaciones se quedan contigo</h3>
+							<p>Fanxis no recopila tus datos personales, no guarda tus transcripciones y no envía nada al desarrollador.</p>
+						</div>
+					</div>
+
+					<p>Fanxis convierte la voz en texto para que dos personas puedan compartir una conversación en una sola pantalla. Esta política explica qué hace la app con tu información.</p>
+
+					<h2>1. Información que Fanxis no recopila</h2>
+					<p>Fanxis no tiene cuentas ni inicio de sesión. No contiene publicidad, analíticas, rastreo ni SDK de terceros. El desarrollador no recibe tu voz, tus transcripciones ni ninguna información sobre cómo usas la app.</p>
+
+					<h2>2. Micrófono</h2>
+					<p>Fanxis solicita acceso a tu micrófono para poder escuchar lo que dices y convertirlo en texto. El micrófono se usa solo mientras estás grabando — desde el momento en que inicias hasta que te detienes. Fanxis no graba en segundo plano.</p>
+
+					<h2>3. Reconocimiento de voz</h2>
+					<p>Fanxis solicita permiso para usar el reconocimiento de voz. La transcripción la realiza el framework Speech de Apple, que forma parte de iOS, y los modelos de idioma que utiliza se descargan desde Apple cuando eliges un idioma. El tratamiento de esos datos por parte de Apple se rige por la <a href={APPLE_PRIVACY_URL} target="_blank" rel="noopener noreferrer">Política de Privacidad de Apple</a>.</p>
+					<p>Puedes desactivar el acceso al Micrófono o al Reconocimiento de voz en cualquier momento desde la app Ajustes de iOS, en la sección de Fanxis.</p>
+
+					<h2>4. Tus transcripciones</h2>
+					<p>Las transcripciones solo existen en tu pantalla mientras las estás usando. Fanxis no las guarda en tu dispositivo ni las envía a ningún lugar. El texto se descarta cuando lo borras, cuando inicias una nueva grabación o cuando se cierra la app.</p>
+					<p>Si eliges <strong>Copiar</strong>, la transcripción se coloca en el portapapeles del sistema, donde iOS la maneja como cualquier otra cosa que copies.</p>
+
+					<h2>5. Siri y Atajos</h2>
+					<p>Fanxis ofrece un atajo que abre la app ya grabando. Si lo inicias con Siri, Apple gestiona tu solicitud según la <a href={APPLE_PRIVACY_URL} target="_blank" rel="noopener noreferrer">Política de Privacidad de Apple</a>. Fanxis no recibe el audio de tu solicitud a Siri.</p>
+
+					<h2>6. Información guardada en tu dispositivo</h2>
+					<p>Fanxis guarda algunos ajustes en tu dispositivo para recordar tus preferencias entre sesiones:</p>
+					<ul>
+						<li>el tamaño de texto que elegiste;</li>
+						<li>el idioma de transcripción que elegiste;</li>
+						<li>si ya viste la pantalla de bienvenida y los consejos de introducción.</li>
+					</ul>
+					<p>Estos ajustes permanecen en tu dispositivo y no se envían al desarrollador. Eliminar la app los borra.</p>
+
+					<h2>7. Menores de edad</h2>
+					<p>Fanxis no recopila información personal de nadie, incluidos los niños.</p>
+
+					<h2>8. Cambios en esta política</h2>
+					<p>Si esta política cambia, la versión actualizada se publicará en esta misma dirección con una nueva fecha de entrada en vigor.</p>
+
+					<h2>9. Contacto</h2>
+					{CONTACT_EMAIL
+						? <p>Si tienes preguntas sobre esta política, escribe a: <a href={`mailto:${CONTACT_EMAIL}`}><strong>{CONTACT_EMAIL}</strong></a></p>
+						: <p>Si tienes preguntas sobre esta política, contacta al desarrollador a través del correo electrónico indicado en la ficha de la App Store.</p>}
+				</div>
+			</div>
+
+			<!-- Footer -->
+			<footer>
+				<p>&copy; 2026 Fanxis. All rights reserved. Built with privacy in mind.</p>
+			</footer>
+		</div>
+
+		<script>
+			// Language switching logic using event listeners to follow modern standards
+			const tabButtons = document.querySelectorAll<HTMLButtonElement>('.tab-btn');
+			
+			tabButtons.forEach(button => {
+				button.addEventListener('click', (event) => {
+					const lang = button.getAttribute('data-lang');
+					const currentTarget = event.currentTarget as HTMLButtonElement | null;
+					if (lang && currentTarget) {
+						switchLanguage(lang, currentTarget);
+					}
+				});
+			});
+
+			function switchLanguage(lang: string, targetButton: HTMLButtonElement) {
+				// Manage active buttons
+				tabButtons.forEach(btn => btn.classList.remove('active'));
+				targetButton.classList.add('active');
+
+				// Manage active content sections
+				const sections = document.querySelectorAll('.content-section');
+				sections.forEach(sec => sec.classList.remove('active'));
+
+				const targetSection = document.getElementById(`policy-${lang}`);
+				if (targetSection) {
+					targetSection.classList.add('active');
+				}
+			}
+		</script>
+	</body>
+</html>
