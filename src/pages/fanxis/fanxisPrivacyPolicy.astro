@@ -3,7 +3,7 @@ import BaseHead from '../../components/BaseHead.astro';
 
 const APPLE_PRIVACY_URL = 'https://www.apple.com/legal/privacy/';
 // Set to a public contact address; when empty, the page points users to the App Store listing.
-const CONTACT_EMAIL = '';
+const CONTACT_EMAIL = 'erikfloresq@icloud.com';
 ---
 
 <!doctype html>
@@ -29,6 +29,12 @@ const CONTACT_EMAIL = '';
 				box-sizing: border-box;
 				margin: 0;
 				padding: 0;
+			}
+
+			/* The decorative glow orbs sit partly off-screen; without this the page can be
+			   dragged sideways on phones. body's overflow-x alone does not contain them. */
+			html {
+				overflow-x: clip;
 			}
 
 			body {
