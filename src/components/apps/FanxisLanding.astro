@@ -23,7 +23,8 @@ const copy = {
 			'Sin cuentas, sin analíticas y sin guardar tus transcripciones.',
 		],
 		featuresTitle: 'Características',
-		privacyTitle: 'Privacidad',
+		supportTitle: 'Soporte',
+		supportLink: 'Ayuda y contacto',
 		privacyLink: 'Política de privacidad',
 	},
 	en: {
@@ -38,7 +39,8 @@ const copy = {
 			'No accounts, no analytics, and your transcripts are never saved.',
 		],
 		featuresTitle: 'Features',
-		privacyTitle: 'Privacy',
+		supportTitle: 'Support',
+		supportLink: 'Help & Contact',
 		privacyLink: 'Privacy Policy',
 	},
 }[currentLang];
@@ -124,8 +126,9 @@ const copy = {
 			</section>
 
 			<section class="support">
-				<h2>{copy.privacyTitle}</h2>
+				<h2>{copy.supportTitle}</h2>
 				<ul>
+					<li><a href="/fanxis/fanxisSupport">{copy.supportLink}</a></li>
 					<li><a href="/fanxis/fanxisPrivacyPolicy">{copy.privacyLink}</a></li>
 				</ul>
 			</section>
