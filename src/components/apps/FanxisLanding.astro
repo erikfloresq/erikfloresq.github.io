@@ -12,34 +12,60 @@ const app = apps.find((entry) => entry.slug === 'fanxis')!;
 
 const copy = {
 	es: {
-		description:
-			'Una persona habla hacia el micrófono y la otra lee desde el lado opuesto del dispositivo. Con un gesto de dos dedos el texto gira 180° para que se lea al derecho, sin mover el teléfono.',
-		features: [
-			'Transcripción en vivo mientras hablas.',
-			'Gira el texto con dos dedos para quien está al otro lado.',
-			'30 idiomas de transcripción.',
-			'Empieza a grabar desde Siri, Atajos o el botón de Acción.',
-			'Tamaño de texto ajustable, en español e inglés.',
-			'Sin cuentas, sin analíticas y sin guardar tus transcripciones.',
+		back: 'Apps',
+		tagline: 'Voz a texto, cara a cara.',
+		lead: 'Una persona habla hacia el teléfono y la otra lee desde el lado opuesto de la mesa. Con dos dedos el texto gira 180° para que se lea al derecho, sin pasarse el teléfono.',
+		availability: 'Próximamente en el App Store',
+		requirements: 'iPhone y iPad · iOS 26 o posterior',
+		videoTitle: 'Así funciona',
+		videoCaption: 'Una conversación real, transcrita mientras se habla.',
+		shotsTitle: 'En pantalla',
+		shots: [
+			{ img: '/images/fanxis/talk.png', caption: 'El texto aparece mientras hablas, sin esperar a que termines la frase.' },
+			{ img: '/images/fanxis/flipped.png', caption: 'Dos dedos hacia arriba y el texto queda al derecho para quien está enfrente.' },
+			{ img: '/images/fanxis/languages.png', caption: 'Elige el idioma de transcripción y descárgalo una sola vez.' },
 		],
-		featuresTitle: 'Características',
-		supportTitle: 'Soporte',
+		featuresTitle: 'Qué hace',
+		features: [
+			{ title: 'Transcripción en vivo', text: 'Las palabras aparecen mientras hablas y el texto avanza solo, pero se detiene si subes a releer.' },
+			{ title: 'Voltea el texto', text: 'Desliza con dos dedos hacia arriba para girarlo, y hacia abajo para regresarlo. Con un dedo sigue desplazándose normal.' },
+			{ title: 'Tu idioma', text: 'Elige entre los idiomas que ofrece iOS, agrupados y con buscador. Cada uno se descarga una vez.' },
+			{ title: 'Empieza con Siri', text: 'Un atajo listo para usar abre la app ya grabando, desde Siri, Atajos o el botón de Acción.' },
+			{ title: 'Legible a distancia', text: 'Ajusta el tamaño del texto para leerlo desde el otro lado de la mesa. En iPad se mantiene una línea cómoda.' },
+			{ title: 'Se queda contigo', text: 'Sin cuentas, sin anuncios y sin analíticas. Las transcripciones no se guardan.' },
+		],
+		useTitle: 'Para cuando escuchar cuesta',
+		useText: 'En una cafetería ruidosa, en un mostrador, en una reunión, o al hablar con alguien sordo o con dificultad auditiva. Deja el teléfono sobre la mesa y habla.',
+		linksTitle: 'Soporte',
 		supportLink: 'Ayuda y contacto',
 		privacyLink: 'Política de privacidad',
 	},
 	en: {
-		description:
-			'One person speaks toward the microphone; the other reads from the opposite side of the device. A two-finger swipe turns the transcript upside down so it reads the right way up for them, without moving the phone.',
-		features: [
-			'Live transcription while you speak.',
-			'Flip the text with two fingers for the person across from you.',
-			'30 transcription languages.',
-			'Start recording from Siri, Shortcuts or the Action button.',
-			'Adjustable text size, in English and Spanish.',
-			'No accounts, no analytics, and your transcripts are never saved.',
+		back: 'Apps',
+		tagline: 'Speech to text, face to face.',
+		lead: 'One person speaks toward the phone; the other reads from the opposite side of the table. Two fingers turn the text 180° so it reads the right way up for them, without passing the phone around.',
+		availability: 'Coming soon to the App Store',
+		requirements: 'iPhone and iPad · iOS 26 or later',
+		videoTitle: 'How it works',
+		videoCaption: 'A real conversation, written down as it happens.',
+		shotsTitle: 'On screen',
+		shots: [
+			{ img: '/images/fanxis/talk.png', caption: 'Words appear while you speak, without waiting for the end of a sentence.' },
+			{ img: '/images/fanxis/flipped.png', caption: 'Two fingers up, and the text reads the right way up for the person across from you.' },
+			{ img: '/images/fanxis/languages.png', caption: 'Pick the transcription language and download it once.' },
 		],
-		featuresTitle: 'Features',
-		supportTitle: 'Support',
+		featuresTitle: 'What it does',
+		features: [
+			{ title: 'Live transcription', text: 'Words appear as you speak and the text follows along — unless you scroll up to re-read, and then it waits.' },
+			{ title: 'Flip the text', text: 'Swipe up with two fingers to turn it around, down to turn it back. One finger still scrolls as usual.' },
+			{ title: 'Your language', text: 'Choose from the languages iOS offers, grouped and searchable. Each one downloads once.' },
+			{ title: 'Start with Siri', text: 'A ready-made shortcut opens the app already recording — from Siri, Shortcuts or the Action button.' },
+			{ title: 'Readable across a table', text: 'Adjust the text size to read it from a distance. On iPad the line length stays comfortable.' },
+			{ title: 'It stays with you', text: 'No accounts, no ads and no analytics. Transcripts are never saved.' },
+		],
+		useTitle: 'For when listening is hard',
+		useText: 'In a loud café, at a counter, in a meeting, or when talking with someone who is deaf or hard of hearing. Put the phone on the table and talk.',
+		linksTitle: 'Support',
 		supportLink: 'Help & Contact',
 		privacyLink: 'Privacy Policy',
 	},
@@ -49,50 +75,157 @@ const copy = {
 <!doctype html>
 <html lang={currentLang}>
 	<head>
-		<BaseHead title={`${app.name} | App`} description={app.tagline[currentLang]} />
+		<BaseHead
+			title={`${app.name} | ${copy.tagline}`}
+			description={copy.lead}
+			image="/images/fanxis/icon.png"
+		/>
 		<style>
+			.back {
+				display: inline-block;
+				margin-bottom: 2rem;
+				color: rgb(var(--gray));
+			}
+
+			/* Hero */
 			.hero {
 				display: flex;
 				align-items: center;
 				gap: 1.5rem;
-				margin-bottom: 2rem;
+				margin-bottom: 1.25rem;
 			}
-			.hero .icon {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				width: 88px;
-				height: 88px;
-				border-radius: 20px;
-				font-size: 2.5rem;
-				font-weight: 700;
-				color: var(--background);
-				background: linear-gradient(135deg, rgba(var(--gray), 85%), var(--accent));
+			.hero img {
+				width: 96px;
+				height: 96px;
+				border-radius: 22px;
 				flex-shrink: 0;
+				box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 			}
 			.hero h1 {
 				margin: 0 0 0.25rem;
+				line-height: 1.1;
 			}
-			.hero p {
+			.hero .tagline {
 				margin: 0;
+				font-size: 1.15rem;
 				color: rgb(var(--gray));
 			}
-			.support h2,
-			.features h2 {
+			.lead {
 				font-size: 1.1rem;
-				margin-bottom: 0.5rem;
+				max-width: 46ch;
 			}
-			.support ul,
-			.features ul {
+			.meta {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: 0.75rem;
+				margin: 1.5rem 0 3rem;
+			}
+			.pill {
+				display: inline-block;
+				padding: 0.55rem 1.1rem;
+				border-radius: 999px;
+				background-color: var(--accent);
+				color: var(--background);
+				font-weight: 700;
+				font-size: 0.95rem;
+			}
+			.meta .requirements {
+				color: rgb(var(--gray));
+				font-size: 0.95rem;
+			}
+
+			section {
+				margin-bottom: 3.5rem;
+			}
+			section h2 {
+				font-size: 1.35rem;
+				margin-bottom: 0.4rem;
+			}
+			.section-intro {
+				color: rgb(var(--gray));
+				margin-top: 0;
+			}
+
+			/* A phone-shaped bezel around the screenshots and the preview video. */
+			.device {
+				background: #1c1c1e;
+				/* Hairline edge: in dark mode the bezel is nearly the page colour. */
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				border-radius: 38px;
+				padding: 8px;
+				box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+				max-width: 300px;
+				margin: 0 auto;
+			}
+			.device img,
+			.device video {
+				display: block;
+				width: 100%;
+				height: auto;
+				border-radius: 30px;
+			}
+
+			.video-wrap {
+				max-width: 300px;
+				margin: 0 auto;
+			}
+
+			/* Screenshots */
+			.shots {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 2rem;
+			}
+			.shots figure {
+				margin: 0;
+			}
+			.shots figcaption {
+				margin-top: 0.9rem;
+				color: rgb(var(--gray));
+				font-size: 0.92rem;
+				text-align: center;
+			}
+
+			/* Features */
+			.features {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 1.5rem 2rem;
+				margin-top: 1.5rem;
+			}
+			.features h3 {
+				font-size: 1rem;
+				margin: 0 0 0.3rem;
+			}
+			.features p {
+				margin: 0;
+				color: rgb(var(--gray));
+				font-size: 0.95rem;
+			}
+
+			.callout {
+				border-left: 3px solid var(--accent);
+				padding-left: 1.1rem;
+			}
+			.callout p {
+				margin: 0;
+				max-width: 52ch;
+			}
+
+			.links ul {
 				margin: 0;
 				padding-left: 1.2rem;
 			}
-			.back {
-				display: inline-block;
-				margin-bottom: 1.5rem;
-				color: rgb(var(--gray));
-			}
-			@media (max-width: 520px) {
+
+			@media (max-width: 720px) {
+				.shots,
+				.features {
+					grid-template-columns: 1fr;
+				}
+				.shots {
+					gap: 2.5rem;
+				}
 				.hero {
 					flex-direction: column;
 					align-items: flex-start;
@@ -104,29 +237,78 @@ const copy = {
 	<body>
 		<Header />
 		<main>
-			<a class="back" href={appsUrl}>&larr; Apps</a>
+			<a class="back" href={appsUrl}>&larr; {copy.back}</a>
 
-			<section class="hero">
-				<span class="icon" aria-hidden="true">{app.name.charAt(0)}</span>
-				<div>
-					<h1>{app.name}</h1>
-					<p>{app.tagline[currentLang]}</p>
+			<section class="intro">
+				<div class="hero">
+					<img src="/images/fanxis/icon.png" alt={app.name} width="96" height="96" />
+					<div>
+						<h1>{app.name}</h1>
+						<p class="tagline">{copy.tagline}</p>
+					</div>
+				</div>
+
+				<p class="lead">{copy.lead}</p>
+
+				<div class="meta">
+					<span class="pill">{copy.availability}</span>
+					<span class="requirements">{copy.requirements}</span>
 				</div>
 			</section>
 
 			<section>
-				<p>{copy.description}</p>
+				<h2>{copy.videoTitle}</h2>
+				<p class="section-intro">{copy.videoCaption}</p>
+				<div class="video-wrap">
+					<div class="device">
+						<video
+							id="preview"
+							src="/videos/fanxis-preview.mp4"
+							poster="/images/fanxis/talk.png"
+							controls
+							loop
+							muted
+							playsinline
+							autoplay
+							preload="metadata"
+						></video>
+					</div>
+				</div>
 			</section>
 
-			<section class="features">
+			<section>
+				<h2>{copy.shotsTitle}</h2>
+				<div class="shots">
+					{copy.shots.map((shot) => (
+						<figure>
+							<div class="device">
+								<img src={shot.img} alt={shot.caption} loading="lazy" />
+							</div>
+							<figcaption>{shot.caption}</figcaption>
+						</figure>
+					))}
+				</div>
+			</section>
+
+			<section>
 				<h2>{copy.featuresTitle}</h2>
-				<ul>
-					{copy.features.map((feature) => <li>{feature}</li>)}
-				</ul>
+				<div class="features">
+					{copy.features.map((feature) => (
+						<div>
+							<h3>{feature.title}</h3>
+							<p>{feature.text}</p>
+						</div>
+					))}
+				</div>
 			</section>
 
-			<section class="support">
-				<h2>{copy.supportTitle}</h2>
+			<section class="callout">
+				<h2>{copy.useTitle}</h2>
+				<p>{copy.useText}</p>
+			</section>
+
+			<section class="links">
+				<h2>{copy.linksTitle}</h2>
 				<ul>
 					<li><a href="/fanxis/fanxisSupport">{copy.supportLink}</a></li>
 					<li><a href="/fanxis/fanxisPrivacyPolicy">{copy.privacyLink}</a></li>
@@ -134,5 +316,15 @@ const copy = {
 			</section>
 		</main>
 		<Footer />
+
+		<script>
+			// The preview loops on its own, which is motion the visitor did not ask for.
+			const video = document.getElementById('preview') as HTMLVideoElement | null;
+			if (video && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				video.removeAttribute('autoplay');
+				video.removeAttribute('loop');
+				video.pause();
+			}
+		</script>
 	</body>
 </html>
