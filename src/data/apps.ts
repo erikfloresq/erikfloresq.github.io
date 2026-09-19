@@ -44,8 +44,12 @@ export const apps: AppEntry[] = [
 			es: 'Voz a texto en vivo para conversar en una sola pantalla.',
 			en: 'Live speech-to-text for a conversation on one screen.',
 		},
-		icon: null,
+		icon: '/images/fanxis/icon.svg',
 		path: '/fanxis/',
 		platforms: ['iOS', 'iPadOS'],
+		links: {
+			// Sin código de país: Apple manda a cada visitante a su propia tienda.
+			appStore: 'https://apps.apple.com/app/fanxis-live-captions/id1278678458',
+		},
 	},
 ];

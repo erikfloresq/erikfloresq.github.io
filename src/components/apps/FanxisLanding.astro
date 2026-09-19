@@ -15,6 +15,7 @@ const copy = {
 		back: 'Apps',
 		tagline: 'Voz a texto, cara a cara.',
 		lead: 'Una persona habla hacia el teléfono y la otra lee desde el lado opuesto de la mesa. Con dos dedos el texto gira 180° para que se lea al derecho, sin pasarse el teléfono.',
+		download: 'Descargar en el App Store',
 		availability: 'Próximamente en el App Store',
 		requirements: 'iPhone y iPad · iOS 26 o posterior',
 		videoTitle: 'Así funciona',
@@ -44,6 +45,7 @@ const copy = {
 		back: 'Apps',
 		tagline: 'Speech to text, face to face.',
 		lead: 'One person speaks toward the phone; the other reads from the opposite side of the table. Two fingers turn the text 180° so it reads the right way up for them, without passing the phone around.',
+		download: 'Download on the App Store',
 		availability: 'Coming soon to the App Store',
 		requirements: 'iPhone and iPad · iOS 26 or later',
 		videoTitle: 'How it works',
@@ -123,12 +125,17 @@ const copy = {
 			}
 			.pill {
 				display: inline-block;
+				text-decoration: none;
 				padding: 0.55rem 1.1rem;
 				border-radius: 999px;
 				background-color: var(--accent);
 				color: var(--background);
 				font-weight: 700;
 				font-size: 0.95rem;
+			}
+			a.pill:hover,
+			a.pill:focus-visible {
+				opacity: 0.9;
 			}
 			.meta .requirements {
 				color: rgb(var(--gray));
@@ -251,7 +258,13 @@ const copy = {
 				<p class="lead">{copy.lead}</p>
 
 				<div class="meta">
-					<span class="pill">{copy.availability}</span>
+					{app.links?.appStore ? (
+						<a class="pill" href={app.links.appStore} target="_blank" rel="noopener noreferrer">
+							{copy.download}
+						</a>
+					) : (
+						<span class="pill">{copy.availability}</span>
+					)}
 					<span class="requirements">{copy.requirements}</span>
 				</div>
 			</section>
