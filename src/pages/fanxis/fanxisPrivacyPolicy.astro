@@ -4,12 +4,13 @@ import BaseHead from '../../components/BaseHead.astro';
 const APPLE_PRIVACY_URL = 'https://www.apple.com/legal/privacy/';
 // Set to a public contact address; when empty, the page points users to the App Store listing.
 const CONTACT_EMAIL = 'erikfloresq@icloud.com';
+const ANDROID_POLICY_URL = '/fanxis/fanxisPrivacyPolicyAndroid';
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title="Privacy Policy - Fanxis" description="Privacy Policy for Fanxis iOS application" />
+		<BaseHead title="Privacy Policy (iOS) - Fanxis" description="Privacy Policy for the Fanxis iOS application" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -129,7 +130,15 @@ const CONTACT_EMAIL = 'erikfloresq@icloud.com';
 			/* Hero Banner */
 			.hero {
 				text-align: center;
-				margin-bottom: 50px;
+				margin-bottom: 30px;
+			}
+
+			/* Cross-platform pointer */
+			.platform-switch {
+				text-align: center;
+				margin-bottom: 40px;
+				font-size: 14px;
+				color: var(--text-secondary);
 			}
 
 			.hero h1 {
@@ -343,7 +352,11 @@ const CONTACT_EMAIL = 'erikfloresq@icloud.com';
 			<!-- Main Hero -->
 			<div class="hero">
 				<h1>Privacy Policy</h1>
-				<p>Effective date: September 13, 2026</p>
+				<p>Fanxis for iOS · Effective date: September 13, 2026</p>
+			</div>
+
+			<div class="platform-switch">
+				Using an Android phone? Read the <a href={ANDROID_POLICY_URL}>Android privacy policy</a>.
 			</div>
 
 			<!-- Glassmorphic Policy Content -->
@@ -458,6 +471,7 @@ const CONTACT_EMAIL = 'erikfloresq@icloud.com';
 			<!-- Footer -->
 			<footer>
 				<p>&copy; 2026 Fanxis. All rights reserved. Built with privacy in mind.</p>
+				<p><a href={ANDROID_POLICY_URL}>Android privacy policy</a> · <a href="/fanxis/fanxisSupport">Support</a></p>
 			</footer>
 		</div>
 
