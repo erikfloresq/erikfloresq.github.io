@@ -1,0 +1,603 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+
+const GOOGLE_PRIVACY_URL = 'https://policies.google.com/privacy';
+const IOS_POLICY_URL = '/fanxis/fanxisPrivacyPolicy';
+// Set to a public contact address; when empty, the page points users to the Play Store listing.
+const CONTACT_EMAIL = 'erikfloresq@icloud.com';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Privacy Policy (Android) - Fanxis" description="Privacy Policy for the Fanxis Android application" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+		<style is:global>
+			:root {
+				--bg-color: #0B0A0F;
+				--card-bg: rgba(20, 18, 28, 0.7);
+				--card-border: rgba(255, 255, 255, 0.05);
+				--primary: #5856D6;
+				--primary-light: #8E8CF0;
+				--text-primary: #FFFFFF;
+				--text-secondary: #9CA3AF;
+				--accent: #3DDC84;
+			}
+
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			/* The decorative glow orbs sit partly off-screen; without this the page can be
+			   dragged sideways on phones. body's overflow-x alone does not contain them. */
+			html {
+				overflow-x: clip;
+			}
+
+			body {
+				font-family: 'Inter', sans-serif;
+				background-color: var(--bg-color);
+				color: var(--text-primary);
+				line-height: 1.6;
+				overflow-x: hidden;
+				position: relative;
+			}
+
+			/* Ambient glows background */
+			.glow-orb-1 {
+				position: absolute;
+				width: 400px;
+				height: 400px;
+				border-radius: 50%;
+				background: radial-gradient(circle, rgba(88, 86, 214, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+				top: -100px;
+				left: -100px;
+				z-index: -1;
+			}
+
+			.glow-orb-2 {
+				position: absolute;
+				width: 500px;
+				height: 500px;
+				border-radius: 50%;
+				background: radial-gradient(circle, rgba(61, 220, 132, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+				bottom: 200px;
+				right: -100px;
+				z-index: -1;
+			}
+
+			.container {
+				max-width: 900px;
+				margin: 0 auto;
+				padding: 40px 20px;
+			}
+
+			/* Header UI */
+			header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 16px;
+				flex-wrap: wrap;
+				padding-bottom: 30px;
+				border-bottom: 1px solid var(--card-border);
+				margin-bottom: 40px;
+			}
+
+			.logo {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+			}
+
+			.logo-icon {
+				width: 40px;
+				height: 40px;
+				border-radius: 10px;
+				background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				box-shadow: 0 4px 14px rgba(88, 86, 214, 0.4);
+				font-weight: 800;
+				font-size: 20px;
+				color: #fff;
+			}
+
+			.logo-text {
+				font-size: 22px;
+				font-weight: 800;
+				letter-spacing: -0.5px;
+				background: linear-gradient(135deg, #FFFFFF 0%, #D1D5DB 100%);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
+
+			.platform-badge {
+				background-color: rgba(61, 220, 132, 0.1);
+				border: 1px solid rgba(61, 220, 132, 0.25);
+				color: var(--accent);
+				padding: 6px 14px;
+				border-radius: 20px;
+				font-size: 12px;
+				font-weight: 600;
+				letter-spacing: 0.5px;
+				text-transform: uppercase;
+			}
+
+			/* Hero Banner */
+			.hero {
+				text-align: center;
+				margin-bottom: 30px;
+			}
+
+			.hero h1 {
+				font-size: 42px;
+				font-weight: 800;
+				letter-spacing: -1px;
+				margin-bottom: 12px;
+				background: linear-gradient(135deg, #FFFFFF 0%, #8E8CF0 100%);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
+
+			.hero p {
+				color: var(--text-secondary);
+				font-size: 16px;
+				font-weight: 500;
+			}
+
+			/* Cross-platform pointer */
+			.platform-switch {
+				text-align: center;
+				margin-bottom: 40px;
+				font-size: 14px;
+				color: var(--text-secondary);
+			}
+
+			/* Glassmorphic Policy Content Card */
+			.policy-card {
+				background: var(--card-bg);
+				backdrop-filter: blur(16px);
+				-webkit-backdrop-filter: blur(16px);
+				border: 1px solid var(--card-border);
+				border-radius: 24px;
+				padding: 40px;
+				box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+				margin-bottom: 40px;
+			}
+
+			/* Language Toggle Tabs */
+			.tabs {
+				display: flex;
+				gap: 8px;
+				background: rgba(255, 255, 255, 0.03);
+				padding: 4px;
+				border-radius: 12px;
+				border: 1px solid var(--card-border);
+				margin-bottom: 30px;
+				width: fit-content;
+			}
+
+			.tab-btn {
+				background: none;
+				border: none;
+				color: var(--text-secondary);
+				padding: 8px 20px;
+				font-size: 14px;
+				font-weight: 600;
+				border-radius: 8px;
+				cursor: pointer;
+				transition: all 0.3s ease;
+			}
+
+			.tab-btn.active {
+				background-color: var(--primary);
+				color: var(--text-primary);
+				box-shadow: 0 4px 12px rgba(88, 86, 214, 0.3);
+			}
+
+			/* Content Sections Styling */
+			.content-section {
+				display: none;
+			}
+
+			.content-section.active {
+				display: block;
+				animation: fadeIn 0.5s ease;
+			}
+
+			@keyframes fadeIn {
+				from { opacity: 0; transform: translateY(10px); }
+				to { opacity: 1; transform: translateY(0); }
+			}
+
+			h2 {
+				font-size: 20px;
+				font-weight: 700;
+				color: var(--text-primary);
+				margin-top: 30px;
+				margin-bottom: 12px;
+				border-left: 3px solid var(--primary);
+				padding-left: 12px;
+				letter-spacing: -0.3px;
+			}
+
+			h2:first-of-type {
+				margin-top: 0;
+			}
+
+			p {
+				color: var(--text-secondary);
+				font-size: 15px;
+				margin-bottom: 18px;
+				font-weight: 400;
+			}
+
+			ul {
+				list-style: none;
+				margin-bottom: 20px;
+				padding-left: 4px;
+			}
+
+			li {
+				color: var(--text-secondary);
+				font-size: 15px;
+				margin-bottom: 10px;
+				position: relative;
+				padding-left: 20px;
+			}
+
+			li::before {
+				content: "•";
+				color: var(--primary);
+				font-weight: bold;
+				font-size: 18px;
+				position: absolute;
+				left: 0;
+				top: -2px;
+			}
+
+			a {
+				color: var(--primary-light);
+				text-decoration: underline;
+				text-underline-offset: 2px;
+			}
+
+			a:hover {
+				color: var(--text-primary);
+			}
+
+			strong {
+				color: var(--text-primary);
+				font-weight: 600;
+			}
+
+			/* Permission names and the deep link read as identifiers, not prose. */
+			code {
+				font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+				font-size: 0.88em;
+				background: rgba(255, 255, 255, 0.05);
+				border: 1px solid var(--card-border);
+				border-radius: 6px;
+				padding: 2px 6px;
+				color: var(--primary-light);
+				overflow-wrap: anywhere;
+			}
+
+			/* Alert Callout */
+			.offline-callout {
+				background: rgba(88, 86, 214, 0.05);
+				border: 1px dashed rgba(88, 86, 214, 0.3);
+				border-radius: 12px;
+				padding: 20px;
+				margin-bottom: 30px;
+				display: flex;
+				gap: 16px;
+				align-items: flex-start;
+			}
+
+			.offline-callout-icon {
+				font-size: 24px;
+				line-height: 1;
+			}
+
+			.offline-callout-text h3 {
+				font-size: 16px;
+				font-weight: 700;
+				margin-bottom: 4px;
+				color: var(--primary-light);
+			}
+
+			.offline-callout-text p {
+				margin-bottom: 0;
+				font-size: 14px;
+			}
+
+			/* Data safety summary table */
+			.data-table {
+				width: 100%;
+				border-collapse: collapse;
+				margin-bottom: 24px;
+				font-size: 14px;
+			}
+
+			.data-table th,
+			.data-table td {
+				text-align: left;
+				padding: 10px 12px;
+				border-bottom: 1px solid var(--card-border);
+				color: var(--text-secondary);
+				vertical-align: top;
+			}
+
+			.data-table th {
+				color: var(--text-primary);
+				font-weight: 600;
+			}
+
+			.data-table td:first-child {
+				color: var(--text-primary);
+				font-weight: 500;
+				white-space: nowrap;
+			}
+
+			/* Footer */
+			footer {
+				text-align: center;
+				color: var(--text-secondary);
+				font-size: 13px;
+				border-top: 1px solid var(--card-border);
+				padding-top: 30px;
+				margin-top: 50px;
+			}
+
+			footer a {
+				color: var(--primary-light);
+				text-decoration: none;
+				font-weight: 500;
+				transition: color 0.2s ease;
+			}
+
+			footer a:hover {
+				color: var(--text-primary);
+			}
+
+			@media (max-width: 600px) {
+				.policy-card {
+					padding: 24px;
+				}
+				.hero h1 {
+					font-size: 32px;
+				}
+				.data-table td:first-child {
+					white-space: normal;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="glow-orb-1"></div>
+		<div class="glow-orb-2"></div>
+
+		<div class="container">
+			<!-- Top Bar -->
+			<header>
+				<div class="logo">
+					<div class="logo-icon">F</div>
+					<div class="logo-text">Fanxis</div>
+				</div>
+				<div class="platform-badge">Android</div>
+			</header>
+
+			<!-- Main Hero -->
+			<div class="hero">
+				<h1>Privacy Policy</h1>
+				<p>Fanxis for Android · Effective date: September 20, 2026</p>
+			</div>
+
+			<div class="platform-switch">
+				Using an iPhone? Read the <a href={IOS_POLICY_URL}>iOS privacy policy</a>.
+			</div>
+
+			<!-- Glassmorphic Policy Content -->
+			<div class="policy-card">
+				<!-- Language toggle tabs -->
+				<div class="tabs">
+					<button class="tab-btn active" data-lang="en">English</button>
+					<button class="tab-btn" data-lang="es">Español</button>
+				</div>
+
+				<!-- ENGLISH SECTION -->
+				<div id="policy-en" class="content-section active">
+					<div class="offline-callout">
+						<div class="offline-callout-icon">🛡️</div>
+						<div class="offline-callout-text">
+							<h3>Your conversations stay with you</h3>
+							<p>Fanxis does not collect your personal data, does not save your transcripts, and does not send anything to the developer. The app does not request the Internet permission, so it cannot make network connections of its own.</p>
+						</div>
+					</div>
+
+					<p>Fanxis turns speech into text so that two people can share a conversation on one screen. This policy explains what the Android version of the app does with your information.</p>
+
+					<h2>1. Information Fanxis does not collect</h2>
+					<p>Fanxis has no accounts and no sign-in. It contains no advertising, no analytics, no crash reporting, no tracking and no third-party SDKs. The developer does not receive your voice, your transcripts or any information about how you use the app.</p>
+					<p>Fanxis does not declare the <strong>INTERNET</strong> permission in its manifest. Android therefore blocks the app from opening any network connection, which is the technical guarantee behind everything above.</p>
+
+					<h2>2. Microphone</h2>
+					<p>Fanxis asks for the <strong>Microphone</strong> permission (<code>RECORD_AUDIO</code>) so it can hear what you say and turn it into text. The microphone is used only while you are recording — from the moment you start until you stop. Fanxis runs no service that captures audio, in the background or in the foreground: nothing is recorded while the app is not on screen.</p>
+					<p>Audio is never written to storage. It is passed to the recognizer as it is captured and then discarded.</p>
+
+					<h2>3. Speech recognition</h2>
+					<p>Transcription is performed by Android's own speech recognition, not by Fanxis and not by the developer.</p>
+					<ul>
+						<li><strong>On-device first.</strong> Fanxis asks Android for the on-device recognizer and marks every request as preferring offline recognition. When your device offers on-device recognition for the language you picked, your voice is processed on the phone and does not leave it.</li>
+						<li><strong>Fallback.</strong> If your device does not offer on-device recognition, Android hands the request to the speech recognition service installed on your phone — on most devices that is Google's, on some it is the manufacturer's. That service may process your audio on its own servers, under its own privacy policy, such as <a href={GOOGLE_PRIVACY_URL} target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a>. Fanxis does not control that service and receives only the resulting text.</li>
+					</ul>
+					<p>Language packs for offline recognition are downloaded and managed by Android itself, not by Fanxis. You can review them in your device settings, usually under <strong>Settings → System → Languages &amp; input → On-device speech recognition</strong>.</p>
+					<p>You can revoke Microphone access at any time in <strong>Settings → Apps → Fanxis → Permissions</strong>.</p>
+
+					<h2>4. Your transcripts</h2>
+					<p>Transcripts exist only in memory, on your screen, while you are using them. Fanxis does not write them to your device's storage, to a database or to any cloud. The text is discarded when you clear it, when you start a new recording, or when the app is closed.</p>
+					<p>If you choose <strong>Copy</strong>, the transcript is placed on the system clipboard, where Android handles it like anything else you copy.</p>
+
+					<h2>5. Shortcuts, the Quick Settings tile and the fanxis:// link</h2>
+					<p>Fanxis can be started already recording from the launcher shortcut, from a Quick Settings tile, or from a <code>fanxis://record</code> link used by routines and automation apps. These only open the app and start a recording. They carry no data about you, and using them still requires the Microphone permission.</p>
+
+					<h2>6. Information stored on your device</h2>
+					<p>Fanxis keeps a few settings on your device so it remembers your choices between launches:</p>
+					<ul>
+						<li>the text size you picked;</li>
+						<li>the transcription language you picked;</li>
+						<li>whether you have already seen the welcome screen and the onboarding tips.</li>
+					</ul>
+					<p>These settings stay in the app's private storage and are not sent to the developer. Fanxis switches off Android's backup and device-to-device transfer for its own data, so these settings are not copied to your Google account and are not carried over to a new phone. They exist on one device only, and uninstalling the app removes them.</p>
+
+					<h2>7. Screen behaviour</h2>
+					<p>While a recording is running, Fanxis keeps the screen awake so the conversation stays visible on a phone nobody is touching. This stops as soon as recording stops.</p>
+
+					<h2>8. Data safety summary</h2>
+					<table class="data-table">
+						<tr><th>Question</th><th>Answer</th></tr>
+						<tr><td>Data collected</td><td>None</td></tr>
+						<tr><td>Data shared with third parties</td><td>None</td></tr>
+						<tr><td>Data sent off the device by the app</td><td>None — the app has no Internet permission</td></tr>
+						<tr><td>Audio recordings stored</td><td>None</td></tr>
+						<tr><td>Data backed up to the cloud</td><td>None — backup and device transfer are turned off</td></tr>
+						<tr><td>Account required</td><td>No</td></tr>
+						<tr><td>Ads, analytics or trackers</td><td>None</td></tr>
+					</table>
+
+					<h2>9. Deleting your data</h2>
+					<p>There is no account to delete and the developer holds nothing about you. Uninstalling Fanxis removes the settings listed in section 6 from your device, and that is the end of them: they were never backed up, transferred or sent anywhere.</p>
+
+					<h2>10. Children</h2>
+					<p>Fanxis does not collect personal information from anyone, including children.</p>
+
+					<h2>11. Changes to this policy</h2>
+					<p>If this policy changes, the updated version will be published at this same address with a new effective date.</p>
+
+					<h2>12. Contact</h2>
+					{CONTACT_EMAIL
+						? <p>If you have questions about this policy, contact: <a href={`mailto:${CONTACT_EMAIL}`}><strong>{CONTACT_EMAIL}</strong></a></p>
+						: <p>If you have questions about this policy, contact the developer through the email address provided in the Google Play listing.</p>}
+				</div>
+
+				<!-- SPANISH SECTION -->
+				<div id="policy-es" class="content-section">
+					<div class="offline-callout">
+						<div class="offline-callout-icon">🛡️</div>
+						<div class="offline-callout-text">
+							<h3>Tus conversaciones se quedan contigo</h3>
+							<p>Fanxis no recopila tus datos personales, no guarda tus transcripciones y no envía nada al desarrollador. La app no solicita el permiso de Internet, así que no puede abrir conexiones de red por su cuenta.</p>
+						</div>
+					</div>
+
+					<p>Fanxis convierte la voz en texto para que dos personas puedan compartir una conversación en una sola pantalla. Esta política explica qué hace la versión de Android con tu información.</p>
+
+					<h2>1. Información que Fanxis no recopila</h2>
+					<p>Fanxis no tiene cuentas ni inicio de sesión. No contiene publicidad, analíticas, reportes de fallos, rastreo ni SDK de terceros. El desarrollador no recibe tu voz, tus transcripciones ni ninguna información sobre cómo usas la app.</p>
+					<p>Fanxis no declara el permiso <strong>INTERNET</strong> en su manifiesto. Android le impide, por tanto, abrir cualquier conexión de red: esa es la garantía técnica detrás de todo lo anterior.</p>
+
+					<h2>2. Micrófono</h2>
+					<p>Fanxis solicita el permiso de <strong>Micrófono</strong> (<code>RECORD_AUDIO</code>) para poder escuchar lo que dices y convertirlo en texto. El micrófono se usa solo mientras estás grabando — desde que inicias hasta que te detienes. Fanxis no ejecuta ningún servicio que capture audio, ni en segundo plano ni en primer plano: no se graba nada mientras la app no está en pantalla.</p>
+					<p>El audio nunca se escribe en el almacenamiento. Se pasa al reconocedor según se captura y se descarta.</p>
+
+					<h2>3. Reconocimiento de voz</h2>
+					<p>La transcripción la realiza el reconocimiento de voz del propio Android, no Fanxis ni el desarrollador.</p>
+					<ul>
+						<li><strong>Primero en el dispositivo.</strong> Fanxis solicita a Android el reconocedor en el dispositivo y marca cada petición como preferentemente sin conexión. Cuando tu dispositivo ofrece reconocimiento en el dispositivo para el idioma que elegiste, tu voz se procesa en el teléfono y no sale de él.</li>
+						<li><strong>Alternativa.</strong> Si tu dispositivo no ofrece reconocimiento en el dispositivo, Android entrega la petición al servicio de reconocimiento de voz instalado en tu teléfono — en la mayoría es el de Google, en algunos el del fabricante. Ese servicio puede procesar tu audio en sus propios servidores, bajo su propia política de privacidad, como la <a href={GOOGLE_PRIVACY_URL} target="_blank" rel="noopener noreferrer">Política de Privacidad de Google</a>. Fanxis no controla ese servicio y solo recibe el texto resultante.</li>
+					</ul>
+					<p>Los paquetes de idioma para el reconocimiento sin conexión los descarga y gestiona Android, no Fanxis. Puedes revisarlos en los ajustes de tu dispositivo, normalmente en <strong>Ajustes → Sistema → Idiomas e introducción de texto → Reconocimiento de voz en el dispositivo</strong>.</p>
+					<p>Puedes revocar el acceso al Micrófono en cualquier momento desde <strong>Ajustes → Aplicaciones → Fanxis → Permisos</strong>.</p>
+
+					<h2>4. Tus transcripciones</h2>
+					<p>Las transcripciones solo existen en memoria, en tu pantalla, mientras las estás usando. Fanxis no las escribe en el almacenamiento de tu dispositivo, ni en una base de datos, ni en ninguna nube. El texto se descarta cuando lo borras, cuando inicias una nueva grabación o cuando se cierra la app.</p>
+					<p>Si eliges <strong>Copiar</strong>, la transcripción se coloca en el portapapeles del sistema, donde Android la maneja como cualquier otra cosa que copies.</p>
+
+					<h2>5. Accesos directos, el mosaico de Ajustes rápidos y el enlace fanxis://</h2>
+					<p>Fanxis puede iniciarse ya grabando desde el acceso directo del lanzador, desde un mosaico de Ajustes rápidos o desde un enlace <code>fanxis://record</code> usado por rutinas y apps de automatización. Estos solo abren la app e inician una grabación. No llevan datos sobre ti, y usarlos sigue requiriendo el permiso de Micrófono.</p>
+
+					<h2>6. Información guardada en tu dispositivo</h2>
+					<p>Fanxis guarda algunos ajustes en tu dispositivo para recordar tus preferencias entre sesiones:</p>
+					<ul>
+						<li>el tamaño de texto que elegiste;</li>
+						<li>el idioma de transcripción que elegiste;</li>
+						<li>si ya viste la pantalla de bienvenida y los consejos de introducción.</li>
+					</ul>
+					<p>Estos ajustes permanecen en el almacenamiento privado de la app y no se envían al desarrollador. Fanxis desactiva la copia de seguridad de Android y la transferencia entre dispositivos para sus propios datos, así que estos ajustes no se copian a tu cuenta de Google ni pasan a un teléfono nuevo. Existen en un solo dispositivo, y desinstalar la app los borra.</p>
+
+					<h2>7. Comportamiento de la pantalla</h2>
+					<p>Mientras hay una grabación en curso, Fanxis mantiene la pantalla encendida para que la conversación siga visible en un teléfono que nadie está tocando. Esto termina en cuanto se detiene la grabación.</p>
+
+					<h2>8. Resumen de seguridad de los datos</h2>
+					<table class="data-table">
+						<tr><th>Pregunta</th><th>Respuesta</th></tr>
+						<tr><td>Datos recopilados</td><td>Ninguno</td></tr>
+						<tr><td>Datos compartidos con terceros</td><td>Ninguno</td></tr>
+						<tr><td>Datos que la app envía fuera del dispositivo</td><td>Ninguno — la app no tiene permiso de Internet</td></tr>
+						<tr><td>Grabaciones de audio almacenadas</td><td>Ninguna</td></tr>
+						<tr><td>Datos respaldados en la nube</td><td>Ninguno — la copia de seguridad y la transferencia están desactivadas</td></tr>
+						<tr><td>Cuenta obligatoria</td><td>No</td></tr>
+						<tr><td>Publicidad, analíticas o rastreadores</td><td>Ninguno</td></tr>
+					</table>
+
+					<h2>9. Eliminar tus datos</h2>
+					<p>No hay ninguna cuenta que eliminar y el desarrollador no conserva nada sobre ti. Desinstalar Fanxis elimina de tu dispositivo los ajustes indicados en la sección 6, y ahí termina todo: nunca se respaldaron, ni se transfirieron, ni se enviaron a ningún sitio.</p>
+
+					<h2>10. Menores de edad</h2>
+					<p>Fanxis no recopila información personal de nadie, incluidos los niños.</p>
+
+					<h2>11. Cambios en esta política</h2>
+					<p>Si esta política cambia, la versión actualizada se publicará en esta misma dirección con una nueva fecha de entrada en vigor.</p>
+
+					<h2>12. Contacto</h2>
+					{CONTACT_EMAIL
+						? <p>Si tienes preguntas sobre esta política, escribe a: <a href={`mailto:${CONTACT_EMAIL}`}><strong>{CONTACT_EMAIL}</strong></a></p>
+						: <p>Si tienes preguntas sobre esta política, contacta al desarrollador a través del correo electrónico indicado en la ficha de Google Play.</p>}
+				</div>
+			</div>
+
+			<!-- Footer -->
+			<footer>
+				<p>&copy; 2026 Fanxis. All rights reserved. Built with privacy in mind.</p>
+				<p><a href={IOS_POLICY_URL}>iOS privacy policy</a> · <a href="/fanxis/fanxisSupport">Support</a></p>
+			</footer>
+		</div>
+
+		<script>
+			// Language switching logic using event listeners to follow modern standards
+			const tabButtons = document.querySelectorAll<HTMLButtonElement>('.tab-btn');
+
+			tabButtons.forEach(button => {
+				button.addEventListener('click', (event) => {
+					const lang = button.getAttribute('data-lang');
+					const currentTarget = event.currentTarget as HTMLButtonElement | null;
+					if (lang && currentTarget) {
+						switchLanguage(lang, currentTarget);
+					}
+				});
+			});
+
+			function switchLanguage(lang: string, targetButton: HTMLButtonElement) {
+				// Manage active buttons
+				tabButtons.forEach(btn => btn.classList.remove('active'));
+				targetButton.classList.add('active');
+
+				// Manage active content sections
+				const sections = document.querySelectorAll('.content-section');
+				sections.forEach(sec => sec.classList.remove('active'));
+
+				const targetSection = document.getElementById(`policy-${lang}`);
+				if (targetSection) {
+					targetSection.classList.add('active');
+				}
+			}
+		</script>
+	</body>
+</html>
