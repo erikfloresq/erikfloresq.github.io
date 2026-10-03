@@ -16,23 +16,33 @@ const copy = {
 		tagline: 'Voz a texto, cara a cara.',
 		lead: 'Una persona habla hacia el teléfono y la otra lee desde el lado opuesto de la mesa. Con dos dedos el texto gira 180° para que se lea al derecho, sin pasarse el teléfono.',
 		download: 'Descargar en el App Store',
+		downloadPlay: 'Descargar en Google Play',
 		availability: 'Próximamente en el App Store',
-		requirements: 'iPhone y iPad · iOS 26 o posterior',
+		availabilityPlay: 'Próximamente en Google Play',
+		requirements: 'iPhone y iPad · iOS 26 o posterior — Teléfono y tablet Android',
+		platformsLabel: 'Elige la plataforma',
 		videoTitle: 'Así funciona',
 		videoCaption: 'Una conversación real, transcrita mientras se habla.',
 		shotsTitle: 'En pantalla',
-		shots: [
-			{ img: '/images/fanxis/talk.png', caption: 'El texto aparece mientras hablas, sin esperar a que termines la frase.' },
-			{ img: '/images/fanxis/flipped.png', caption: 'Dos dedos hacia arriba y el texto queda al derecho para quien está enfrente.' },
-			{ img: '/images/fanxis/languages.png', caption: 'Elige el idioma de transcripción y descárgalo una sola vez.' },
-		],
+		shots: {
+			ios: [
+				{ img: '/images/fanxis/talk.png', caption: 'El texto aparece mientras hablas, sin esperar a que termines la frase.' },
+				{ img: '/images/fanxis/flipped.png', caption: 'Dos dedos hacia arriba y el texto queda al derecho para quien está enfrente.' },
+				{ img: '/images/fanxis/languages.png', caption: 'Elige el idioma de transcripción y descárgalo una sola vez.' },
+			],
+			android: [
+				{ img: '/images/fanxis/android/talk.png', caption: 'El texto aparece mientras hablas, sin esperar a que termines la frase.' },
+				{ img: '/images/fanxis/android/flipped.png', caption: 'Dos dedos hacia arriba y el texto queda al derecho para quien está enfrente.' },
+				{ img: '/images/fanxis/android/languages.png', caption: 'Elige el idioma de transcripción y descárgalo una sola vez.' },
+			],
+		},
 		featuresTitle: 'Qué hace',
 		features: [
 			{ title: 'Transcripción en vivo', text: 'Las palabras aparecen mientras hablas y el texto avanza solo, pero se detiene si subes a releer.' },
 			{ title: 'Voltea el texto', text: 'Desliza con dos dedos hacia arriba para girarlo, y hacia abajo para regresarlo. Con un dedo sigue desplazándose normal.' },
-			{ title: 'Tu idioma', text: 'Elige entre los idiomas que ofrece iOS, agrupados y con buscador. Cada uno se descarga una vez.' },
-			{ title: 'Empieza con Siri', text: 'Un atajo listo para usar abre la app ya grabando, desde Siri, Atajos o el botón de Acción.' },
-			{ title: 'Legible a distancia', text: 'Ajusta el tamaño del texto para leerlo desde el otro lado de la mesa. En iPad se mantiene una línea cómoda.' },
+			{ title: 'Tu idioma', text: 'Elige entre los idiomas que ofrece el sistema, agrupados y con buscador. Cada uno se descarga una vez.' },
+			{ title: 'Empieza en un toque', text: 'Abre la app ya grabando: con Siri, Atajos o el botón de Acción en iPhone; desde el acceso directo o el mosaico de Ajustes rápidos en Android.' },
+			{ title: 'Legible a distancia', text: 'Ajusta el tamaño del texto para leerlo desde el otro lado de la mesa. En tablet se mantiene una línea cómoda.' },
 			{ title: 'Se queda contigo', text: 'Sin cuentas, sin anuncios y sin analíticas. Las transcripciones no se guardan.' },
 		],
 		useTitle: 'Para cuando escuchar cuesta',
@@ -47,23 +57,33 @@ const copy = {
 		tagline: 'Speech to text, face to face.',
 		lead: 'One person speaks toward the phone; the other reads from the opposite side of the table. Two fingers turn the text 180° so it reads the right way up for them, without passing the phone around.',
 		download: 'Download on the App Store',
+		downloadPlay: 'Get it on Google Play',
 		availability: 'Coming soon to the App Store',
-		requirements: 'iPhone and iPad · iOS 26 or later',
+		availabilityPlay: 'Coming soon to Google Play',
+		requirements: 'iPhone and iPad · iOS 26 or later — Android phone and tablet',
+		platformsLabel: 'Choose a platform',
 		videoTitle: 'How it works',
 		videoCaption: 'A real conversation, written down as it happens.',
 		shotsTitle: 'On screen',
-		shots: [
-			{ img: '/images/fanxis/talk.png', caption: 'Words appear while you speak, without waiting for the end of a sentence.' },
-			{ img: '/images/fanxis/flipped.png', caption: 'Two fingers up, and the text reads the right way up for the person across from you.' },
-			{ img: '/images/fanxis/languages.png', caption: 'Pick the transcription language and download it once.' },
-		],
+		shots: {
+			ios: [
+				{ img: '/images/fanxis/talk.png', caption: 'Words appear while you speak, without waiting for the end of a sentence.' },
+				{ img: '/images/fanxis/flipped.png', caption: 'Two fingers up, and the text reads the right way up for the person across from you.' },
+				{ img: '/images/fanxis/languages.png', caption: 'Pick the transcription language and download it once.' },
+			],
+			android: [
+				{ img: '/images/fanxis/android/talk.png', caption: 'Words appear while you speak, without waiting for the end of a sentence.' },
+				{ img: '/images/fanxis/android/flipped.png', caption: 'Two fingers up, and the text reads the right way up for the person across from you.' },
+				{ img: '/images/fanxis/android/languages.png', caption: 'Pick the transcription language and download it once.' },
+			],
+		},
 		featuresTitle: 'What it does',
 		features: [
 			{ title: 'Live transcription', text: 'Words appear as you speak and the text follows along — unless you scroll up to re-read, and then it waits.' },
 			{ title: 'Flip the text', text: 'Swipe up with two fingers to turn it around, down to turn it back. One finger still scrolls as usual.' },
-			{ title: 'Your language', text: 'Choose from the languages iOS offers, grouped and searchable. Each one downloads once.' },
-			{ title: 'Start with Siri', text: 'A ready-made shortcut opens the app already recording — from Siri, Shortcuts or the Action button.' },
-			{ title: 'Readable across a table', text: 'Adjust the text size to read it from a distance. On iPad the line length stays comfortable.' },
+			{ title: 'Your language', text: 'Choose from the languages the system offers, grouped and searchable. Each one downloads once.' },
+			{ title: 'Start in one tap', text: 'Open the app already recording — from Siri, Shortcuts or the Action button on iPhone; from the launcher shortcut or a Quick Settings tile on Android.' },
+			{ title: 'Readable across a table', text: 'Adjust the text size to read it from a distance. On a tablet the line length stays comfortable.' },
 			{ title: 'It stays with you', text: 'No accounts, no ads and no analytics. Transcripts are never saved.' },
 		],
 		useTitle: 'For when listening is hard',
@@ -74,6 +94,25 @@ const copy = {
 		privacyLinkAndroid: 'Privacy Policy (Android)',
 	},
 }[currentLang];
+
+// El video y las capturas cambian según la plataforma; la primera es la que
+// se muestra sin JavaScript.
+const platforms = [
+	{
+		id: 'ios',
+		label: 'iPhone · iPad',
+		video: '/videos/fanxis-preview.mp4',
+		poster: '/images/fanxis/talk.png',
+		shots: copy.shots.ios,
+	},
+	{
+		id: 'android',
+		label: 'Android',
+		video: '/videos/fanxis-preview-android.mp4',
+		poster: '/images/fanxis/android/talk.png',
+		shots: copy.shots.android,
+	},
+];
 ---
 
 <!doctype html>
@@ -180,6 +219,36 @@ const copy = {
 				margin: 0 auto;
 			}
 
+			/* Platform switch for the video and the screenshots */
+			.platform-tabs {
+				display: flex;
+				gap: 0.4rem;
+				margin: 1.25rem 0 2rem;
+			}
+			.platform-btn {
+				padding: 0.45rem 1rem;
+				border: 1px solid rgba(var(--gray), 25%);
+				border-radius: 999px;
+				background: none;
+				color: rgb(var(--gray));
+				font: inherit;
+				font-size: 0.9rem;
+				cursor: pointer;
+			}
+			.platform-btn:hover {
+				border-color: var(--accent);
+			}
+			.platform-btn.active {
+				background-color: var(--accent);
+				border-color: var(--accent);
+				color: var(--background);
+				font-weight: 700;
+			}
+			.shots-title {
+				font-size: 1rem;
+				margin: 2.5rem 0 1.25rem;
+			}
+
 			/* Screenshots */
 			.shots {
 				display: grid;
@@ -267,6 +336,13 @@ const copy = {
 					) : (
 						<span class="pill">{copy.availability}</span>
 					)}
+					{app.links?.playStore ? (
+						<a class="pill" href={app.links.playStore} target="_blank" rel="noopener noreferrer">
+							{copy.downloadPlay}
+						</a>
+					) : (
+						<span class="pill">{copy.availabilityPlay}</span>
+					)}
 					<span class="requirements">{copy.requirements}</span>
 				</div>
 			</section>
@@ -274,35 +350,60 @@ const copy = {
 			<section>
 				<h2>{copy.videoTitle}</h2>
 				<p class="section-intro">{copy.videoCaption}</p>
-				<div class="video-wrap">
-					<div class="device">
-						<video
-							id="preview"
-							src="/videos/fanxis-preview.mp4"
-							poster="/images/fanxis/talk.png"
-							controls
-							loop
-							muted
-							playsinline
-							autoplay
-							preload="metadata"
-						></video>
-					</div>
-				</div>
-			</section>
 
-			<section>
-				<h2>{copy.shotsTitle}</h2>
-				<div class="shots">
-					{copy.shots.map((shot) => (
-						<figure>
-							<div class="device">
-								<img src={shot.img} alt={shot.caption} loading="lazy" />
-							</div>
-							<figcaption>{shot.caption}</figcaption>
-						</figure>
+				<div class="platform-tabs" role="tablist" aria-label={copy.platformsLabel}>
+					{platforms.map((platform, index) => (
+						<button
+							type="button"
+							role="tab"
+							id={`tab-${platform.id}`}
+							class:list={['platform-btn', index === 0 && 'active']}
+							data-platform={platform.id}
+							aria-controls={`panel-${platform.id}`}
+							aria-selected={index === 0 ? 'true' : 'false'}
+						>
+							{platform.label}
+						</button>
 					))}
 				</div>
+
+				{platforms.map((platform, index) => (
+					<div
+						class="platform-panel"
+						id={`panel-${platform.id}`}
+						role="tabpanel"
+						aria-labelledby={`tab-${platform.id}`}
+						hidden={index !== 0}
+					>
+						<div class="video-wrap">
+							<div class="device">
+								<video
+									class="preview"
+									src={platform.video}
+									poster={platform.poster}
+									controls
+									loop
+									muted
+									playsinline
+									autoplay={index === 0}
+									preload="metadata"
+								></video>
+							</div>
+						</div>
+
+						<h3 class="shots-title">{copy.shotsTitle}</h3>
+						<div class="shots">
+							{platform.shots.map((shot) => (
+								<figure>
+									<div class="device">
+										<img src={shot.img} alt={shot.caption} loading="lazy" />
+									</div>
+									<figcaption>{shot.caption}</figcaption>
+								</figure>
+							))}
+						</div>
+					</div>
+				))}
 			</section>
 
 			<section>
@@ -334,13 +435,47 @@ const copy = {
 		<Footer />
 
 		<script>
+			const videos = document.querySelectorAll<HTMLVideoElement>('video.preview');
+			const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 			// The preview loops on its own, which is motion the visitor did not ask for.
-			const video = document.getElementById('preview') as HTMLVideoElement | null;
-			if (video && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-				video.removeAttribute('autoplay');
-				video.removeAttribute('loop');
-				video.pause();
+			if (reducedMotion) {
+				videos.forEach((video) => {
+					video.removeAttribute('autoplay');
+					video.removeAttribute('loop');
+					video.pause();
+				});
 			}
+
+			const tabs = document.querySelectorAll<HTMLButtonElement>('.platform-btn');
+
+			tabs.forEach((tab) => {
+				tab.addEventListener('click', () => {
+					const platform = tab.dataset.platform;
+					if (!platform) return;
+
+					tabs.forEach((other) => {
+						const selected = other === tab;
+						other.classList.toggle('active', selected);
+						other.setAttribute('aria-selected', String(selected));
+					});
+
+					document.querySelectorAll<HTMLElement>('.platform-panel').forEach((panel) => {
+						panel.hidden = panel.id !== `panel-${platform}`;
+					});
+
+					// Nobody wants to hear two previews at once, or a video playing
+					// behind a hidden panel.
+					videos.forEach((video) => {
+						const visible = video.closest('.platform-panel')?.id === `panel-${platform}`;
+						if (!visible) {
+							video.pause();
+						} else if (!reducedMotion) {
+							video.play().catch(() => {});
+						}
+					});
+				});
+			});
 		</script>
 	</body>
 </html>

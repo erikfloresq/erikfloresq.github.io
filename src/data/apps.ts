@@ -46,10 +46,11 @@ export const apps: AppEntry[] = [
 		},
 		icon: '/images/fanxis/icon.svg',
 		path: '/fanxis/',
-		platforms: ['iOS', 'iPadOS'],
+		platforms: ['iOS', 'iPadOS', 'Android'],
 		links: {
 			// Sin código de país: Apple manda a cada visitante a su propia tienda.
 			appStore: 'https://apps.apple.com/app/fanxis-live-captions/id1278678458',
+			playStore: 'https://play.google.com/store/apps/details?id=dev.erikfloresq.fanxis',
 		},
 	},
 ];
