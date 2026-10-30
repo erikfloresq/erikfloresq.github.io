@@ -53,4 +53,15 @@ export const apps: AppEntry[] = [
 			playStore: 'https://play.google.com/store/apps/details?id=dev.erikfloresq.fanxis',
 		},
 	},
+	{
+		slug: 'rcwidget',
+		name: 'RCWidget',
+		tagline: {
+			es: 'Controla el progreso de tus ciclos de Release Candidate en macOS.',
+			en: 'Track your Release Candidate cycles on macOS.',
+		},
+		icon: '/images/rcwidget/icon.png',
+		path: '/rcwidget/',
+		platforms: ['macOS'],
+	},
 ];

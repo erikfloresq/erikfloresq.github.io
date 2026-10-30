@@ -1,0 +1,51 @@
+---
+import BaseHead from '../BaseHead.astro';
+import Header from '../Header.astro';
+import Footer from '../Footer.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+import '../../styles/rcwidget-info.css';
+
+const currentLang = getLangFromUrl(Astro.url);
+const prefix = currentLang === 'en' ? '/en' : '';
+const email = 'erikfloresq@icloud.com';
+const copy = {
+	es: {
+		title: 'Soporte de RCWidget', description: 'Ayuda y contacto para RCWidget en macOS.', back: 'Volver a RCWidget',
+		intro: '¿Tienes una pregunta o encontraste un problema? Escríbeme y te ayudaré.', contact: 'Contacto',
+		contactText: 'Para recibir ayuda con RCWidget, escribe a', include: 'Para entender mejor el problema, incluye:',
+		items: ['La versión de macOS y de RCWidget que usas.', 'Qué estabas haciendo y qué esperabas que ocurriera.', 'Los pasos para reproducir el problema y, si puedes, una captura sin información privada.'],
+		widgets: 'Si un widget no muestra los cambios recientes, abre RCWidget y confirma que el ciclo esté guardado. La app actualiza los widgets cuando cambian los datos; macOS puede tardar un momento en refrescarlos.',
+		privacyTitle: 'Privacidad', privacyText: 'Los ciclos se guardan localmente en tu Mac. Lee la política de privacidad para más detalles.', privacyLink: 'Ver política de privacidad',
+	},
+	en: {
+		title: 'RCWidget Support', description: 'Help and contact for RCWidget on macOS.', back: 'Back to RCWidget',
+		intro: 'Have a question or found an issue? Send me a message and I’ll be glad to help.', contact: 'Contact',
+		contactText: 'For help with RCWidget, email', include: 'To help me understand the issue, include:',
+		items: ['Your macOS and RCWidget versions.', 'What you were doing and what you expected to happen.', 'Steps to reproduce the issue and, if possible, a screenshot without private information.'],
+		widgets: 'If a widget does not show recent changes, open RCWidget and confirm the cycle was saved. The app reloads widget timelines when data changes; macOS may take a moment to refresh them.',
+		privacyTitle: 'Privacy', privacyText: 'Cycles are stored locally on your Mac. Read the privacy policy for details.', privacyLink: 'Read the privacy policy',
+	},
+}[currentLang];
+---
+
+<!doctype html>
+<html lang={currentLang}>
+	<head><BaseHead title={`${copy.title} | RCWidget`} description={copy.description} /></head>
+	<body>
+		<Header />
+		<main class="rcwidget-info">
+			<a class="back-link" href={`${prefix}/rcwidget/`}>← {copy.back}</a>
+			<h1>{copy.title}</h1>
+			<p class="intro">{copy.intro}</p>
+			<section class="info-card">
+				<h2>{copy.contact}</h2>
+				<p>{copy.contactText} <a class="contact-link" href={`mailto:${email}`}>{email}</a>.</p>
+				<p>{copy.include}</p>
+				<ul>{copy.items.map((item) => <li>{item}</li>)}</ul>
+			</section>
+			<section class="info-card"><h2>Widgets</h2><p>{copy.widgets}</p></section>
+			<section class="info-card"><h2>{copy.privacyTitle}</h2><p>{copy.privacyText} <a href={`${prefix}/rcwidget/privacy`}>{copy.privacyLink}</a>.</p></section>
+		</main>
+		<Footer />
+	</body>
+</html>

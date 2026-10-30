@@ -1,0 +1,53 @@
+---
+import BaseHead from '../BaseHead.astro';
+import Header from '../Header.astro';
+import Footer from '../Footer.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+import '../../styles/rcwidget-info.css';
+
+const currentLang = getLangFromUrl(Astro.url);
+const prefix = currentLang === 'en' ? '/en' : '';
+const email = 'erikfloresq@icloud.com';
+const copy = {
+	es: {
+		title: 'Política de privacidad de RCWidget', description: 'Información sobre el tratamiento de datos en RCWidget para macOS.', back: 'Volver a RCWidget',
+		intro: 'Última actualización: 30 de octubre de 2026.',
+		sections: [
+			{ title: 'Datos que guarda la app', paragraphs: ['RCWidget guarda en el almacenamiento local de macOS la configuración del ciclo activo, el historial de ciclos completados, las preferencias de la app y, si lo activas, la configuración del sprint. La app y sus widgets comparten esos datos mediante un contenedor local de grupo de apps (App Group).', 'RCWidget no requiere una cuenta y no envía estos datos al desarrollador ni a servidores operados por RCWidget. El código de la app no integra analítica, publicidad ni seguimiento.'] },
+			{ title: 'Dónde se almacenan', paragraphs: ['Los datos permanecen en tu Mac dentro de las preferencias locales de la app. macOS puede incluir datos de apps en copias de seguridad del dispositivo según la configuración que elijas. El desarrollador no controla esas copias.'] },
+			{ title: 'Mensajes de soporte', paragraphs: ['Si escribes al correo de soporte, recibiré la dirección y el contenido que incluyas para responder a tu consulta. No envíes contraseñas ni información sensible. No uso esos mensajes para publicidad.'] },
+			{ title: 'Eliminación y contacto', paragraphs: ['Puedes borrar el historial desde el dashboard y cambiar o reemplazar los datos del ciclo desde la app. Si necesitas ayuda para eliminar preferencias locales, escribe al contacto indicado abajo.', `Si tienes preguntas sobre esta política, escribe a ${email}.`] },
+		],
+	},
+	en: {
+		title: 'RCWidget Privacy Policy', description: 'Information about data handled by RCWidget for macOS.', back: 'Back to RCWidget',
+		intro: 'Last updated: October 30, 2026.',
+		sections: [
+			{ title: 'Data the app stores', paragraphs: ['RCWidget stores the active cycle configuration, completed cycle history, app preferences and, if enabled, sprint settings in local macOS storage. The app and its widgets share this data through a local App Group container.', 'RCWidget does not require an account and does not send this data to the developer or to servers operated by RCWidget. The app code does not include analytics, advertising or tracking.'] },
+			{ title: 'Where data is stored', paragraphs: ['Data remains on your Mac in the app’s local preferences. Depending on your settings, macOS may include app data in device backups. The developer does not control those backups.'] },
+			{ title: 'Support messages', paragraphs: ['If you email support, I receive the address and message you provide so I can reply. Do not send passwords or sensitive information. Support messages are not used for advertising.'] },
+			{ title: 'Deletion and contact', paragraphs: ['You can clear cycle history from the dashboard and change or replace cycle data in the app. If you need help removing local preferences, email the contact below.', `For questions about this policy, email ${email}.`] },
+		],
+	},
+}[currentLang];
+---
+
+<!doctype html>
+<html lang={currentLang}>
+	<head><BaseHead title={copy.title} description={copy.description} /></head>
+	<body>
+		<Header />
+		<main class="rcwidget-info">
+			<a class="back-link" href={`${prefix}/rcwidget/`}>← {copy.back}</a>
+			<h1>{copy.title}</h1>
+			<p class="intro">{copy.intro}</p>
+			{copy.sections.map((section) => (
+				<section class="info-card">
+					<h2>{section.title}</h2>
+					{section.paragraphs.map((paragraph) => <p>{paragraph.includes(email) ? <>{paragraph.split(email)[0]}<a href={`mailto:${email}`}>{email}</a>{paragraph.split(email).slice(1).join(email)}</> : paragraph}</p>)}
+				</section>
+			))}
+		</main>
+		<Footer />
+	</body>
+</html>
