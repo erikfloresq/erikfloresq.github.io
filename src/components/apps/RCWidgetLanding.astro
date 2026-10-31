@@ -1,0 +1,126 @@
+---
+import BaseHead from '../BaseHead.astro';
+import Header from '../Header.astro';
+import Footer from '../Footer.astro';
+import { apps } from '../../data/apps';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const currentLang = getLangFromUrl(Astro.url);
+const app = apps.find((entry) => entry.slug === 'rcwidget')!;
+const prefix = currentLang === 'en' ? '/en' : '';
+const copy = {
+	es: {
+		back: 'Apps', tagline: 'Tus ciclos de Release Candidate, siempre a la vista.',
+		lead: 'Organiza cada ciclo, sigue su progreso y consulta el historial desde una app nativa de macOS, con widgets para el escritorio, la barra de menús y el Centro de Control.',
+		requirements: 'Requiere macOS 26.4 o posterior', support: 'Soporte',
+		featuresTitle: 'Todo el ciclo, de un vistazo',
+		features: [
+			{ title: 'Dashboard de configuración', text: 'Define el nombre y las fechas de inicio y término. La duración se calcula al instante para que puedas revisar el ciclo antes de guardar.' },
+			{ title: 'Progreso y tiempo restante', text: 'Consulta el día actual, la barra de progreso y cuánto falta para terminar el ciclo activo.' },
+			{ title: 'Rollover e historial', text: 'Al terminar un ciclo, RCWidget lo archiva y prepara el siguiente conservando su duración. Si vuelves después de varios ciclos, actualiza el estado para ponerse al día.' },
+			{ title: 'Widgets y acceso rápido', text: 'Añade el widget al escritorio o al Centro de Notificaciones, activa el control RC Tracker en el Centro de Control o deja el resumen en la barra de menús.' },
+			{ title: 'Sprints en paralelo', text: 'Si tu equipo también sigue sprints, puedes activar un rango independiente. El trimestre se deriva de la fecha y el sprint avanza al completar su periodo.' },
+			{ title: 'Datos en tu Mac', text: 'Los ciclos y preferencias se guardan localmente para que la app y sus widgets compartan el mismo estado.' },
+		],
+		shotsTitle: 'RCWidget en macOS',
+		shots: [
+			{ src: '/images/rcwidget/dashboard.png', alt: 'Dashboard de RCWidget con el ciclo activo, preferencias e historial', caption: 'Configura el ciclo activo y consulta los anteriores desde el dashboard.' },
+			{ src: '/images/rcwidget/widget.png', alt: 'Widgets de RCWidget para el escritorio de macOS', caption: 'Revisa el ciclo y el tiempo restante desde el escritorio.' },
+			{ src: '/images/rcwidget/menu-bar.png', alt: 'Menú de RCWidget abierto desde la barra de menús de macOS', caption: 'Consulta el estado o abre el dashboard desde la barra de menús.' },
+		],
+		linksTitle: 'Ayuda y privacidad', supportLink: 'Ayuda y contacto', privacyLink: 'Política de privacidad',
+	},
+	en: {
+		back: 'Apps', tagline: 'Keep your Release Candidate cycles in view.',
+		lead: 'Plan each cycle, track its progress and review its history in a native macOS app, with widgets for your desktop, menu bar and Control Center.',
+		requirements: 'Requires macOS 26.4 or later', support: 'Contact support',
+		featuresTitle: 'Your whole cycle at a glance',
+		features: [
+			{ title: 'Configuration dashboard', text: 'Set a cycle name, start date and end date. The duration updates as you edit, so you can review the cycle before saving.' },
+			{ title: 'Progress and time remaining', text: 'See the current day, progress bar and time left in your active cycle.' },
+			{ title: 'Rollover and history', text: 'When a cycle ends, RCWidget archives it and prepares the next one with the same duration. If several cycles have passed, it catches up when you return.' },
+			{ title: 'Widgets and quick access', text: 'Add a widget to your desktop or Notification Center, enable the RC Tracker control in Control Center, or keep a summary in the menu bar.' },
+			{ title: 'Parallel sprints', text: 'If your team tracks sprints too, enable a separate date range. The quarter follows the start date, and the sprint advances when its period ends.' },
+			{ title: 'Your data stays on your Mac', text: 'Cycles and preferences are stored locally so the app and its widgets can share the same state.' },
+		],
+		shotsTitle: 'RCWidget on macOS',
+		shots: [
+			{ src: '/images/rcwidget/dashboard.png', alt: 'RCWidget dashboard showing the active cycle, preferences and history', caption: 'Set up the active cycle and review completed ones in the dashboard.' },
+			{ src: '/images/rcwidget/widget.png', alt: 'RCWidget desktop widgets on macOS', caption: 'Check your cycle and remaining time from the desktop.' },
+			{ src: '/images/rcwidget/menu-bar.png', alt: 'RCWidget menu opened from the macOS menu bar', caption: 'Check the status or open the dashboard from the menu bar.' },
+		],
+		linksTitle: 'Support and privacy', supportLink: 'Help and contact', privacyLink: 'Privacy policy',
+	},
+}[currentLang];
+---
+
+<!doctype html>
+<html lang={currentLang}>
+	<head>
+		<BaseHead title={`${app.name} | ${copy.tagline}`} description={copy.lead} image="/images/rcwidget/icon.png" />
+		<style>
+			.back { display: inline-block; margin: 1rem 0 2rem; color: rgb(var(--gray)); }
+			.hero { display: flex; align-items: center; gap: 1.25rem; }
+			.hero img { width: 88px; height: 88px; border-radius: 20px; box-shadow: var(--box-shadow); }
+			.hero h1 { margin: 0 0 0.3rem; line-height: 1.1; }
+			.tagline { margin: 0; color: rgb(var(--gray)); font-size: 1.1rem; }
+			.lead { max-width: 65ch; margin-top: 1.25rem; font-size: 1.1rem; }
+			.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin: 1.5rem 0 3rem; }
+			.requirements { color: rgb(var(--gray)); }
+			.pill { display: inline-block; padding: 0.55rem 1rem; border-radius: 999px; background: var(--accent); color: var(--background); font-weight: 700; text-decoration: none; }
+			section { margin-bottom: 3.5rem; }
+			section > h2 { margin-bottom: 1rem; font-size: 1.4rem; }
+			.shots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+			.shots figure { margin: 0; }
+			.shots figure:first-child { grid-column: 1 / -1; }
+			.shots img { display: block; width: 100%; height: auto; border-radius: 14px; box-shadow: var(--box-shadow); }
+			.shots figcaption { margin-top: 0.65rem; color: rgb(var(--gray)); text-align: center; font-size: 0.95rem; }
+			.features { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 2rem; }
+			.features h3 { margin: 0 0 0.35rem; font-size: 1rem; }
+			.features p { margin: 0; color: rgb(var(--gray)); font-size: 0.95rem; }
+			.links ul { margin: 0; padding-left: 1.25rem; }
+			.links li { margin: 0.4rem 0; }
+			@media (max-width: 650px) {
+				.hero { align-items: flex-start; }
+				.hero img { width: 72px; height: 72px; }
+				.shots, .features { grid-template-columns: 1fr; }
+				.shots figure:first-child { grid-column: auto; }
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<a class="back" href={`${prefix}/apps`}>← {copy.back}</a>
+			<section class="intro">
+				<div class="hero">
+					<img src="/images/rcwidget/icon.png" alt="" width="88" height="88" />
+					<div><h1>{app.name}</h1><p class="tagline">{copy.tagline}</p></div>
+				</div>
+				<p class="lead">{copy.lead}</p>
+				<div class="meta">
+					<a class="pill" href={`${prefix}/rcwidget/support`}>{copy.support}</a>
+					<span class="requirements">{copy.requirements}</span>
+				</div>
+			</section>
+			<section>
+				<h2>{copy.shotsTitle}</h2>
+				<div class="shots">
+					{copy.shots.map((shot) => <figure><img src={shot.src} alt={shot.alt} loading="lazy" width="1280" height="800" /><figcaption>{shot.caption}</figcaption></figure>)}
+				</div>
+			</section>
+			<section>
+				<h2>{copy.featuresTitle}</h2>
+				<div class="features">{copy.features.map((feature) => <article><h3>{feature.title}</h3><p>{feature.text}</p></article>)}</div>
+			</section>
+			<section class="links">
+				<h2>{copy.linksTitle}</h2>
+				<ul>
+					<li><a href={`${prefix}/rcwidget/support`}>{copy.supportLink}</a></li>
+					<li><a href={`${prefix}/rcwidget/privacy`}>{copy.privacyLink}</a></li>
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

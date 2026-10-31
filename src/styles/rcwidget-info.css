@@ -1,0 +1,63 @@
+.rcwidget-info {
+	max-width: 820px;
+	margin: 0 auto;
+	padding: 2.5rem 1.25rem 4rem;
+}
+
+.rcwidget-info .back-link {
+	display: inline-block;
+	margin-bottom: 1.5rem;
+	color: rgb(var(--gray));
+}
+
+.rcwidget-info h1 {
+	margin: 0 0 0.75rem;
+	line-height: 1.15;
+}
+
+.rcwidget-info .intro {
+	margin: 0 0 2rem;
+	color: rgb(var(--gray));
+	font-size: 1.1rem;
+}
+
+.rcwidget-info .info-card {
+	padding: 1.5rem;
+	border: 1px solid rgba(var(--gray), 25%);
+	border-radius: 14px;
+	background: var(--background);
+	margin: 1rem 0;
+}
+
+.rcwidget-info .info-card h2 {
+	margin: 0 0 0.5rem;
+	font-size: 1.15rem;
+}
+
+.rcwidget-info .info-card p:last-child,
+.rcwidget-info .info-card ul:last-child {
+	margin-bottom: 0;
+}
+
+.rcwidget-info li {
+	margin: 0.35rem 0 0.35rem 1.25rem;
+}
+
+.rcwidget-info .contact-link {
+	font-weight: 700;
+}
+
+.rcwidget-info .updated {
+	margin-top: 2rem;
+	color: rgb(var(--gray));
+	font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+	.rcwidget-info {
+		padding: 1.5rem 1rem 3rem;
+	}
+	.rcwidget-info .info-card {
+		padding: 1.15rem;
+	}
+}
